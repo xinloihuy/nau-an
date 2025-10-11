@@ -1,6 +1,6 @@
 package com.mycompany.webhuongdannauan.service;
 
-import com.mycompany.webhuongdannauan.MoMo.MoMoSecurity;
+import com.mycompany.webhuongdannauan.utils.MoMoSecurity;
 import com.mycompany.webhuongdannauan.config.MoMoConfig;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;

@@ -1,0 +1,383 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<entity-mappings v="6.1.0" status="GENERATED" persistenceUnitName="DEFAULT_PU" sm="false" id="_17601586484371" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <mapped-superclass abs="true" class="BaseEntity" v="true" xre="false" m="false" rootElement="_17601586484371" id="_17601586502325">
+        <attributes>
+            <basic attribute-type="java.util.Date" v="true" am="PRIVATE" name="createdAt" jbt="false" id="_17601586502707">
+                <temporal>TIMESTAMP</temporal>
+                <column name="created_at" unique="false" nullable="false" insertable="true" updatable="false"/>
+            </basic>
+            <basic attribute-type="java.util.Date" v="true" am="PRIVATE" name="updatedAt" jbt="false" id="_17601586502758">
+                <temporal>TIMESTAMP</temporal>
+                <column name="updated_at" unique="false" nullable="true" insertable="true" updatable="true"/>
+            </basic>
+            <id attribute-type="Long" v="true" am="PRIVATE" name="id" jbt="false" id="_17601586502336">
+                <generated-value strategy="IDENTITY"/>
+            </id>
+        </attributes>
+    </mapped-superclass>
+    <entity abs="false" class="BlogLike" superclassId="_17601586502325" v="true" xre="false" m="false" rootElement="_17601586484371" id="_17601586499342">
+        <attributes>
+            <many-to-one primaryKey="false" connected-entity-id="_176015865197187" connected-attribute-id="_176015865203392" fetch="LAZY" v="true" am="PRIVATE" name="blogPost" jbt="false" id="_17601586499593">
+                <cascade/>
+                <join-column name="BLOG_POST_ID" unique="false" nullable="false" insertable="true" updatable="true"/>
+            </many-to-one>
+            <many-to-one primaryKey="false" connected-entity-id="_176015865085033" fetch="LAZY" v="true" am="PRIVATE" name="user" jbt="false" id="_17601586501024">
+                <cascade/>
+                <join-column name="USER_ID" unique="false" nullable="false" insertable="true" updatable="true"/>
+            </many-to-one>
+        </attributes>
+        <table name="blog_likes">
+            <unique-constraint>
+                <column-name>blog_post_id</column-name>
+                <column-name>user_id</column-name>
+            </unique-constraint>
+        </table>
+    </entity>
+    <entity abs="false" class="Role" superclassId="_17601586502325" v="true" xre="false" m="false" rootElement="_17601586484371" id="_17601586502859">
+        <attributes>
+            <basic attribute-type="String" v="true" am="PRIVATE" name="name" jbt="false" id="_176015865028510">
+                <column unique="true" nullable="false" insertable="true" updatable="true"/>
+            </basic>
+            <many-to-many own="false" collection-type="java.util.Set" connected-entity-id="_176015865085033" connected-attribute-id="_176015865102739" v="true" am="PRIVATE" name="users" jbt="false" id="_176015865031911">
+                <cascade/>
+            </many-to-many>
+        </attributes>
+        <table name="roles"/>
+    </entity>
+    <entity abs="false" class="ViewHistory" superclassId="_17601586502325" v="true" xre="false" m="false" rootElement="_17601586484371" id="_176015865036412">
+        <attributes>
+            <many-to-one primaryKey="false" connected-entity-id="_176015865085033" fetch="LAZY" v="true" am="PRIVATE" name="user" jbt="false" id="_176015865036413">
+                <cascade/>
+                <join-column name="USER_ID" unique="false" nullable="false" insertable="true" updatable="true"/>
+            </many-to-one>
+            <many-to-one primaryKey="false" connected-entity-id="_176015865162770" fetch="LAZY" v="true" am="PRIVATE" name="recipe" jbt="false" id="_176015865036414">
+                <cascade/>
+                <join-column name="RECIPE_ID" unique="false" nullable="false" insertable="true" updatable="true"/>
+            </many-to-one>
+        </attributes>
+        <table name="view_history"/>
+    </entity>
+    <entity abs="false" class="ChatMessage" superclassId="_17601586502325" v="true" xre="false" m="false" rootElement="_17601586484371" id="_176015865040715">
+        <attributes>
+            <basic attribute-type="String" v="true" am="PRIVATE" name="content" jbt="false" id="_176015865040816">
+                <lob/>
+            </basic>
+            <basic attribute-type="String" v="true" am="PRIVATE" name="senderRole" jbt="false" id="_176015865043917">
+                <column name="sender_role" unique="false" nullable="false" insertable="true" updatable="true"/>
+            </basic>
+            <many-to-one primaryKey="false" connected-entity-id="_176015865207293" connected-attribute-id="_176015865210397" fetch="LAZY" v="true" am="PRIVATE" name="session" jbt="false" id="_176015865047118">
+                <cascade/>
+                <join-column name="SESSION_ID" unique="false" nullable="false" insertable="true" updatable="true"/>
+            </many-to-one>
+        </attributes>
+        <table name="chat_messages"/>
+    </entity>
+    <entity abs="false" class="Category" superclassId="_17601586502325" v="true" xre="false" m="false" rootElement="_17601586484371" id="_176015865051319">
+        <attributes>
+            <basic attribute-type="String" v="true" am="PRIVATE" name="name" jbt="false" id="_176015865051320">
+                <column unique="true" nullable="false" insertable="true" updatable="true"/>
+            </basic>
+            <many-to-many own="false" collection-type="java.util.Set" connected-entity-id="_176015865162770" connected-attribute-id="_176015865186279" v="true" am="PRIVATE" name="recipes" jbt="false" id="_176015865054421">
+                <cascade/>
+            </many-to-many>
+        </attributes>
+        <table name="categories"/>
+    </entity>
+    <entity abs="false" class="Favorite" superclassId="_17601586502325" v="true" xre="false" m="false" rootElement="_17601586484371" id="_176015865058522">
+        <attributes>
+            <many-to-one primaryKey="false" connected-entity-id="_176015865085033" fetch="LAZY" v="true" am="PRIVATE" name="user" jbt="false" id="_176015865058523">
+                <cascade/>
+                <join-column name="USER_ID" unique="false" nullable="false" insertable="true" updatable="true"/>
+            </many-to-one>
+            <many-to-one primaryKey="false" connected-entity-id="_176015865162770" fetch="LAZY" v="true" am="PRIVATE" name="recipe" jbt="false" id="_176015865058624">
+                <cascade/>
+                <join-column name="RECIPE_ID" unique="false" nullable="false" insertable="true" updatable="true"/>
+            </many-to-one>
+        </attributes>
+        <table name="favorites"/>
+    </entity>
+    <entity abs="false" class="CookingTip" superclassId="_17601586502325" v="true" xre="false" m="false" rootElement="_17601586484371" id="_176015865064425">
+        <attributes>
+            <basic attribute-type="String" v="true" am="PRIVATE" name="title" jbt="false" id="_176015865064426">
+                <column unique="false" nullable="false" insertable="true" updatable="true"/>
+            </basic>
+            <basic attribute-type="String" v="true" am="PRIVATE" name="content" jbt="false" id="_176015865069427">
+                <lob/>
+            </basic>
+        </attributes>
+        <table name="cooking_tips"/>
+    </entity>
+    <entity abs="false" class="PremiumAccount" superclassId="_17601586502325" v="true" xre="false" m="false" rootElement="_17601586484371" id="_176015865077128">
+        <attributes>
+            <basic attribute-type="java.util.Date" v="true" am="PRIVATE" name="startDate" jbt="false" id="_176015865077129">
+                <temporal>TIMESTAMP</temporal>
+                <column name="start_date" unique="false" nullable="false" insertable="true" updatable="true"/>
+            </basic>
+            <basic attribute-type="java.util.Date" v="true" am="PRIVATE" name="endDate" jbt="false" id="_176015865077230">
+                <temporal>TIMESTAMP</temporal>
+                <column name="end_date" unique="false" nullable="false" insertable="true" updatable="true"/>
+            </basic>
+            <basic attribute-type="Boolean" v="true" am="PRIVATE" name="isActive" dv="true" jbt="false" id="_176015865077231">
+                <column name="is_active" unique="false" nullable="false" insertable="true" updatable="true"/>
+            </basic>
+            <one-to-one own="true" primaryKey="false" connected-entity-id="_176015865085033" connected-attribute-id="_176015865103141" fetch="LAZY" v="true" am="PRIVATE" name="user" jbt="false" id="_176015865080832">
+                <cascade/>
+                <join-column name="USER_ID" unique="false" nullable="false" insertable="true" updatable="true"/>
+            </one-to-one>
+        </attributes>
+        <table name="premium_accounts"/>
+    </entity>
+    <entity abs="false" class="User" superclassId="_17601586502325" v="true" xre="false" m="false" rootElement="_17601586484371" id="_176015865085033">
+        <attributes>
+            <basic attribute-type="String" v="true" am="PRIVATE" name="username" jbt="false" id="_176015865085034">
+                <column unique="true" nullable="false" insertable="true" updatable="true"/>
+            </basic>
+            <basic attribute-type="String" v="true" am="PRIVATE" name="password" jbt="false" id="_176015865088435">
+                <column unique="false" nullable="false" insertable="true" updatable="true"/>
+            </basic>
+            <basic attribute-type="String" v="true" am="PRIVATE" name="email" jbt="false" id="_176015865091736">
+                <column unique="true" nullable="false" insertable="true" updatable="true"/>
+            </basic>
+            <basic attribute-type="String" v="true" am="PRIVATE" name="nickname" jbt="false" id="_176015865095637"/>
+            <basic attribute-type="Integer" v="true" am="PRIVATE" name="age" jbt="false" id="_176015865099438"/>
+            <one-to-many own="false" collection-type="java.util.Set" connected-entity-id="_176015865162770" connected-attribute-id="_176015865186278" fetch="LAZY" v="true" am="PRIVATE" name="recipes" jbt="false" id="_176015865103242">
+                <cascade>
+                    <cascade-all/>
+                </cascade>
+            </one-to-many>
+            <one-to-one own="false" orp="true" primaryKey="false" connected-entity-id="_176015865114747" connected-attribute-id="_176015865118049" fetch="LAZY" v="true" am="PRIVATE" name="accountSetting" jbt="false" id="_176015865103040">
+                <cascade>
+                    <cascade-all/>
+                </cascade>
+            </one-to-one>
+            <one-to-one own="false" primaryKey="false" connected-entity-id="_176015865077128" connected-attribute-id="_176015865080832" fetch="LAZY" v="true" am="PRIVATE" name="premiumAccount" jbt="false" id="_176015865103141">
+                <cascade/>
+            </one-to-one>
+            <many-to-many own="true" collection-type="java.util.Set" connected-entity-id="_17601586502859" connected-attribute-id="_176015865031911" fetch="EAGER" v="true" am="PRIVATE" name="roles" jbt="false" id="_176015865102739">
+                <join-table name="user_roles">
+                    <join-column name="USER_ID" unique="false" nullable="true" insertable="true" updatable="true"/>
+                    <inverse-join-column name="ROLE_ID" unique="false" nullable="true" insertable="true" updatable="true"/>
+                </join-table>
+                <cascade/>
+            </many-to-many>
+        </attributes>
+        <table name="users"/>
+    </entity>
+    <entity abs="false" class="Comment" superclassId="_17601586502325" v="true" xre="false" m="false" rootElement="_17601586484371" id="_176015865107443">
+        <attributes>
+            <basic attribute-type="String" v="true" am="PRIVATE" name="content" jbt="false" id="_176015865107444">
+                <lob/>
+            </basic>
+            <many-to-one primaryKey="false" connected-entity-id="_176015865085033" fetch="LAZY" v="true" am="PRIVATE" name="user" jbt="false" id="_176015865110645">
+                <cascade/>
+                <join-column name="USER_ID" unique="false" nullable="false" insertable="true" updatable="true"/>
+            </many-to-one>
+            <many-to-one primaryKey="false" connected-entity-id="_176015865162770" connected-attribute-id="_176015865186380" fetch="LAZY" v="true" am="PRIVATE" name="recipe" jbt="false" id="_176015865110746">
+                <cascade/>
+                <join-column name="RECIPE_ID" unique="false" nullable="false" insertable="true" updatable="true"/>
+            </many-to-one>
+        </attributes>
+        <table name="comments"/>
+    </entity>
+    <entity abs="false" class="AccountSetting" superclassId="_17601586502325" v="true" xre="false" m="false" rootElement="_17601586484371" id="_176015865114747">
+        <attributes>
+            <basic attribute-type="Boolean" v="true" am="PRIVATE" name="isDeleted" dv="false" jbt="false" id="_176015865114748">
+                <column name="is_deleted" unique="false" nullable="false" insertable="true" updatable="true"/>
+            </basic>
+            <one-to-one own="true" primaryKey="false" connected-entity-id="_176015865085033" connected-attribute-id="_176015865103040" fetch="LAZY" v="true" am="PRIVATE" name="user" jbt="false" id="_176015865118049">
+                <cascade/>
+                <join-column name="USER_ID" unique="true" nullable="false" insertable="true" updatable="true"/>
+            </one-to-one>
+        </attributes>
+        <table name="account_settings"/>
+    </entity>
+    <entity abs="false" class="Follow" superclassId="_17601586502325" v="true" xre="false" m="false" rootElement="_17601586484371" id="_176015865122650">
+        <attributes>
+            <many-to-one primaryKey="false" connected-entity-id="_176015865085033" fetch="LAZY" v="true" am="PRIVATE" name="follower" jbt="false" id="_176015865122651">
+                <cascade/>
+                <join-column name="FOLLOWER_ID" unique="false" nullable="false" insertable="true" updatable="true"/>
+            </many-to-one>
+            <many-to-one primaryKey="false" connected-entity-id="_176015865085033" fetch="LAZY" v="true" am="PRIVATE" name="followed" jbt="false" id="_176015865122652">
+                <cascade/>
+                <join-column name="FOLLOWED_ID" unique="false" nullable="false" insertable="true" updatable="true"/>
+            </many-to-one>
+        </attributes>
+        <table name="follows"/>
+    </entity>
+    <entity abs="false" class="PremiumPackage" superclassId="_17601586502325" v="true" xre="false" m="false" rootElement="_17601586484371" id="_176015865126353">
+        <attributes>
+            <basic attribute-type="String" v="true" am="PRIVATE" name="name" jbt="false" id="_176015865126354">
+                <column unique="true" nullable="false" insertable="true" updatable="true"/>
+            </basic>
+            <basic attribute-type="java.math.BigDecimal" v="true" am="PRIVATE" name="price" jbt="false" id="_176015865129355">
+                <column unique="false" nullable="false" insertable="true" updatable="true"/>
+            </basic>
+            <basic attribute-type="Integer" v="true" am="PRIVATE" name="durationInDays" jbt="false" id="_176015865129356">
+                <column name="duration_days" unique="false" nullable="false" insertable="true" updatable="true"/>
+            </basic>
+        </attributes>
+        <table name="premium_packages"/>
+    </entity>
+    <entity abs="false" class="BlogComment" superclassId="_17601586502325" v="true" xre="false" m="false" rootElement="_17601586484371" id="_176015865135957">
+        <attributes>
+            <basic attribute-type="String" v="true" am="PRIVATE" name="content" jbt="false" id="_176015865135958">
+                <lob/>
+            </basic>
+            <many-to-one primaryKey="false" connected-entity-id="_176015865197187" connected-attribute-id="_176015865203291" fetch="LAZY" v="true" am="PRIVATE" name="blogPost" jbt="false" id="_176015865138859">
+                <cascade/>
+                <join-column name="BLOG_POST_ID" unique="false" nullable="false" insertable="true" updatable="true"/>
+            </many-to-one>
+            <many-to-one primaryKey="false" connected-entity-id="_176015865085033" fetch="LAZY" v="true" am="PRIVATE" name="user" jbt="false" id="_176015865138860">
+                <cascade/>
+                <join-column name="USER_ID" unique="false" nullable="false" insertable="true" updatable="true"/>
+            </many-to-one>
+        </attributes>
+        <table name="blog_comments"/>
+    </entity>
+    <entity abs="false" class="Notification" superclassId="_17601586502325" v="true" xre="false" m="false" rootElement="_17601586484371" id="_176015865142961">
+        <attributes>
+            <basic attribute-type="String" v="true" am="PRIVATE" name="content" jbt="false" id="_176015865142962">
+                <lob/>
+            </basic>
+            <basic attribute-type="String" v="true" am="PRIVATE" name="type" jbt="false" id="_176015865145763">
+                <column unique="false" nullable="false" insertable="true" updatable="true"/>
+            </basic>
+            <basic attribute-type="Boolean" v="true" am="PRIVATE" name="isRead" dv="false" jbt="false" id="_176015865148664">
+                <column name="is_read" unique="false" nullable="false" insertable="true" updatable="true"/>
+            </basic>
+            <many-to-one primaryKey="false" connected-entity-id="_176015865085033" fetch="LAZY" v="true" am="PRIVATE" name="user" jbt="false" id="_176015865151565">
+                <cascade/>
+                <join-column name="USER_ID" unique="false" nullable="false" insertable="true" updatable="true"/>
+            </many-to-one>
+        </attributes>
+        <table name="notifications"/>
+    </entity>
+    <entity abs="false" class="Rating" superclassId="_17601586502325" v="true" xre="false" m="false" rootElement="_17601586484371" id="_176015865155366">
+        <attributes>
+            <basic attribute-type="Integer" v="true" am="PRIVATE" name="score" jbt="false" id="_176015865155367">
+                <column unique="false" nullable="false" insertable="true" updatable="true"/>
+            </basic>
+            <many-to-one primaryKey="false" connected-entity-id="_176015865085033" fetch="LAZY" v="true" am="PRIVATE" name="user" jbt="false" id="_176015865158868">
+                <cascade/>
+                <join-column name="USER_ID" unique="false" nullable="false" insertable="true" updatable="true"/>
+            </many-to-one>
+            <many-to-one primaryKey="false" connected-entity-id="_176015865162770" connected-attribute-id="_176015865186381" fetch="LAZY" v="true" am="PRIVATE" name="recipe" jbt="false" id="_176015865158869">
+                <cascade/>
+                <join-column name="RECIPE_ID" unique="false" nullable="false" insertable="true" updatable="true"/>
+            </many-to-one>
+        </attributes>
+        <table name="ratings"/>
+    </entity>
+    <entity abs="false" class="Recipe" superclassId="_17601586502325" v="true" xre="false" m="false" rootElement="_17601586484371" id="_176015865162770">
+        <attributes>
+            <basic attribute-type="String" v="true" am="PRIVATE" name="title" jbt="false" id="_176015865162771">
+                <column unique="false" nullable="false" insertable="true" updatable="true"/>
+            </basic>
+            <basic attribute-type="String" v="true" am="PRIVATE" name="description" jbt="false" id="_176015865165772">
+                <lob/>
+            </basic>
+            <basic attribute-type="String" v="true" am="PRIVATE" name="ingredients" jbt="false" id="_176015865168673">
+                <lob/>
+            </basic>
+            <basic attribute-type="String" v="true" am="PRIVATE" name="steps" jbt="false" id="_176015865172874">
+                <lob/>
+            </basic>
+            <basic attribute-type="String" v="true" am="PRIVATE" name="videoUrl" jbt="false" id="_176015865175975">
+                <column name="video_url" unique="false" nullable="true" insertable="true" updatable="true"/>
+            </basic>
+            <basic attribute-type="Boolean" v="true" am="PRIVATE" name="isVip" dv="false" jbt="false" id="_176015865179276">
+                <column name="is_vip" unique="false" nullable="false" insertable="true" updatable="true"/>
+            </basic>
+            <basic attribute-type="Long" v="true" am="PRIVATE" name="viewCount" dv="0L" jbt="false" id="_176015865182777">
+                <column name="view_count" unique="false" nullable="false" insertable="true" updatable="true"/>
+            </basic>
+            <many-to-one primaryKey="false" connected-entity-id="_176015865085033" connected-attribute-id="_176015865103242" fetch="LAZY" v="true" am="PRIVATE" name="author" jbt="false" id="_176015865186278">
+                <cascade/>
+                <join-column name="AUTHOR_ID" unique="false" nullable="false" insertable="true" updatable="true"/>
+            </many-to-one>
+            <one-to-many orp="true" own="false" collection-type="java.util.Set" connected-entity-id="_176015865107443" connected-attribute-id="_176015865110746" fetch="LAZY" v="true" am="PRIVATE" name="comments" jbt="false" id="_176015865186380">
+                <cascade>
+                    <cascade-all/>
+                </cascade>
+            </one-to-many>
+            <one-to-many orp="true" own="false" collection-type="java.util.Set" connected-entity-id="_176015865155366" connected-attribute-id="_176015865158869" fetch="LAZY" v="true" am="PRIVATE" name="ratings" jbt="false" id="_176015865186381">
+                <cascade>
+                    <cascade-all/>
+                </cascade>
+            </one-to-many>
+            <many-to-many own="true" collection-type="java.util.Set" connected-entity-id="_176015865051319" connected-attribute-id="_176015865054421" fetch="LAZY" v="true" am="PRIVATE" name="categories" jbt="false" id="_176015865186279">
+                <join-table name="recipe_categories">
+                    <join-column name="RECIPE_ID" unique="false" nullable="true" insertable="true" updatable="true"/>
+                    <inverse-join-column name="CATEGORY_ID" unique="false" nullable="true" insertable="true" updatable="true"/>
+                </join-table>
+                <cascade/>
+            </many-to-many>
+        </attributes>
+        <table name="recipes"/>
+    </entity>
+    <entity abs="false" class="Transaction" superclassId="_17601586502325" v="true" xre="false" m="false" rootElement="_17601586484371" id="_176015865190382">
+        <attributes>
+            <basic attribute-type="java.math.BigDecimal" v="true" am="PRIVATE" name="amount" jbt="false" id="_176015865190383">
+                <column unique="false" nullable="false" insertable="true" updatable="true"/>
+            </basic>
+            <basic attribute-type="String" v="true" am="PRIVATE" name="status" jbt="false" id="_176015865190484">
+                <column unique="false" nullable="false" insertable="true" updatable="true"/>
+            </basic>
+            <many-to-one primaryKey="false" connected-entity-id="_176015865085033" fetch="LAZY" v="true" am="PRIVATE" name="user" jbt="false" id="_176015865193385">
+                <cascade/>
+                <join-column name="USER_ID" unique="false" nullable="false" insertable="true" updatable="true"/>
+            </many-to-one>
+            <many-to-one primaryKey="false" connected-entity-id="_176015865126353" fetch="LAZY" v="true" am="PRIVATE" name="premiumPackage" jbt="false" id="_176015865193486">
+                <cascade/>
+                <join-column name="PACKAGE_ID" unique="false" nullable="false" insertable="true" updatable="true"/>
+            </many-to-one>
+        </attributes>
+        <table name="transactions"/>
+    </entity>
+    <entity abs="false" class="BlogPost" superclassId="_17601586502325" v="true" xre="false" m="false" rootElement="_17601586484371" id="_176015865197187">
+        <attributes>
+            <basic attribute-type="String" v="true" am="PRIVATE" name="title" jbt="false" id="_176015865197188">
+                <column unique="false" nullable="false" insertable="true" updatable="true"/>
+            </basic>
+            <basic attribute-type="String" v="true" am="PRIVATE" name="content" jbt="false" id="_176015865200289">
+                <lob/>
+            </basic>
+            <many-to-one primaryKey="false" connected-entity-id="_176015865085033" fetch="LAZY" v="true" am="PRIVATE" name="author" jbt="false" id="_176015865203290">
+                <cascade/>
+                <join-column name="AUTHOR_ID" unique="false" nullable="false" insertable="true" updatable="true"/>
+            </many-to-one>
+            <one-to-many orp="true" own="false" collection-type="java.util.Set" connected-entity-id="_176015865135957" connected-attribute-id="_176015865138859" fetch="LAZY" v="true" am="PRIVATE" name="comments" jbt="false" id="_176015865203291">
+                <cascade>
+                    <cascade-all/>
+                </cascade>
+            </one-to-many>
+            <one-to-many orp="true" own="false" collection-type="java.util.Set" connected-entity-id="_17601586499342" connected-attribute-id="_17601586499593" fetch="LAZY" v="true" am="PRIVATE" name="likes" jbt="false" id="_176015865203392">
+                <cascade>
+                    <cascade-all/>
+                </cascade>
+            </one-to-many>
+        </attributes>
+        <table name="blog_posts"/>
+    </entity>
+    <entity abs="false" class="ChatSession" superclassId="_17601586502325" v="true" xre="false" m="false" rootElement="_17601586484371" id="_176015865207293">
+        <attributes>
+            <basic attribute-type="java.util.Date" v="true" am="PRIVATE" name="lastMessageAt" jbt="false" id="_176015865207294">
+                <temporal>TIMESTAMP</temporal>
+                <column name="last_message_at" unique="false" nullable="true" insertable="true" updatable="true"/>
+            </basic>
+            <basic attribute-type="String" v="true" am="PRIVATE" name="status" jbt="false" id="_176015865207395">
+                <column unique="false" nullable="false" insertable="true" updatable="true"/>
+            </basic>
+            <many-to-one primaryKey="false" connected-entity-id="_176015865085033" fetch="LAZY" v="true" am="PRIVATE" name="user" jbt="false" id="_176015865210296">
+                <cascade/>
+                <join-column name="USER_ID" unique="false" nullable="false" insertable="true" updatable="true"/>
+            </many-to-one>
+            <one-to-many orp="true" own="false" collection-type="java.util.Set" connected-entity-id="_176015865040715" connected-attribute-id="_176015865047118" fetch="LAZY" v="true" am="PRIVATE" name="messages" jbt="false" id="_176015865210397">
+                <cascade>
+                    <cascade-all/>
+                </cascade>
+            </one-to-many>
+        </attributes>
+        <table name="chat_sessions"/>
+    </entity>
+</entity-mappings>
