@@ -4,6 +4,7 @@ import com.mycompany.webhuongdannauan.dao.GenericDAO;
 import com.mycompany.webhuongdannauan.model.BaseEntity;
 import com.mycompany.webhuongdannauan.utils.HibernateUtil;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityTransaction;
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
@@ -27,16 +28,28 @@ public abstract class GenericDAOImpl<T extends BaseEntity, ID extends Serializab
     @Override
     public void save(T entity) {
         EntityManager em = HibernateUtil.getEntityManager();
+        EntityTransaction transaction = em.getTransaction();
         try {
-            em.getTransaction().begin();
-            em.persist(entity);
-            em.getTransaction().commit();
+            transaction.begin();
+            
+            // Thay thế persist() bằng merge()
+            // merge() sẽ:
+            // 1. Nếu Entity có ID (đã tồn tại): Cập nhật đối tượng
+            // 2. Nếu Entity KHÔNG có ID (mới): Tạo mới đối tượng
+            T mergedEntity = em.merge(entity); 
+            
+            transaction.commit();
+            
+            // Nếu bạn muốn giữ đối tượng ban đầu được cập nhật, 
+            // bạn có thể cần cập nhật ID của đối tượng ban đầu nếu nó là đối tượng mới.
+            
         } catch (Exception e) {
-            if (em.getTransaction().isActive()) {
-                em.getTransaction().rollback();
+            if (transaction.isActive()) {
+                transaction.rollback();
             }
             e.printStackTrace();
-            throw new RuntimeException("Error saving entity: " + getPersistentClass().getSimpleName(), e);
+            // Ném RuntimeException để tầng Service bắt
+            throw new RuntimeException("Error saving entity: " + entity.getClass().getSimpleName(), e); 
         } finally {
             em.close();
         }

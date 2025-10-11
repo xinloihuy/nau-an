@@ -1,43 +1,64 @@
 package com.mycompany.webhuongdannauan.controller;
+
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.mycompany.webhuongdannauan.service.MoMoPaymentService;
+import com.mycompany.webhuongdannauan.model.Transaction;
+import com.mycompany.webhuongdannauan.service.MoMoPaymentService; 
+import com.mycompany.webhuongdannauan.service.PremiumAccountService;
+import com.mycompany.webhuongdannauan.service.TransactionService;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
 @WebServlet("/momo-return")
 public class MoMoReturnServlet extends HttpServlet {
 
-    private MoMoPaymentService momoService = new MoMoPaymentService();
+    private final MoMoPaymentService momoService = new MoMoPaymentService();
+    private final TransactionService transactionService = new TransactionService();
+    private final PremiumAccountService premiumAccountService = new PremiumAccountService();
+    private final Gson gson = new Gson(); 
+
+    // Helper function để URL Decode giá trị
+    private String decodeParam(String param) {
+        if (param == null) return "";
+        try {
+            return URLDecoder.decode(param, StandardCharsets.UTF_8.toString());
+        } catch (Exception e) {
+            return param;
+        }
+    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        HttpSession session = request.getSession();
-
-        // Lấy parameters từ MoMo
+        // Lấy parameters MoMo
         String partnerCode = request.getParameter("partnerCode");
-        String orderId = request.getParameter("orderId");
+        String orderId = request.getParameter("orderId"); // <-- Dùng cái này để tìm kiếm
+        System.out.println("THIS IS ORDERID:" + orderId);
         String requestId = request.getParameter("requestId");
         String amount = request.getParameter("amount");
-        String orderInfo = request.getParameter("orderInfo");
+        String orderInfo = decodeParam(request.getParameter("orderInfo")); 
         String orderType = request.getParameter("orderType");
         String transId = request.getParameter("transId");
         String resultCode = request.getParameter("resultCode");
-        String message = request.getParameter("message");
+        String message = decodeParam(request.getParameter("message")); 
         String payType = request.getParameter("payType");
         String responseTime = request.getParameter("responseTime");
         String extraData = request.getParameter("extraData");
         String signature = request.getParameter("signature");
+        
+        String redirectPath = request.getContextPath() + "/premium";
 
-        // Tạo JsonObject để verify
+        // 1. Hoàn thiện JsonObject data (Cần đủ 13 trường đã được decode)
         JsonObject data = new JsonObject();
         data.addProperty("partnerCode", partnerCode);
         data.addProperty("orderId", orderId);
@@ -50,36 +71,58 @@ public class MoMoReturnServlet extends HttpServlet {
         data.addProperty("message", message);
         data.addProperty("payType", payType);
         data.addProperty("responseTime", responseTime);
-        data.addProperty("extraData", extraData);
+        data.addProperty("extraData", extraData != null ? extraData : ""); // Tránh Null
+        
+        try {
+            // 2. Verify signature
+            boolean isValid = momoService.verifyPaymentCallback(signature, data);
+            System.out.println("valid: " + isValid);
+            
+            if (!isValid) {
+                response.sendRedirect(redirectPath + "?status=error&msg=invalid_signature");
+                return;
+            }
 
-        // Verify signature
-        boolean isValid = momoService.verifyPaymentCallback(signature, data);
+            // 3. Tìm Transaction bằng MoMo Order ID (String)
+            // Giả định TransactionService.findTransactionByOrderId(String) đã được thêm.
+            Transaction transaction = transactionService.findTransactionByOrderId(orderId); 
 
-        if (!isValid) {
-            response.sendRedirect("premium.jsp?status=error&msg=invalid_signature");
-            return;
-        }
+            if (transaction == null) {
+                System.out.println("THIS IS HERE!");
+                response.sendRedirect(redirectPath + "?status=error&msg=transaction_not_found");
+                return;
+            }
+            
+            // 4. Xử lý Logic Nghiệp vụ
+            if ("0".equals(resultCode)) {
+                
+                if ("PENDING".equals(transaction.getStatus())) {
 
-        // Check resultCode (0 = success)
-        if ("0".equals(resultCode)) {
-            // Decode extraData
-            String extraDataDecoded = new String(Base64.getDecoder().decode(extraData));
+                    // Cập nhật trạng thái và transId
+                    transaction.setStatus("COMPLETED");
+                    // Giả định setter tồn tại:
+                    transaction.setTransId(transId); 
+                    
+                    transactionService.saveTransaction(transaction); 
 
-            // Parse JSON để lấy userId và packageType
-            // Ở đây bạn cần update database: set premium status cho user
-            String userId = (String) session.getAttribute("userId");
-            String packageType = (String) session.getAttribute("pendingPackageType");
+                    // Cập nhật PremiumAccount
+                    // ...
+                }
+                
+                response.sendRedirect(request.getContextPath() + "/premium?status=success");
+                
+            } else {
+                // Xử lý thất bại
+                if ("PENDING".equals(transaction.getStatus())) {
+                    transaction.setStatus("FAILED");
+                    transactionService.saveTransaction(transaction);
+                }
+                response.sendRedirect(redirectPath + "?status=error&msg=" + message);
+            }
 
-            // TODO: Update database
-            // updateUserPremiumStatus(userId, packageType, transId);
-
-            // Clear pending data
-            session.removeAttribute("pendingOrderId");
-            session.removeAttribute("pendingPackageType");
-
-            response.sendRedirect("premium.jsp?status=success");
-        } else {
-            response.sendRedirect("premium.jsp?status=error&msg=" + message);
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.sendRedirect(redirectPath + "?status=error&msg=internal_server_error");
         }
     }
 }

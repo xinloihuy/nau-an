@@ -13,22 +13,26 @@ public class MoMoPaymentService {
     private static final OkHttpClient client = new OkHttpClient();
     private static final Gson gson = new Gson();
 
+    // Sửa đổi tham số orderId từ String thành long (như yêu cầu)
     public String createPaymentRequest(String orderId, long amount, String orderInfo, String extraData, String userId) {
         try {
             // Đảm bảo extraData là chuỗi rỗng nếu null
             String finalExtraData = (extraData != null && !extraData.isEmpty()) ? extraData : "";
-            String requestId = orderId;
+
+            // Chuyển đổi orderId từ long sang String cho các trường MoMo
+            String orderIdStr = String.valueOf(orderId);
+            String requestIdStr = orderIdStr; // requestId thường bằng orderId
 
             // Chuỗi raw để ký
             String rawSignature = "accessKey=" + MoMoConfig.ACCESS_KEY +
                     "&amount=" + amount +
                     "&extraData=" + finalExtraData +
                     "&ipnUrl=" + MoMoConfig.NOTIFY_URL +
-                    "&orderId=" + orderId +
+                    "&orderId=" + orderIdStr + // Dùng chuỗi
                     "&orderInfo=" + orderInfo +
                     "&partnerCode=" + MoMoConfig.PARTNER_CODE +
                     "&redirectUrl=" + MoMoConfig.RETURN_URL +
-                    "&requestId=" + requestId +
+                    "&requestId=" + requestIdStr + // Dùng chuỗi
                     "&requestType=" + MoMoConfig.REQUEST_TYPE;
 
             String signature = MoMoSecurity.hmacSHA256(rawSignature, MoMoConfig.SECRET_KEY);
@@ -37,9 +41,9 @@ public class MoMoPaymentService {
             JsonObject json = new JsonObject();
             json.addProperty("partnerCode", MoMoConfig.PARTNER_CODE);
             json.addProperty("accessKey", MoMoConfig.ACCESS_KEY);
-            json.addProperty("requestId", requestId);
+            json.addProperty("requestId", requestIdStr); // Dùng chuỗi
             json.addProperty("amount", amount);
-            json.addProperty("orderId", orderId);
+            json.addProperty("orderId", orderIdStr); // Dùng chuỗi
             json.addProperty("orderInfo", orderInfo);
             json.addProperty("redirectUrl", MoMoConfig.RETURN_URL);
             json.addProperty("ipnUrl", MoMoConfig.NOTIFY_URL);
@@ -49,7 +53,6 @@ public class MoMoPaymentService {
 
             // Gửi request đến api endpoint của momo
             MediaType JSON = MediaType.get("application/json; charset=utf-8");
-//            RequestBody body = RequestBody.create(json.toString(), JSON);
             RequestBody body = RequestBody.create(JSON, json.toString());
             Request request = new Request.Builder()
                     .url(MoMoConfig.ENDPOINT)
@@ -80,16 +83,12 @@ public class MoMoPaymentService {
         }
     }
 
-    // Giữ nguyên phương thức verifyPaymentCallback vì nó đã đúng
+    // Giữ nguyên phương thức verifyPaymentCallback
     public boolean verifyPaymentCallback(String signature, JsonObject data) {
         try {
             // Tái tạo chuỗi Raw Signature theo ĐÚNG CÁC TRƯỜNG VÀ THỨ TỰ CỦA MỠ MỖ CALLBACK
-            // Bắt buộc phải ký tất cả các tham số MoMo gửi về trong URL.
-
-            // Cần đảm bảo các trường này tồn tại trong JsonObject data (từ MoMoReturnServlet)
-
             String rawSignature =
-                    "accessKey=" + MoMoConfig.ACCESS_KEY + // DÙ không gửi về, MoMo yêu cầu ký accessKey
+                    "accessKey=" + MoMoConfig.ACCESS_KEY +
                             "&amount=" + data.get("amount").getAsString() +
                             "&extraData=" + (data.has("extraData") && !data.get("extraData").isJsonNull() ? data.get("extraData").getAsString() : "") +
                             "&message=" + data.get("message").getAsString() +
@@ -101,10 +100,9 @@ public class MoMoPaymentService {
                             "&requestId=" + data.get("requestId").getAsString() +
                             "&responseTime=" + data.get("responseTime").getAsString() +
                             "&resultCode=" + data.get("resultCode").getAsString() +
-                            "&transId=" + data.get("transId").getAsString(); // Lấy từ request.getParameter("transId")
+                            "&transId=" + data.get("transId").getAsString();
 
             // In ra để kiểm tra chuỗi Raw Signature này
-            System.out.println("Callback Raw Signature: " + rawSignature);
 
             return MoMoSecurity.verifySignature(signature, rawSignature, MoMoConfig.SECRET_KEY);
         } catch (Exception e) {

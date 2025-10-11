@@ -1,42 +1,78 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.webhuongdannauan.model;
 
 import jakarta.persistence.*;
-import java.math.BigDecimal;
 
 @Entity
 @Table(name = "transactions")
 public class Transaction extends BaseEntity {
 
     @Column(nullable = false)
-    private BigDecimal amount;
+    private long amount;
 
     @Column(nullable = false)
     private String status; // e.g., "COMPLETED", "PENDING", "FAILED"
 
-    // N-1 với User (Người thực hiện giao dịch)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    // N-1 với PremiumPackage (Gói đã mua)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "package_id", nullable = false)
     private PremiumPackage premiumPackage;
+    
+    @Column(name = "momo_order_id", unique = true)
+    private String orderId; // Lưu Order ID của MoMo (dùng để tìm kiếm)
+    
+    @Column(name = "momo_trans_id", unique = true)
+    private String transId; // Lưu Transaction ID thực tế từ MoMo khi thành công
+    // END: CÁC TRƯỜNG BỔ SUNG CHO MOMO
 
-    // Constructors
-    public Transaction() { super(); }
+    public Transaction() {
+        super();
+    }
 
-    // Getters and Setters
-    public BigDecimal getAmount() { return amount; }
-    public void setAmount(BigDecimal amount) { this.amount = amount; }
-    public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
-    public User getUser() { return user; }
-    public void setUser(User user) { this.user = user; }
-    public PremiumPackage getPremiumPackage() { return premiumPackage; }
-    public void setPremiumPackage(PremiumPackage premiumPackage) { this.premiumPackage = premiumPackage; }
+    public long getAmount() {
+        return amount;
+    }
+
+    public void setAmount(long amount) {
+        this.amount = amount;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public PremiumPackage getPremiumPackage() {
+        return premiumPackage;
+    }
+
+    public void setPremiumPackage(PremiumPackage premiumPackage) {
+        this.premiumPackage = premiumPackage;
+    }
+    public String getOrderId() {
+        return orderId;
+    }
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
+    }
+
+    public String getTransId() {
+        return transId;
+    }
+    public void setTransId(String transId) {
+        this.transId = transId;
+    }
 }

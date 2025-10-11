@@ -5,7 +5,6 @@
 package com.mycompany.webhuongdannauan.model;
 
 import jakarta.persistence.*;
-import java.math.BigDecimal;
 
 @Entity
 @Table(name = "premium_packages")
@@ -15,7 +14,7 @@ public class PremiumPackage extends BaseEntity {
     private String name; // e.g., "Monthly", "Yearly"
 
     @Column(nullable = false)
-    private BigDecimal price;
+    private long price;
 
     @Column(name = "duration_days", nullable = false)
     private Integer durationInDays;
@@ -26,8 +25,8 @@ public class PremiumPackage extends BaseEntity {
     // Getters and Setters
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
-    public BigDecimal getPrice() { return price; }
-    public void setPrice(BigDecimal price) { this.price = price; }
+    public long getPrice() { return price; }
+    public void setPrice(long price) { this.price = price; }
     public Integer getDurationInDays() { return durationInDays; }
     public void setDurationInDays(Integer durationInDays) { this.durationInDays = durationInDays; }
 }
