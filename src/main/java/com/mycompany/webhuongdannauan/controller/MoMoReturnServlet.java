@@ -43,7 +43,6 @@ public class MoMoReturnServlet extends HttpServlet {
         // Lấy parameters MoMo
         String partnerCode = request.getParameter("partnerCode");
         String orderId = request.getParameter("orderId"); // <-- Dùng cái này để tìm kiếm
-        System.out.println("THIS IS ORDERID:" + orderId);
         String requestId = request.getParameter("requestId");
         String amount = request.getParameter("amount");
         String orderInfo = decodeParam(request.getParameter("orderInfo")); 
@@ -76,7 +75,6 @@ public class MoMoReturnServlet extends HttpServlet {
         try {
             // 2. Verify signature
             boolean isValid = momoService.verifyPaymentCallback(signature, data);
-            System.out.println("valid: " + isValid);
             
             if (!isValid) {
                 response.sendRedirect(redirectPath + "?status=error&msg=invalid_signature");
@@ -88,7 +86,6 @@ public class MoMoReturnServlet extends HttpServlet {
             Transaction transaction = transactionService.findTransactionByOrderId(orderId); 
 
             if (transaction == null) {
-                System.out.println("THIS IS HERE!");
                 response.sendRedirect(redirectPath + "?status=error&msg=transaction_not_found");
                 return;
             }
@@ -100,13 +97,14 @@ public class MoMoReturnServlet extends HttpServlet {
 
                     // Cập nhật trạng thái và transId
                     transaction.setStatus("COMPLETED");
-                    // Giả định setter tồn tại:
                     transaction.setTransId(transId); 
                     
                     transactionService.saveTransaction(transaction); 
 
-                    // Cập nhật PremiumAccount
-                    // ...
+                    // LẤY USER VÀ PACKAGE TỪ TRANSACTION VÀ CẬP NHẬT PREMIUM
+                    // Giả định quan hệ User và PremiumPackage đã được tải (Eager hoặc tải lại)
+                    premiumAccountService.updateUserPremiumStatus(transaction.getUser(), transaction.getPremiumPackage());
+                    
                 }
                 
                 response.sendRedirect(request.getContextPath() + "/premium?status=success");

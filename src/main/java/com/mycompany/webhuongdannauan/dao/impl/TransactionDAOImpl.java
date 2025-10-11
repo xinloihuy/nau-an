@@ -39,18 +39,22 @@ public class TransactionDAOImpl extends GenericDAOImpl<Transaction, Long> implem
     public Transaction findByOrderId(String orderId) {
         EntityManager em = HibernateUtil.getEntityManager();
         try {
-            // Trong trường hợp này, orderId là Primary Key (ID) của Transaction.
-            // Nếu bạn dùng GenericDAOImpl.findById(orderId) là đủ.
-            // Nhưng để minh họa truy vấn đặc thù (nếu orderId là trường khác), ta dùng JPQL:
+            // SỬ DỤNG JOIN FETCH CHO CẢ USER VÀ PREMIUMPACKAGE
             TypedQuery<Transaction> query = em.createQuery(
-                "SELECT t FROM Transaction t WHERE t.orderId = :orderId", Transaction.class);
+                "SELECT t FROM Transaction t " +
+                // JOIN FETCH để tải PremiumPackage (pkg)
+                "JOIN FETCH t.premiumPackage pkg " + 
+                // JOIN FETCH để tải User (u) và PremiumAccount của nó
+                "JOIN FETCH t.user u LEFT JOIN FETCH u.premiumAccount " +
+                "WHERE t.orderId = :orderId", Transaction.class);
+
             query.setParameter("orderId", orderId);
-            
+
             return query.getSingleResult(); 
-        } catch (NoResultException e) {
+        } catch (jakarta.persistence.NoResultException e) {
             return null;
         } finally {
-            em.close();
+            em.close(); 
         }
     }
 }
