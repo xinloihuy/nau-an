@@ -6,7 +6,9 @@ import com.mycompany.webhuongdannauan.utils.HibernateUtil; // Giả định có 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 // Kế thừa GenericDAOImpl với kiểu ID là String (vì bạn dùng MoMo orderId làm ID)
 public class TransactionDAOImpl extends GenericDAOImpl<Transaction, Long> implements TransactionDAO {
@@ -57,4 +59,35 @@ public class TransactionDAOImpl extends GenericDAOImpl<Transaction, Long> implem
             em.close(); 
         }
     }
+    
+    public Map<String, Double> sumRevenueByMonth() {
+        EntityManager em = HibernateUtil.getEntityManager();
+        try {
+            List<Object[]> results = em.createQuery(
+                "SELECT FUNCTION('MONTH', t.createdAt), SUM(t.amount) FROM Transaction t " +
+                "WHERE t.status = 'COMPLETED' GROUP BY FUNCTION('MONTH', t.createdAt)",
+                Object[].class
+            ).getResultList();
+
+            Map<String, Double> map = new LinkedHashMap<>();
+            for (Object[] row : results) {
+                map.put("T" + row[0], ((Number) row[1]).doubleValue());
+            }
+            return map;
+        } finally {
+            em.close();
+        }
+    }
+    public List<Transaction> findRecentWithUserAndPackage(int limit) {
+        EntityManager em = HibernateUtil.getEntityManager();
+        return em.createQuery(
+            "SELECT t FROM Transaction t " +
+            "JOIN FETCH t.user " +
+            "JOIN FETCH t.premiumPackage " +
+            "ORDER BY t.createdAt DESC", Transaction.class)
+            .setMaxResults(limit)
+            .getResultList();
+}
+
+
 }

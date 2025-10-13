@@ -9,6 +9,9 @@ import com.mycompany.webhuongdannauan.utils.HibernateUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 public class UserDAOImpl extends GenericDAOImpl<User, Long> implements UserDAO {
 
@@ -89,4 +92,46 @@ public class UserDAOImpl extends GenericDAOImpl<User, Long> implements UserDAO {
             em.close();
         }
     }
+    
+    @Override
+public long countAllUsers() {
+    EntityManager em = HibernateUtil.getEntityManager();
+    try {
+        return em.createQuery("SELECT COUNT(u) FROM User u", Long.class)
+                 .getSingleResult();
+    } finally {
+        em.close();
+    }
+}
+
+@Override
+public long countPremiumUsers() {
+    EntityManager em = HibernateUtil.getEntityManager();
+    try {
+        return em.createQuery("SELECT COUNT(p) FROM PremiumAccount p WHERE p.isActive = true", Long.class)
+                 .getSingleResult();
+    } finally {
+        em.close();
+    }
+}
+
+public Map<String, Long> countUsersByMonth() {
+    EntityManager em = HibernateUtil.getEntityManager();
+    try {
+        List<Object[]> results = em.createQuery(
+            "SELECT FUNCTION('MONTH', u.createdAt), COUNT(u) FROM User u GROUP BY FUNCTION('MONTH', u.createdAt)",
+            Object[].class
+        ).getResultList();
+
+        Map<String, Long> map = new LinkedHashMap<>();
+        for (Object[] row : results) {
+            map.put("T" + row[0], (Long) row[1]);
+        }
+        return map;
+    } finally {
+        em.close();
+    }
+}
+
+
 }

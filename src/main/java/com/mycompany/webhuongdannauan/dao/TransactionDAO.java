@@ -2,6 +2,7 @@ package com.mycompany.webhuongdannauan.dao;
 
 import com.mycompany.webhuongdannauan.model.Transaction;
 import java.util.List;
+import java.util.Map;
 
 // Kế thừa GenericDAO để có sẵn các phương thức CRUD cơ bản:
 // save, findById, delete, findAll (với ID là String)
@@ -21,4 +22,6 @@ public interface TransactionDAO extends GenericDAO<Transaction, Long> {
      * @return Đối tượng Transaction, hoặc null nếu không tìm thấy.
      */
     Transaction findByOrderId(String orderId);
+    Map<String, Double> sumRevenueByMonth();
+    List<Transaction> findRecentWithUserAndPackage(int limit);
 }

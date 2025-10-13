@@ -100,4 +100,15 @@ public class RecipeDAOImpl extends GenericDAOImpl<Recipe, Long> implements Recip
             em.close();
         }
     }
+    @Override
+    public long countAllRecipes() {
+        EntityManager em = HibernateUtil.getEntityManager();
+        try {
+            return em.createQuery("SELECT COUNT(r) FROM Recipe r", Long.class)
+                     .getSingleResult();
+        } finally {
+            em.close();
+        }
+    }
+
 }
