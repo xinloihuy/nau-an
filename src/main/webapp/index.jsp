@@ -39,17 +39,17 @@
       <h2>💎 Các món ăn cho người dùng premium</h2>
       <div class="premium-grid">
         <div class="premium-item">
-          <img src="https://cdn.tgdd.vn/Files/2021/09/16/1384068/cach-lam-ga-nuong-mat-ong-thom-ngon-de-lam-tai-nha-202109161437598632.jpg">
+          <img src="static/ga-nuong-mat-ong.png" alt="Gà nướng mật ong">
           <h3>Gà nướng mật ong</h3>
           <p>Công thức hấp dẫn dành riêng cho hội viên Premium.</p>
         </div>
         <div class="premium-item">
-          <img src="https://cdn.tgdd.vn/Files/2021/05/27/1356458/cach-lam-mi-y-bo-bam-tom-ngon-de-lam-tai-nha-202105270951437709.jpg">
+          <img src="static/mi-y-sot-bo-bam.png" alt="Mì Ý sốt bò bằm">
           <h3>Mì Ý bò bằm</h3>
           <p>Hương vị chuẩn Âu, phù hợp cho bữa tối gia đình.</p>
         </div>
         <div class="premium-item">
-          <img src="https://cdn.tgdd.vn/Files/2022/03/07/1420848/cach-lam-banh-flan-trung-sua-deo-mem-thom-ngon-khong-bi-tanh-202203071058311418.jpg">
+          <img src="static/banh-flan-trung-sua.png" alt="Bánh flan trứng sữa">
           <h3>Bánh flan trứng sữa</h3>
           <p>Món tráng miệng mềm mịn, ngọt dịu cực kỳ hấp dẫn.</p>
         </div>
