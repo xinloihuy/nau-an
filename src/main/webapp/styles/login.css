@@ -1,0 +1,108 @@
+:root {
+    --primary-color: #ff8c00;
+    --secondary-color: #ff5722;
+    --dark-color: #333333;
+    --light-color: #ffffff;
+    --gray-color: #666666;
+    --light-gray: #f5f5f5;
+    --border-color: #e0e0e0;
+    --success-color: #4caf50;
+}
+
+body {
+    font-family: "Segoe UI", sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, var(--light-gray), var(--light-color));
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.login-container {
+    background-color: var(--light-color);
+    padding: 40px 50px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    width: 360px;
+    text-align: center;
+    border: 1px solid var(--border-color);
+}
+
+.login-container img {
+    width: 80px;
+    margin-bottom: 15px;
+}
+
+h2 {
+    color: var(--primary-color);
+    margin-bottom: 25px;
+}
+
+.input-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.input-group label {
+    display: block;
+    font-weight: bold;
+    color: var(--dark-color);
+    margin-bottom: 5px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 14px;
+    background-color: var(--light-gray);
+}
+
+.input-group input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 3px var(--secondary-color);
+    background-color: var(--light-color);
+}
+
+.btn-login {
+    width: 100%;
+    background-color: var(--primary-color);
+    color: var(--light-color);
+    border: none;
+    padding: 12px;
+    border-radius: 6px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.btn-login:hover {
+    background-color: var(--secondary-color);
+}
+
+.message {
+    margin-top: 15px;
+    color: var(--secondary-color);
+    font-size: 14px;
+}
+
+.register-link {
+    margin-top: 20px;
+    font-size: 14px;
+    color: var(--gray-color);
+}
+
+.register-link a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.register-link a:hover {
+    text-decoration: underline;
+    color: var(--secondary-color);
+}

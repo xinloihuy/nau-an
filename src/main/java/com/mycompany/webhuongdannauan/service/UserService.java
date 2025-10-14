@@ -52,14 +52,14 @@ public class UserService {
             throw new RuntimeException("Default 'USER' role not found in database.");
         }
         newUser.setRoles(new HashSet<>(Collections.singletonList(defaultRole)));
-        
-        // 4. Lưu User
-        userDAO.save(newUser);
 
-        // 5. Tạo AccountSetting mặc định (Composition)
+        // 4. Tạo AccountSetting mặc định (Composition)
         AccountSetting setting = new AccountSetting();
         setting.setUser(newUser);
-        accountSettingDAO.save(setting);
+        newUser.setAccountSetting(setting);
+
+        // 5. Lưu User
+        userDAO.save(newUser);
         
         return newUser;
     }
