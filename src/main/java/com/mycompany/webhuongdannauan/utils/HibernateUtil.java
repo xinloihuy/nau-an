@@ -1,37 +1,54 @@
 package com.mycompany.webhuongdannauan.utils;
 
+import com.mycompany.webhuongdannauan.config.EnvConfig;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
+import java.util.HashMap;
+import java.util.Map;
 
 public class HibernateUtil {
 
     private static EntityManagerFactory entityManagerFactory;
-    private static final String PERSISTENCE_UNIT_NAME = "CookingAppPU"; // Phải khớp tên
+    private static final String PERSISTENCE_UNIT_NAME = "CookingAppPU"; // Phải khớp với persistence.xml
 
     static {
         try {
-            // Bước này kích hoạt Hibernate đọc persistence.xml và tạo/cập nhật schema
-            entityManagerFactory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
-            System.out.println("Hibernate EntityManagerFactory initialized successfully.");
+            // 🔹 Map chứa cấu hình override từ Env hoặc .env
+            Map<String, String> properties = new HashMap<>();
+
+            properties.put("jakarta.persistence.jdbc.driver",
+                    EnvConfig.get("DB_DRIVER", "com.mysql.cj.jdbc.Driver"));
+            properties.put("jakarta.persistence.jdbc.url",
+                    EnvConfig.get("DB_URL", "jdbc:mysql://localhost:3306/cooking_db"));
+            properties.put("jakarta.persistence.jdbc.user",
+                    EnvConfig.get("DB_USER", "root"));
+            properties.put("jakarta.persistence.jdbc.password",
+                    EnvConfig.get("DB_PASSWORD", "root"));
+
+            // ⚙️ Tạo EntityManagerFactory với cấu hình được nạp
+            entityManagerFactory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME, properties);
+
+            System.out.println("✅ Hibernate EntityManagerFactory initialized successfully.");
+            System.out.println("   → DB URL: " + properties.get("jakarta.persistence.jdbc.url"));
+
         } catch (Exception ex) {
-            // Ghi lỗi nếu kết nối hoặc khởi tạo thất bại
-            System.err.println("Initial EntityManagerFactory creation failed: " + ex);
+            System.err.println("❌ Initial EntityManagerFactory creation failed: " + ex.getMessage());
             throw new ExceptionInInitializerError(ex);
         }
     }
 
-    // Phương thức để lấy Factory (dùng để tạo EntityManager)
+    // 🧩 Lấy EntityManagerFactory
     public static EntityManagerFactory getEntityManagerFactory() {
         return entityManagerFactory;
     }
 
-    // Phương thức tiện ích để lấy EntityManager (dùng cho các thao tác DAO)
+    // 🧩 Lấy EntityManager (dùng cho DAO)
     public static EntityManager getEntityManager() {
         return entityManagerFactory.createEntityManager();
     }
 
-    // Phương thức để đóng Factory khi ứng dụng tắt
+    // 🧹 Đóng Factory khi ứng dụng tắt
     public static void shutdown() {
         if (entityManagerFactory != null) {
             entityManagerFactory.close();
