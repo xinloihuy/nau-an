@@ -1,4 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="com.mycompany.webhuongdannauan.utils.YouTubeUtil" %> 
+<%@page import="com.mycompany.webhuongdannauan.model.Recipe" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <!DOCTYPE html>
 <html lang="vi">
@@ -23,7 +25,23 @@
             <img src="${recipe.imageUrl}" alt="${recipe.title}" class="main-image">
             <c:if test="${recipe.videoUrl != null}">
                 <div class="video-embed">
-                    <iframe width="560" height="315" src="${recipe.videoUrl}" frameborder="0" allowfullscreen></iframe>
+                    <%
+                        // 1. Ép kiểu (cast) đối tượng về Recipe
+                        Recipe recipeObj = (Recipe) request.getAttribute("recipe"); 
+
+                        // 2. Lấy URL video an toàn
+                        String videoUrl = recipeObj.getVideoUrl();
+
+                        // 3. Chuyển đổi sang link nhúng
+                        String embedUrl = YouTubeUtil.getEmbedUrl(videoUrl);
+                    %>
+
+                    <iframe 
+                        src="<%= embedUrl %>" 
+                        frameborder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen>
+                    </iframe>
                 </div>
             </c:if>
         </div>
