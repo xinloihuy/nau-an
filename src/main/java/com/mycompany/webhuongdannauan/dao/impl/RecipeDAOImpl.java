@@ -170,7 +170,7 @@ public class RecipeDAOImpl extends GenericDAOImpl<Recipe, Long> implements Recip
     }
     
     @Override
-    public List<Recipe> filterRecipes(String keyword, Long categoryId, Integer maxTime, Boolean hasVideo) {
+    public List<Recipe> filterRecipes(String keyword, Long categoryId, Integer maxTime, Boolean hasVideo, Boolean isVip) { // <--- THÊM isVip
         EntityManager em = HibernateUtil.getEntityManager();
         try {
             boolean useNativeQuery = (keyword != null && !keyword.isBlank());
@@ -244,17 +244,34 @@ public class RecipeDAOImpl extends GenericDAOImpl<Recipe, Long> implements Recip
                 }
             }
             
-            // 6. Sắp xếp kết quả
+            // 6. Lọc theo VIP Status (MỚI)
+            if (isVip != null) {
+                if (useNativeQuery) {
+                    // NATIVE SQL: Tên cột vật lý
+                    queryText.append("AND r.is_vip = :isVip ");
+                } else {
+                    // JPQL: Tên thuộc tính Entity
+                    queryText.append("AND r.isVip = :isVip ");
+                }
+            }
+
+            
+            // 7. Sắp xếp kết quả
             queryText.append("ORDER BY r.view_count DESC"); // Dùng tên cột vật lý cho Native Query
 
             // --- 7. Thực thi Truy vấn ---
             
             if (useNativeQuery) {
-                // NATIVE QUERY: Lấy ID và sau đó tải lại Entity
+                // NATIVE QUERY
                 Query nativeQuery = em.createNativeQuery(queryText.toString());
                 
                 // Thiết lập tham số (Dùng tên tham số JPQL)
                 nativeQuery.setParameter("keyword", "%" + keyword + "%");
+                // ... (Các tham số khác)
+                
+                if (isVip != null) { // <--- THIẾT LẬP THAM SỐ MỚI
+                    nativeQuery.setParameter("isVip", isVip ? 1 : 0); // MySQL BOOLEAN là 1/0
+                }
                 
                 if (categoryId != null && categoryId > 0) {
                     nativeQuery.setParameter("categoryId", categoryId);
@@ -288,6 +305,9 @@ public class RecipeDAOImpl extends GenericDAOImpl<Recipe, Long> implements Recip
                 if (maxTime != null && maxTime > 0) {
                     query.setParameter("maxTime", maxTime);
                 }
+                if (isVip != null) { // <--- THIẾT LẬP THAM SỐ MỚI
+                    query.setParameter("isVip", isVip);
+                }
                 
                 // Không cần tham số cho hasVideo vì đã xử lý IS NULL/IS NOT NULL
 
@@ -296,6 +316,7 @@ public class RecipeDAOImpl extends GenericDAOImpl<Recipe, Long> implements Recip
         }finally {
             em.close();
         }
+        
     }
 
 }
