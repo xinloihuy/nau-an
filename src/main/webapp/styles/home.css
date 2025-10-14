@@ -1,0 +1,279 @@
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #fff;
+  display: flex;
+  height: 100vh;
+  transition: margin-left 0.3s ease;
+}
+
+/* Sidebar bên trái */
+.sidebar {
+  width: 220px;
+  background-color: #fff3e0; /* màu cam nhạt */
+  border-right: 2px solid #f5cc8d;
+  padding: 20px 18px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: fixed;
+  height: 100vh;
+  left: 0;
+  top: 0;
+  transform: translateX(0);
+  transition: transform 0.3s ease;
+}
+
+.sidebar.hidden {
+  transform: translateX(-220px);
+}
+
+.main-content.shifted {
+  margin-left: 0;
+}
+
+.logo-area {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 35px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  font-size: 16px;
+  color: #5a2d00;
+  white-space: nowrap;
+}
+
+.logo img {
+  width: 30px;
+  margin-right: 6px;
+}
+
+.menu {
+  flex-grow: 1;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  color: #d46b08;
+  font-size: 16px;
+  margin-bottom: 20px;
+  cursor: pointer;
+  transition: 0.2s;
+  text-decoration: none; /* Remove underline from links */
+}
+
+.menu-item:hover {
+  color: #a85503;
+}
+
+.login {
+  margin-top: auto;
+  font-weight: bold;
+  color: #5a2d00;
+  cursor: pointer;
+  border-top: 1px solid #f2e3c5;
+  padding-top: 12px;
+  text-align: center;
+  text-decoration: none; /* Remove underline from login link */
+}
+
+/* Nội dung chính */
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-y: auto;
+  position: relative;
+  border-right: 2px solid #f5cc8d;
+  margin-left: 220px;
+  transition: margin-left 0.3s ease;
+}
+
+/* Header và tìm kiếm */
+header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 25px 0 10px 0;
+  position: relative;
+  box-shadow: none;
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ddd;
+  border-radius: 25px;
+  overflow: hidden;
+  width: 55%;
+  max-width: 650px;
+}
+
+.search-bar input {
+  flex: 1;
+  border: none;
+  padding: 12px 15px;
+  outline: none;
+  font-size: 15px;
+}
+
+.search-bar button {
+  background-color: #f57c00;
+  border: none;
+  color: white;
+  padding: 12px 25px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 15px;
+}
+
+.search-bar button:hover {
+  background-color: #e46b00;
+}
+
+/* Section món thịnh hành */
+.section {
+  width: 85%;
+  margin: 30px 0;
+}
+
+.section h2 {
+  color: #4b2e00;
+  font-size: 20px;
+  margin-bottom: 15px;
+}
+
+.food-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  justify-items: center;
+}
+
+.food-item {
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+  width: 100%;
+  max-width: 230px;
+}
+
+.food-item img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  transition: transform 0.2s;
+}
+
+.food-item:hover img {
+  transform: scale(1.05);
+}
+
+.food-item span {
+  position: absolute;
+  bottom: 8px;
+  left: 10px;
+  background: rgba(0,0,0,0.5);
+  color: #fff;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+/* Gói Premium */
+.premium-grid {
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+  flex-wrap: nowrap;
+}
+
+.premium-item {
+  background: #fffef5;
+  border: 1px solid #f4e6b3;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  width: 30%;
+}
+
+.premium-item img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.premium-item h3 {
+  font-size: 16px;
+  color: #4b2e00;
+  margin: 10px 12px 5px 12px;
+}
+
+.premium-item p {
+  font-size: 14px;
+  color: #777;
+  margin: 0 12px 15px 12px;
+}
+
+/* Nút chuông */
+.open-btn {
+  position: fixed;
+  right: 30px;
+  top: 25px;
+  background: #f57c00;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  font-size: 22px;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+}
+
+.open-btn:hover {
+  background-color: #e46b00;
+}
+
+/* Nút toggle sidebar */
+.toggle-sidebar {
+  position: fixed;
+  left: 10px;
+  top: 10px;
+  background: #f57c00;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.toggle-sidebar:hover {
+  background-color: #e46b00;
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 15px;
+  background-color: #fff3e0;
+  color: #5a2d00;
+  border-top: 2px solid #f5cc8d;
+  width: 100%;
+}
