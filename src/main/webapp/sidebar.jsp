@@ -18,5 +18,5 @@
     </div>
   </div>
 
-  <a href="login.jsp" class="login">🚪 Đăng nhập</a>
+  <a href="login" class="login">🚪 Đăng nhập</a>
 </aside>

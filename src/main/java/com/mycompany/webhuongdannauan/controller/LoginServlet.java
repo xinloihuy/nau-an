@@ -16,7 +16,7 @@ public class LoginServlet extends HttpServlet {
     private final UserService userService = new UserService();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("/views/login.jsp").forward(req, resp);
+        req.getRequestDispatcher("/WEB-INF/views/auth/login.jsp").forward(req, resp);
     }
 
     @Override
@@ -26,7 +26,7 @@ public class LoginServlet extends HttpServlet {
 
         if(username == null || password == null || username.isEmpty() || password.isEmpty()) {
             req.setAttribute("error", "Vui lòng nhập tên đăng nhập và mật khẩu!");
-            req.getRequestDispatcher("/views/login.jsp").forward(req, resp);
+            req.getRequestDispatcher("/WEB-INF/views/auth/login.jsp").forward(req, resp);
             return;
         }
 
@@ -37,7 +37,7 @@ public class LoginServlet extends HttpServlet {
             resp.sendRedirect(req.getContextPath() + "/");
         } else {
             req.setAttribute("error", "Tên đăng nhập hoặc mật khẩu không đúng!");
-            req.getRequestDispatcher("/views/login.jsp").forward(req, resp);
+            req.getRequestDispatcher("/WEB-INF/views/auth/login.jsp").forward(req, resp);
         }
     }
 }
