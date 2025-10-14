@@ -17,9 +17,9 @@
       <a href="category.jsp" class="menu-item">🍛 Danh mục</a>
       <a href="filter.jsp" class="menu-item">🧂 Bộ lọc</a>
       <a href="favorites.jsp" class="menu-item">❤️ Yêu thích</a>
+      <a href="tips.jsp" class="menu-item">👨‍🍳 Cooking Tips</a>
       <a href="premium" class="menu-item">💎 Gói Premium</a>
     </div>
   </div>
-
-  <a href="login" class="login">🚪 Đăng nhập</a>
+    <a href="login" class="login">🚪 Đăng nhập</a>
 </aside>
