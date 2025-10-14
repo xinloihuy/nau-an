@@ -277,3 +277,13 @@ footer {
   border-top: 2px solid #f5cc8d;
   width: 100%;
 }
+
+.category-section .category-content {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.3s ease;
+}
+
+.category-section .category-content.show {
+    max-height: 1000px; /* Hoặc dùng JS để set chính xác */
+}

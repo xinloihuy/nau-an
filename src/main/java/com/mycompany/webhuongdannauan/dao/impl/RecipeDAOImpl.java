@@ -8,6 +8,7 @@ import com.mycompany.webhuongdannauan.model.Recipe;
 import com.mycompany.webhuongdannauan.utils.HibernateUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
+import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 import java.util.Collections;
 import java.util.List;
@@ -20,9 +21,16 @@ public class RecipeDAOImpl extends GenericDAOImpl<Recipe, Long> implements Recip
     public List<Recipe> searchByKeyword(String keyword) {
         EntityManager em = HibernateUtil.getEntityManager();
         try {
-            TypedQuery<Recipe> query = em.createQuery(
-                "SELECT r FROM Recipe r WHERE r.title LIKE :keyword OR r.description LIKE :keyword", Recipe.class);
+            // SỬ DỤNG NATIVE SQL: Để buộc MySQL sử dụng bộ đối chiếu phân biệt dấu
+            // Ví dụ: utf8mb4_bin hoặc utf8mb4_unicode_ci (nếu được cấu hình đúng)
+            String sql = "SELECT * FROM recipes r " +
+                         "WHERE r.title LIKE :keyword COLLATE utf8mb4_bin " + 
+                         "OR r.description LIKE :keyword COLLATE utf8mb4_bin";
+
+            // Tạo Native Query
+            Query query = em.createNativeQuery(sql, Recipe.class);
             query.setParameter("keyword", "%" + keyword + "%");
+            
             return query.getResultList();
         } finally {
             em.close();
@@ -157,6 +165,135 @@ public class RecipeDAOImpl extends GenericDAOImpl<Recipe, Long> implements Recip
             return em.createQuery("SELECT COUNT(r) FROM Recipe r", Long.class)
                      .getSingleResult();
         } finally {
+            em.close();
+        }
+    }
+    
+    @Override
+    public List<Recipe> filterRecipes(String keyword, Long categoryId, Integer maxTime, Boolean hasVideo) {
+        EntityManager em = HibernateUtil.getEntityManager();
+        try {
+            boolean useNativeQuery = (keyword != null && !keyword.isBlank());
+            StringBuilder queryText = new StringBuilder();
+
+            if (useNativeQuery) {
+                // SỬ DỤNG NATIVE SQL
+                queryText.append("SELECT DISTINCT r.id FROM recipes r ");
+            } else {
+                // SỬ DỤNG JPQL
+                queryText.append("SELECT DISTINCT r FROM Recipe r ");
+            }
+
+            // 1. Xử lý JOIN nếu cần lọc theo Category
+            if (categoryId != null && categoryId > 0) {
+                if (useNativeQuery) {
+                    // Tên bảng vật lý cho bảng liên kết
+                    queryText.append("JOIN recipe_categories rc ON r.id = rc.recipe_id ");
+                } else {
+                    // Tên thuộc tính Entity cho JPQL
+                    queryText.append("JOIN r.categories c ");
+                }
+            }
+
+            queryText.append("WHERE 1=1 "); 
+
+            // 2. Lọc theo Keyword (Chỉ dùng cho Native Query)
+            if (useNativeQuery) {
+                // NATIVE SQL: Áp dụng COLLATE cho tìm kiếm tiếng Việt phân biệt dấu
+                queryText.append("AND (r.title LIKE :keyword COLLATE utf8mb4_bin OR r.description LIKE :keyword COLLATE utf8mb4_bin) ");
+            }
+
+            // 3. Lọc theo Category ID
+            if (categoryId != null && categoryId > 0) {
+                if (useNativeQuery) {
+                    // NATIVE SQL: Tên cột vật lý
+                    queryText.append("AND rc.category_id = :categoryId ");
+                } else {
+                    // JPQL: Tên thuộc tính Entity
+                    queryText.append("AND c.id = :categoryId ");
+                }
+            }
+
+            // 4. Lọc theo Thời gian nấu tối đa
+            if (maxTime != null && maxTime > 0) {
+                if (useNativeQuery) {
+                    // NATIVE SQL: SỬ DỤNG TÊN CỘT VẬT LÝ ĐÃ XÁC NHẬN
+                    queryText.append("AND r.cooking_time_minutes <= :maxTime ");
+                } else {
+                    // JPQL: Tên thuộc tính Entity
+                    queryText.append("AND r.cookingTimeMinutes <= :maxTime ");
+                }
+            }
+
+            // 5. Lọc theo Video
+            if (hasVideo != null) {
+                if (useNativeQuery) {
+                    // NATIVE SQL: SỬ DỤNG TÊN CỘT VẬT LÝ
+                    if (hasVideo) {
+                        queryText.append("AND r.video_url IS NOT NULL ");
+                    } else {
+                        queryText.append("AND r.video_url IS NULL ");
+                    }
+                } else {
+                    // JPQL: Tên thuộc tính Entity
+                    if (hasVideo) {
+                        queryText.append("AND r.videoUrl IS NOT NULL ");
+                    } else {
+                        queryText.append("AND r.videoUrl IS NULL ");
+                    }
+                }
+            }
+            
+            // 6. Sắp xếp kết quả
+            queryText.append("ORDER BY r.view_count DESC"); // Dùng tên cột vật lý cho Native Query
+
+            // --- 7. Thực thi Truy vấn ---
+            
+            if (useNativeQuery) {
+                // NATIVE QUERY: Lấy ID và sau đó tải lại Entity
+                Query nativeQuery = em.createNativeQuery(queryText.toString());
+                
+                // Thiết lập tham số (Dùng tên tham số JPQL)
+                nativeQuery.setParameter("keyword", "%" + keyword + "%");
+                
+                if (categoryId != null && categoryId > 0) {
+                    nativeQuery.setParameter("categoryId", categoryId);
+                }
+                 if (maxTime != null && maxTime > 0) {
+                    nativeQuery.setParameter("maxTime", maxTime);
+                }
+                
+                // Native Query không hỗ trợ trực tiếp tham số Boolean. 
+                // Xử lý logic IS NULL/IS NOT NULL đã được thực hiện trực tiếp trong chuỗi SQL
+
+                @SuppressWarnings("unchecked")
+                List<Long> recipeIds = nativeQuery.getResultList();
+                
+                if (recipeIds.isEmpty()) {
+                    return Collections.emptyList();
+                }
+
+                // Tải các đối tượng Recipe hoàn chỉnh bằng JPQL
+                return em.createQuery("SELECT r FROM Recipe r WHERE r.id IN :ids ORDER BY r.viewCount DESC", Recipe.class)
+                         .setParameter("ids", recipeIds)
+                         .getResultList();
+
+            } else {
+                // JPQL QUERY
+                TypedQuery<Recipe> query = em.createQuery(queryText.toString(), Recipe.class);
+                
+                if (categoryId != null && categoryId > 0) {
+                    query.setParameter("categoryId", categoryId);
+                }
+                if (maxTime != null && maxTime > 0) {
+                    query.setParameter("maxTime", maxTime);
+                }
+                
+                // Không cần tham số cho hasVideo vì đã xử lý IS NULL/IS NOT NULL
+
+                return query.getResultList();
+            }
+        }finally {
             em.close();
         }
     }

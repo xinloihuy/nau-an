@@ -137,4 +137,8 @@ public class RecipeService {
     public void deleteRecipe(Long recipeId) {
         recipeDAO.deleteById(recipeId);
     }
+    
+    public List<Recipe> getFilteredRecipes(String keyword, Long categoryId, Integer maxTime, Boolean hasVideo) {
+        return recipeDAO.filterRecipes(keyword, categoryId, maxTime, hasVideo);
+    }
 }

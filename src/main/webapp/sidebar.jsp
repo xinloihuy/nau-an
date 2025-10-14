@@ -1,25 +1,123 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<aside class="sidebar">
-  <div>
-    <div class="logo-area">
-      <div class="logo">
-        <a href="http://localhost:8080/" style="text-decoration: none; color: inherit;">
-            <img src="https://cdn-icons-png.flaticon.com/512/706/706164.png" alt="logo">
-             Hướng dẫn nấu ăn
-        </a>
-      </div>
-    </div>  
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%--
+    Dữ liệu cần thiết:
+    - sessionScope.userId: ID người dùng (kiểm tra trạng thái đăng nhập)
+    - sessionScope.username: Tên người dùng (hiển thị)
+    - requestScope.categoriesWithCount: Map<Category, Long> cho Danh mục món ăn
+--%>
 
-    <div class="menu">
-      <a href="search.jsp" class="menu-item">🔍 Tìm kiếm</a>
-      <a href="suggestions.jsp" class="menu-item">💡 Gợi ý liên quan</a>
-      <a href="blog.jsp" class="menu-item">📝 Blog</a>
-      <a href="category.jsp" class="menu-item">🍛 Danh mục</a>
-      <a href="filter.jsp" class="menu-item">🧂 Bộ lọc</a>
-      <a href="favorites.jsp" class="menu-item">❤️ Yêu thích</a>
-      <a href="tips.jsp" class="menu-item">👨‍🍳 Cooking Tips</a>
-      <a href="premium" class="menu-item">💎 Gói Premium</a>
+<aside class="sidebar">
+    <div>
+        <div class="logo-area">
+            <div class="logo">
+                <a href="${pageContext.request.contextPath}/home" style="text-decoration: none; color: inherit;">
+                    <img src="https://cdn-icons-png.flaticon.com/512/706/706164.png  " alt="logo">
+                    Hướng dẫn nấu ăn
+                </a>
+            </div>
+        </div>
+
+        <div class="menu">
+            
+            <a href="${pageContext.request.contextPath}/home" class="menu-item">🏠 Trang chủ</a>
+            
+            <%-- <a href="search.jsp" class="menu-item">🔍 Tìm kiếm</a> --%>
+           
+            <a href="${pageContext.request.contextPath}/blog" class="menu-item">📝 Blog Cộng đồng</a>
+            
+            <a href="${pageContext.request.contextPath}/filter" class="menu-item">🧂 Bộ lọc Nâng cao</a>
+            
+            <c:if test="${sessionScope.userId != null}">
+                <a href="${pageContext.request.contextPath}/user/favorites" class="menu-item">❤️ Yêu thích</a>
+                <a href="${pageContext.request.contextPath}/user/notifications" class="menu-item">🔔 Thông báo</a>
+            </c:if>
+
+            <a href="${pageContext.request.contextPath}/tips" class="menu-item">👨‍🍳 Cooking Tips</a>
+            <a href="${pageContext.request.contextPath}/premium/plan" class="menu-item">💎 Gói Premium</a>
+        </div>
+        
+        <div class="menu-separator"></div> 
+        
+        <!-- Danh mục món ăn - Có thể thu gọn -->
+        <div class="category-section">
+            <div class="menu-item category-title collapsible">
+                <span class="icon">🍽️</span> <span class="category-label">Danh mục món ăn</span> <span class="collapse-icon">▼</span>
+            </div>
+            
+            <div class="category-content menu">
+                <c:choose>
+                    <c:when test="${not empty categoriesWithCount}">
+                        <c:forEach var="entry" items="${categoriesWithCount}">
+                            <a href="${pageContext.request.contextPath}/category?id=${entry.key.id}" class="menu-item category-item">
+                                ${entry.key.name} (${entry.value})
+                            </a>
+                        </c:forEach>
+                    </c:when>
+                    <c:otherwise>
+                        <div class="menu-item">Chưa có danh mục nào.</div>
+                    </c:otherwise>
+                </c:choose>
+            </div>
+        </div>
+        <!-- End Danh mục -->
     </div>
-  </div>
-    <a href="login" class="login">🚪 Đăng nhập</a>
+    
+    <c:choose>
+        <c:when test="${sessionScope.userId != null}">
+            <div class="user-area">
+                <a href="${pageContext.request.contextPath}/user/profile" class="login">
+                    👤 ${sessionScope.username != null ? sessionScope.username : 'Tài khoản'}
+                </a>
+                <a href="${pageContext.request.contextPath}/logout" class="logout-btn">
+                    🚪 Đăng xuất
+                </a>
+            </div>
+        </c:when>
+        <c:otherwise>
+            <a href="${pageContext.request.contextPath}/login" class="login">🚪 Đăng nhập / Đăng ký</a>
+        </c:otherwise>
+    </c:choose>
 </aside>
+        
+<button class="open-btn">🔔</button>
+
+  <script>
+    const toggleButton = document.querySelector('.toggle-sidebar');
+    const sidebar = document.querySelector('.sidebar');
+    const mainContent = document.querySelector('.main-content');
+
+    toggleButton.addEventListener('click', () => {
+      sidebar.classList.toggle('hidden');
+      mainContent.classList.toggle('shifted');
+    });
+  </script>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const collapsible = document.querySelector('.category-title.collapsible');
+        const content = document.querySelector('.category-content');
+        const icon = collapsible?.querySelector('.collapse-icon');
+        
+        if (!collapsible || !content || !icon) return; // Phòng lỗi nếu không có element
+        
+        // Mở mặc định
+        content.style.maxHeight = content.scrollHeight + "px";
+        collapsible.classList.add('active');
+        icon.textContent = '▼';
+        
+        collapsible.addEventListener('click', function() {
+            this.classList.toggle('active');
+            if (content.style.maxHeight) {
+                // Đang mở → đóng
+                content.style.maxHeight = null;
+                icon.textContent = '▶';
+            } else {
+                // Đang đóng → mở
+                content.style.maxHeight = content.scrollHeight + "px";
+                icon.textContent = '▼';
+            }
+        });
+    });
+</script>

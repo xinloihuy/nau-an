@@ -26,6 +26,9 @@
         <div class="section">
             <h2>
                 <c:choose>
+                    <c:when test="${categoryTitle != null}">
+                        Danh mục: ${categoryTitle}
+                    </c:when>
                     <c:when test="${searchQuery != null}">
                         Kết quả tìm kiếm cho: "${searchQuery}" (${featuredRecipes.size()} món)
                     </c:when>
@@ -34,6 +37,7 @@
                     </c:otherwise>
                 </c:choose>
             </h2>
+            
             
             <div class="food-grid">
                 <c:if test="${empty featuredRecipes}">
@@ -73,5 +77,19 @@
         </div>
         
     </section>
+                
+<!--        <button class="open-btn">🔔</button>-->
+
+        <script>
+          const toggleButton = document.querySelector('.toggle-sidebar');
+          const sidebar = document.querySelector('.sidebar');
+          const mainContent = document.querySelector('.main-content');
+
+          toggleButton.addEventListener('click', () => {
+            sidebar.classList.toggle('hidden');
+            mainContent.classList.toggle('shifted');
+          });
+        </script>
     </body>
+    
 </html>

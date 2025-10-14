@@ -14,5 +14,6 @@ public interface RecipeDAO extends GenericDAO<Recipe, Long> {
     List<Recipe> findRelatedRecipes(Recipe recipe, int limit);
     void updateViewCount(Long recipeId);
     long countAllRecipes();
+    List<Recipe> filterRecipes(String keyword, Long categoryId, Integer maxTime, Boolean hasVideo);
 
 }

@@ -4,7 +4,9 @@ import com.mycompany.webhuongdannauan.model.Recipe;
 import com.mycompany.webhuongdannauan.service.RecipeService;
 import com.mycompany.webhuongdannauan.service.UserService;
 import com.mycompany.webhuongdannauan.model.User;
+import com.mycompany.webhuongdannauan.service.CategoryService;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebListener;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,6 +20,7 @@ public class HomeServlet extends HttpServlet {
 
     private final RecipeService recipeService = new RecipeService();
     private final UserService userService = new UserService(); // Cần để kiểm tra Premium
+    private final CategoryService categoryService = new CategoryService();
 
     private static final String HOME_VIEW = "/index.jsp"; // Đường dẫn của trang chủ
 
@@ -59,6 +62,7 @@ public class HomeServlet extends HttpServlet {
         req.setAttribute("featuredRecipes", recipesToShow);
         req.setAttribute("premiumRecipes", premiumRecipes);
         req.setAttribute("isPremiumUser", isPremium);
+        req.setAttribute("categoriesWithCount", categoryService.getAllCategoriesWithCount());
 
 
         // 5. Chuyển tiếp tới trang chủ JSP
