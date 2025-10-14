@@ -18,6 +18,9 @@ public class Recipe extends BaseEntity {
 
     @Lob
     private String steps;
+    
+    @Column(name = "image_url")
+    private String imageUrl;
 
     @Column(name = "video_url")
     private String videoUrl;
@@ -64,6 +67,8 @@ public class Recipe extends BaseEntity {
     public void setSteps(String steps) { this.steps = steps; }
     public String getVideoUrl() { return videoUrl; }
     public void setVideoUrl(String videoUrl) { this.videoUrl = videoUrl; }
+    public String getImageUrl() { return imageUrl; }
+    public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
     public Boolean getIsVip() { return isVip; }
     public void setIsVip(Boolean isVip) { this.isVip = isVip; }
     public Long getViewCount() { return viewCount; }
