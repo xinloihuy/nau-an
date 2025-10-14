@@ -9,6 +9,7 @@ public interface RecipeDAO extends GenericDAO<Recipe, Long> {
     List<Recipe> searchByKeyword(String keyword);
     List<Recipe> findFeaturedRecipes(int limit);
     List<Recipe> findByCategory(Long categoryId);
+    Recipe findByIdWithCategories(Long recipeId);
     List<Recipe> findVipRecipes();
     List<Recipe> findRelatedRecipes(Recipe recipe, int limit);
     void updateViewCount(Long recipeId);
