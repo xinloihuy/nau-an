@@ -191,8 +191,8 @@
                     <li><a href="#">🍲 Quản lý món ăn</a></li>
                     <li><a href="#">📝 Quản lý blog</a></li>
                     <li><a href="${pageContext.request.contextPath}/admin/cooking-tips">💡 Cooking Tip</a></li>
-                    <li><a href="#">➕ Đăng món mới</a></li>
-                    <li><a href="#">📈 Thống kê</a></li>
+                     
+                    <li><a href="${pageContext.request.contextPath}/admin/statistics">📈 Thống kê</a></li>
                     <li><a href="#">💬 ChatBox hỗ trợ</a></li>
                 </ul>
             </li>
@@ -209,9 +209,8 @@
             <div class="box" onclick="location.href='${pageContext.request.contextPath}/admin/recipes'">🍲 Quản lý món ăn</div>
             <div class="box">📝 Quản lý blog</div>
             <div class="box" onclick="location.href='${pageContext.request.contextPath}/admin/cooking-tips'">💡 Cooking Tip</div>
-            <div class="box">➕ Đăng món mới</div>
             <div class="box">💬 ChatBox hỗ trợ</div>
-            <div class="box">📈 Thống kê</div>
+            <div class="${pageContext.request.contextPath}/admin/statistics">📈 Thống kê</div>
         </div>
     </section>
 
