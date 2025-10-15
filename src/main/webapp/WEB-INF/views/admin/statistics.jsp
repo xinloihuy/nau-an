@@ -8,6 +8,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/admin-user.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/static/cook_icon.png">
     <style>
         /* Optional: Tăng độ cao card để cân bằng */
         .card { transition: transform 0.2s; }

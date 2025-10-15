@@ -8,6 +8,7 @@
     <title>Hướng dẫn nấu ăn - Trang chủ</title>
     <link rel="stylesheet" href="styles/home.css">
     <link rel="stylesheet" href="styles/sidebar.css">
+    <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/static/cook_icon.png">
     
     
 </head>

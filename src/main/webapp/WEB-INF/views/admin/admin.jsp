@@ -16,6 +16,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Trang quản trị hệ thống</title>
+    <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/static/cook_icon.png">
     <style>
         /* ====== Giao diện tổng thể ====== */
         body {

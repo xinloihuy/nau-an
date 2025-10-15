@@ -5,6 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Đăng ký | Cooking Guide</title>
+    <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/static/cook_icon.png">
     <style>
         :root {
             --primary-color: #ff8c00;
