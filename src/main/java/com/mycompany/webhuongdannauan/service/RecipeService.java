@@ -133,12 +133,37 @@ public class RecipeService {
         recipeDAO.save(recipe); // save() trong GenericDAOImpl xử lý cả update
     }
 
-    // Admin xóa
-    public void deleteRecipe(Long recipeId) {
-        recipeDAO.deleteById(recipeId);
-    }
     
     public List<Recipe> getFilteredRecipes(String keyword, Long categoryId, Integer maxTime, Boolean hasVideo, Boolean isVip) {
         return recipeDAO.filterRecipes(keyword, categoryId, maxTime, hasVideo, isVip); // <--- THÊM isVip
+    }
+    
+    /**
+     * Lấy tất cả món ăn (dành cho Admin).
+     */
+    public List<Recipe> getAllRecipes() {
+        // THAY ĐỔI: Sử dụng DAO mới để tránh LazyInitializationException
+        return recipeDAO.findAllWithAuthor(); 
+    }
+    
+    /**
+     * Thêm/Cập nhật món ăn (Dùng cho cả tác giả Premium và Admin).
+     */
+    public void saveOrUpdateRecipe(Recipe recipe) {
+        recipeDAO.save(recipe);
+    }
+    
+    /**
+     * Xóa món ăn theo ID (Dùng cho Admin).
+     */
+    
+    public boolean deleteRecipe(Long recipeId) {
+        // Kiểm tra tồn tại trước khi xóa
+        Recipe recipe = recipeDAO.findById(recipeId);
+        if (recipe != null) {
+            recipeDAO.delete(recipe);
+            return true;
+        }
+        return false;
     }
 }

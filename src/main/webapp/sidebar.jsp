@@ -37,7 +37,7 @@
                 <a href="${pageContext.request.contextPath}/user/notifications" class="menu-item">🔔 Thông báo</a>
             </c:if>
 
-            <a href="${pageContext.request.contextPath}/cooking-tips" class="menu-item">Cooking Tips</a>
+            <a href="${pageContext.request.contextPath}/cooking-tips" class="menu-item">👨‍🍳 Cooking Tips</a>
             <a href="${pageContext.request.contextPath}/premium" class="menu-item">💎 Gói Premium</a>
         </div>
         
@@ -74,7 +74,7 @@
                     👤 ${sessionScope.username != null ? sessionScope.username : 'Tài khoản'}
                 </a>
                 <br>
-                <a href="${pageContext.request.contextPath}/logout" class="login">
+                <a href="${pageContext.request.contextPath}/LogoutServlet" class="login">
                     🚪 Đăng xuất
                 </a>
             </div>
@@ -133,4 +133,4 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
-</script>
+</script>s

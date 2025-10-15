@@ -4,8 +4,12 @@ import com.mycompany.webhuongdannauan.dao.CategoryDAO;
 import com.mycompany.webhuongdannauan.dao.impl.CategoryDAOImpl;
 import com.mycompany.webhuongdannauan.model.Category;
 import com.mycompany.webhuongdannauan.model.Recipe;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class CategoryService {
 
@@ -36,5 +40,17 @@ public class CategoryService {
      */
     public Category getCategoryById(Long categoryId) {
         return categoryDAO.findById(categoryId);
+    }
+    
+    public Set<Category> getCategoriesByIds(String[] idStrings) {
+        if (idStrings == null || idStrings.length == 0) {
+            return Collections.emptySet();
+        }
+        
+        return Arrays.stream(idStrings)
+            .map(Long::parseLong)
+            .map(categoryDAO::findById) // Sử dụng findById của GenericDAOImpl
+            .filter(java.util.Objects::nonNull)
+            .collect(Collectors.toSet());
     }
 }

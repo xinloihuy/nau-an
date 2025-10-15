@@ -355,5 +355,17 @@ public class RecipeDAOImpl extends GenericDAOImpl<Recipe, Long> implements Recip
         }
         
     }
+    @Override
+    public List<Recipe> findAllWithAuthor() {
+        EntityManager em = HibernateUtil.getEntityManager();
+        try {
+            // SỬ DỤNG FETCH JOIN: Đảm bảo đối tượng author được tải
+            return em.createQuery(
+                "SELECT r FROM Recipe r LEFT JOIN FETCH r.author ORDER BY r.createdAt DESC", Recipe.class)
+                .getResultList();
+        } finally {
+            em.close();
+        }
+    }
 
 }

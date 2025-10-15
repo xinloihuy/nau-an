@@ -36,9 +36,9 @@
         </form>
 
         <p>Chưa có tài khoản? <a href="${pageContext.request.contextPath}/register">Đăng ký ngay</a></p>
-        <<p>
+        <p>
             Hoặc bạn là quản trị viên?
-            <a href="${pageContext.request.contextPath}/admin-login" 
+            <a href="${pageContext.request.contextPath}/admin/login" 
                style="color:#f57c00; font-weight:bold; text-decoration:none; transition:0.2s;">
                Đăng nhập Admin
             </a>
