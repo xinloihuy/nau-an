@@ -5,6 +5,7 @@ import com.mycompany.webhuongdannauan.model.BlogPost;
 import com.mycompany.webhuongdannauan.utils.HibernateUtil;
 import jakarta.persistence.EntityManager;
 import java.util.Collections;
+
 import java.util.List;
 
 public class BlogPostDAOImpl extends GenericDAOImpl<BlogPost, Long> implements BlogPostDAO {

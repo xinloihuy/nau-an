@@ -62,6 +62,7 @@
         <servlet-name>AdminUserServlet</servlet-name>
         <url-pattern>/admin/users</url-pattern>
     </servlet-mapping>
+
     <servlet>
         <servlet-name>BlogServlet</servlet-name>
         <servlet-class>com.mycompany.webhuongdannauan.controller.BlogServlet</servlet-class>
@@ -71,5 +72,6 @@
         <servlet-name>BlogServlet</servlet-name>
         <url-pattern>/blog</url-pattern>
     </servlet-mapping>
+
 
 </web-app>

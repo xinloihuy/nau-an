@@ -35,7 +35,6 @@
             
             <c:if test="${sessionScope.userId != null}">
                 <a href="${pageContext.request.contextPath}/favorites" class="menu-item">❤️ Yêu thích</a>
-                <a href="${pageContext.request.contextPath}/user/notifications" class="menu-item">🔔 Thông báo</a>
                 <a href="${pageContext.request.contextPath}/chatbox" class="menu-item">🗨️ ChatBox</a>
             </c:if>
 
@@ -87,7 +86,7 @@
     </c:choose>
 </aside>
         
-<button class="open-btn">🔔</button>
+
 
   <script>
     const toggleButton = document.querySelector('.toggle-sidebar');
@@ -135,4 +134,4 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
-</script>
+</script>s
