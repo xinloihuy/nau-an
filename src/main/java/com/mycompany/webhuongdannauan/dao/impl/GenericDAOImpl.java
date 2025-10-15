@@ -18,7 +18,10 @@ public abstract class GenericDAOImpl<T extends BaseEntity, ID extends Serializab
     public GenericDAOImpl() {
         this.persistentClass = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
     }
-
+    public GenericDAOImpl(EntityManager em) {
+        this.persistentClass = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass())
+            .getActualTypeArguments()[0];
+    }
     protected Class<T> getPersistentClass() {
         return persistentClass;
     }
