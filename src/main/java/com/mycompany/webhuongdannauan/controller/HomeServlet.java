@@ -15,7 +15,7 @@ import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet("/home")
+@WebServlet({"/home"})
 public class HomeServlet extends HttpServlet {
 
     private final RecipeService recipeService = new RecipeService();
@@ -59,10 +59,10 @@ public class HomeServlet extends HttpServlet {
         List<Recipe> premiumRecipes = recipeService.getVipRecipes(isPremium);
 
         // 4. Đặt dữ liệu vào Request Scope
-        req.setAttribute("featuredRecipes", recipesToShow);
-        req.setAttribute("premiumRecipes", premiumRecipes);
-        req.setAttribute("isPremiumUser", isPremium);
-        req.setAttribute("categoriesWithCount", categoryService.getAllCategoriesWithCount());
+        session.setAttribute("featuredRecipes", recipesToShow);
+        session.setAttribute("premiumRecipes", premiumRecipes);
+        session.setAttribute("isPremiumUser", isPremium);
+        session.setAttribute("categoriesWithCount", categoryService.getAllCategoriesWithCount());
 
 
         // 5. Chuyển tiếp tới trang chủ JSP

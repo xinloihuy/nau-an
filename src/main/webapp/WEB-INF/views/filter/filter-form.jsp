@@ -48,6 +48,20 @@
                     <label for="videoAny">Bất kỳ</label>
                 </div>
             </div>
+            
+            <div class="form-group">
+                <label>Loại Món Ăn:</label>
+                <div>
+                    <input type="radio" id="vipYes" name="isVip" value="true">
+                    <label for="vipYes">💎 Món VIP</label> 
+                    
+                    <input type="radio" id="vipNo" name="isVip" value="false">
+                    <label for="vipNo">Món Thường</label>
+                    
+                    <input type="radio" id="vipAny" name="isVip" value="" checked>
+                    <label for="vipAny">Bất kỳ</label>
+                </div>
+            </div>
 
             <button type="submit" class="buy-button">Lọc Kết Quả</button>
         </form>

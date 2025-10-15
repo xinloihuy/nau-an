@@ -6,6 +6,10 @@
     - sessionScope.username: Tên người dùng (hiển thị)
     - requestScope.categoriesWithCount: Map<Category, Long> cho Danh mục món ăn
 --%>
+<head>
+    <link rel="stylesheet" href="styles/sidebar.css">
+<link rel="stylesheet" href="styles/home.css">
+</head>
 
 <aside class="sidebar">
     <div>
@@ -34,7 +38,7 @@
             </c:if>
 
             <a href="${pageContext.request.contextPath}/tips" class="menu-item">👨‍🍳 Cooking Tips</a>
-            <a href="${pageContext.request.contextPath}/premium/plan" class="menu-item">💎 Gói Premium</a>
+            <a href="${pageContext.request.contextPath}/premium" class="menu-item">💎 Gói Premium</a>
         </div>
         
         <div class="menu-separator"></div> 
@@ -69,7 +73,8 @@
                 <a href="${pageContext.request.contextPath}/user/profile" class="login">
                     👤 ${sessionScope.username != null ? sessionScope.username : 'Tài khoản'}
                 </a>
-                <a href="${pageContext.request.contextPath}/logout" class="logout-btn">
+                <br>
+                <a href="${pageContext.request.contextPath}/logout" class="login">
                     🚪 Đăng xuất
                 </a>
             </div>
@@ -95,14 +100,13 @@
 
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const collapsible = document.querySelector('.category-title.collapsible');
-        const content = document.querySelector('.category-content');
-        const icon = collapsible?.querySelector('.collapse-icon');
-        
-        if (!collapsible || !content || !icon) return; // Phòng lỗi nếu không có element
-        
-        // Mở mặc định
+document.addEventListener('DOMContentLoaded', function() {
+    // Collapsible category
+    const collapsible = document.querySelector('.category-title.collapsible');
+    const content = document.querySelector('.category-content');
+    const icon = collapsible?.querySelector('.collapse-icon');
+    
+    if (collapsible && content && icon) {
         content.style.maxHeight = content.scrollHeight + "px";
         collapsible.classList.add('active');
         icon.textContent = '▼';
@@ -110,14 +114,23 @@
         collapsible.addEventListener('click', function() {
             this.classList.toggle('active');
             if (content.style.maxHeight) {
-                // Đang mở → đóng
                 content.style.maxHeight = null;
                 icon.textContent = '▶';
             } else {
-                // Đang đóng → mở
                 content.style.maxHeight = content.scrollHeight + "px";
                 icon.textContent = '▼';
             }
         });
-    });
+    }
+
+    // Toggle sidebar
+    const toggleBtn = document.querySelector('.toggle-sidebar-btn');
+    const sidebar = document.querySelector('.sidebar');
+    
+    if (toggleBtn && sidebar) {
+        toggleBtn.addEventListener('click', () => {
+            sidebar.classList.toggle('hidden');
+        });
+    }
+});
 </script>

@@ -35,14 +35,23 @@ public class FilterServlet extends HttpServlet {
         String categoryIdParam = req.getParameter("category");
         String maxTimeParam = req.getParameter("maxTime");
         String hasVideoParam = req.getParameter("hasVideo");
+        String isVipParam = req.getParameter("isVip");
 
-        if (keyword != null || categoryIdParam != null || maxTimeParam != null || hasVideoParam != null) {
-            // Xử lý Lọc
+        if (keyword != null || categoryIdParam != null || maxTimeParam != null || hasVideoParam != null || isVipParam != null) {
+            
+            // Xử lý chuyển đổi tham số
             Long categoryId = (categoryIdParam != null && !categoryIdParam.isBlank()) ? Long.parseLong(categoryIdParam) : null;
             Integer maxTime = (maxTimeParam != null && !maxTimeParam.isBlank()) ? Integer.parseInt(maxTimeParam) : null;
-            Boolean hasVideo = (hasVideoParam != null) ? Boolean.parseBoolean(hasVideoParam) : null;
-
-            List<Recipe> filteredRecipes = recipeService.getFilteredRecipes(keyword, categoryId, maxTime, hasVideo);
+            Boolean hasVideo = (hasVideoParam != null && !hasVideoParam.isBlank()) ? Boolean.parseBoolean(hasVideoParam) : null;
+            
+            // Xử lý isVip: Nếu là "true" hoặc "false", chuyển thành Boolean. Nếu là "" (Bất kỳ), để null.
+            Boolean isVip = null;
+            if (isVipParam != null && !isVipParam.isBlank()) {
+                isVip = Boolean.parseBoolean(isVipParam);
+            }
+            
+            // Gọi Service với tham số mới
+            List<Recipe> filteredRecipes = recipeService.getFilteredRecipes(keyword, categoryId, maxTime, hasVideo, isVip); // <--- THÊM isVip
             
             // Đặt kết quả vào Request Scope
             req.setAttribute("featuredRecipes", filteredRecipes); // Sử dụng lại tên này
