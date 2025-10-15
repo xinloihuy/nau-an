@@ -38,18 +38,25 @@ public class RecipeDAOImpl extends GenericDAOImpl<Recipe, Long> implements Recip
     }
 
     @Override
-    public List<Recipe> findFeaturedRecipes(int limit) {
-        // Món ăn nổi bật: Dựa trên viewCount trong ngày, hoặc đơn giản là tổng viewCount
-        EntityManager em = HibernateUtil.getEntityManager();
-        try {
-            TypedQuery<Recipe> query = em.createQuery(
-                "SELECT r FROM Recipe r ORDER BY r.viewCount DESC", Recipe.class);
-            query.setMaxResults(limit);
-            return query.getResultList();
-        } finally {
-            em.close();
+    public List<Recipe> findFeaturedRecipes(int limit, boolean isPremium) { // THÊM THAM SỐ isPremium
+    EntityManager em = HibernateUtil.getEntityManager();
+    try {
+        String jpql = "SELECT r FROM Recipe r WHERE 1=1 ";
+        
+        // CHỈ HIỂN THỊ MÓN VIP NẾU USER LÀ PREMIUM
+        if (!isPremium) {
+            jpql += "AND r.isVip = false "; 
         }
+        
+        jpql += "ORDER BY r.viewCount DESC";
+
+        TypedQuery<Recipe> query = em.createQuery(jpql, Recipe.class);
+        query.setMaxResults(limit);
+        return query.getResultList();
+    } finally {
+        em.close();
     }
+}
 
     @Override
     public List<Recipe> findByCategory(Long categoryId) {
@@ -87,12 +94,52 @@ public class RecipeDAOImpl extends GenericDAOImpl<Recipe, Long> implements Recip
     }
     
 
+ 
+
+    /** 2. Lấy tất cả món VIP */
+        public List<Recipe> findFeaturedNonVipRecipes(int limit) {
+        EntityManager em = HibernateUtil.getEntityManager();
+        try {
+            // Luôn lọc isVip = false
+            TypedQuery<Recipe> query = em.createQuery(
+                "SELECT r FROM Recipe r WHERE r.isVip = false ORDER BY r.viewCount DESC", Recipe.class);
+            query.setMaxResults(limit);
+            return query.getResultList();
+        } finally {
+            em.close();
+        }
+    }
+
+    /** 2. Lấy tất cả món VIP */
     @Override
     public List<Recipe> findVipRecipes() {
         EntityManager em = HibernateUtil.getEntityManager();
         try {
+            // Luôn lọc isVip = true
             TypedQuery<Recipe> query = em.createQuery(
-                "SELECT r FROM Recipe r WHERE r.isVip = true", Recipe.class);
+                "SELECT r FROM Recipe r WHERE r.isVip = true ORDER BY r.viewCount DESC", Recipe.class);
+            return query.getResultList();
+        } finally {
+            em.close();
+        }
+    }
+    
+    @Override
+    public List<Recipe> searchNonVipRecipes(String keyword) {
+        // Tái sử dụng logic Native Query từ filterRecipes nhưng chỉ lọc isVip=false
+        return filterRecipes(keyword, null, null, null, false);
+    }
+    
+    @Override
+    public List<Recipe> findNonVipByCategory(Long categoryId) {
+        EntityManager em = HibernateUtil.getEntityManager();
+        try {
+            TypedQuery<Recipe> query = em.createQuery(
+                "SELECT r FROM Recipe r JOIN r.categories c " +
+                "WHERE c.id = :categoryId AND r.isVip = false " + // <--- LỌC KÉP QUAN TRỌNG
+                "ORDER BY r.viewCount DESC", Recipe.class); 
+            
+            query.setParameter("categoryId", categoryId);
             return query.getResultList();
         } finally {
             em.close();
