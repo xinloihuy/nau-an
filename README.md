@@ -1,4 +1,3 @@
-# WEB_HUONG_DAN_NAU_AN
 # WEB HƯỚNG DẪN NẤU ĂN
 
 **Website hướng dẫn nấu ăn** được phát triển bằng **Java Servlet + JSP + Hibernate + MySQL**, cung cấp nền tảng cho người dùng tra cứu công thức nấu ăn, chia sẻ món ăn, và nâng cấp tài khoản Premium để truy cập nội dung đặc biệt.
@@ -19,7 +18,7 @@ Website được thiết kế theo mô hình **MVC (Model - View - Controller)**
 
 | Thành phần | Công nghệ |
 |-------------|-----------|
-| **Frontend** | HTML5, CSS3, Bootstrap 5, Chart.js, JSP (JSTL) |
+| **Frontend** | HTML5, CSS3, Chart.js, JSP (JSTL) |
 | **Backend** | Java Servlet, JSP, Hibernate ORM |
 | **Database** | MySQL |
 | **Build Tool** | Apache Maven |
