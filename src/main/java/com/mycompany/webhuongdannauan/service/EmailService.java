@@ -17,8 +17,8 @@ public class EmailService {
      * @throws MessagingException nếu gửi thất bại
      */
     public static void sendEmail(String to, String subject, String body) throws MessagingException, UnsupportedEncodingException {
-        final String from = "";
-        final String password = ""; // app password nếu dùng Gmail
+        final String from = "petopiashop.services@gmail.com";
+        final String password = "sjbr zsba lcdq wsql"; // app password nếu dùng Gmail
 
         // 1️⃣ Cấu hình SMTP server
         Properties props = new Properties();
