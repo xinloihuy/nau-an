@@ -18,7 +18,7 @@
     <%@ include file="/sidebar.jsp" %>
 
     <section class="main-content">
-        <button class="toggle-sidebar">☰</button>
+<!--        <button class="toggle-sidebar">☰</button>-->
         <header>
             <form action="home" method="GET" class="search-bar">
                 <input type="text" name="keyword" placeholder="Tìm tên món hay nguyên liệu..." value="${searchQuery != null ? searchQuery : ''}">

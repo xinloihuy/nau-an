@@ -198,6 +198,7 @@
             </li>
         </ul>
         <a href="${pageContext.request.contextPath}/LogoutServlet" class="logout">🚪 Đăng xuất</a>
+        <a href="${pageContext.request.contextPath}/home" class="logout">🚪 Home</a>
     </nav>
 
     <section>

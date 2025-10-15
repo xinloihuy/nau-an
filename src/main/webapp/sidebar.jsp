@@ -10,9 +10,10 @@
     <link rel="stylesheet" href="styles/sidebar.css">
 <link rel="stylesheet" href="styles/home.css">
 </head>
-
+<button class="toggle-sidebar">☰</button>
 <aside class="sidebar">
     <div>
+        
         <div class="logo-area">
             <div class="logo">
                 <a href="${pageContext.request.contextPath}/home" style="text-decoration: none; color: inherit;">
@@ -133,4 +134,4 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
-</script>s
+</script>
