@@ -210,7 +210,7 @@
             <div class="box">📝 Quản lý blog</div>
             <div class="box" onclick="location.href='${pageContext.request.contextPath}/admin/cooking-tips'">💡 Cooking Tip</div>
             <div class="box">💬 ChatBox hỗ trợ</div>
-            <div class="${pageContext.request.contextPath}/admin/statistics">📈 Thống kê</div>
+            <div class="box" onclick="location.href='${pageContext.request.contextPath}/admin/statistics'">📈 Thống kê</div>
         </div>
     </section>
 
