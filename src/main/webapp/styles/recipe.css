@@ -37,6 +37,14 @@ h2 {
     padding-left: 10px;
 }
 
+h3 {
+    font-size: 18px;
+    color: #4b2e00;
+    margin-bottom: 15px;
+    border-left: 3px solid #f57c00;
+    padding-left: 8px;
+}
+
 .description {
     font-size: 16px;
     color: #5a2d00;
@@ -61,9 +69,18 @@ h2 {
     margin-left: 10px;
 }
 
-/* --- Ảnh và Video --- */
-/* --- Ảnh và Video (Cập nhật trong recipe.css) --- */
+/* --- Thông báo chia sẻ --- */
+.share-notification {
+    background: #d4edda;
+    color: #155724;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    text-align: center;
+    border: 1px solid #c3e6cb;
+}
 
+/* --- Ảnh và Video --- */
 .media-section {
     display: flex;
     flex-direction: column;
@@ -72,10 +89,9 @@ h2 {
 }
 
 .main-image {
-    width: 100%;
-    aspect-ratio: 16 / 9; /* Hoặc 4/3 nếu ảnh vuông hơn */
+    width: 100%; /* Đảm bảo ảnh luôn vừa khung */
+    max-height: 400px;
     object-fit: cover;
-    object-position: center;
     border-radius: 8px;
     border: 3px solid #f2e3c5;
 }
@@ -111,6 +127,177 @@ h2 {
     font-size: 16px;
     color: #333;
     line-height: 1.8;
+}
+
+/* --- Phần tương tác mới --- */
+.interaction-section {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 2px solid #f4e6b3;
+}
+
+.rating-section, .favorite-section, .share-section, .comments-section {
+    margin-bottom: 30px;
+    padding: 20px;
+    background: #fff7e6;
+    border-radius: 8px;
+    border: 1px solid #f4e6b3;
+}
+
+/* --- Star Rating --- */
+.star-rating .stars {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 15px;
+}
+
+.star-rating input[type="radio"] {
+    display: none;
+}
+
+.star-rating label {
+    font-size: 28px;
+    color: #ddd;
+    cursor: pointer;
+    transition: color 0.2s;
+    user-select: none;
+}
+
+.star-rating label:hover,
+.star-rating input[type="radio"]:checked ~ label {
+    color: #f57c00;
+}
+
+.star-rating input[type="radio"]:checked ~ label {
+    text-shadow: 0 0 5px rgba(245, 124, 0, 0.5);
+}
+
+/* --- Buttons --- */
+.rating-btn, .favorite-btn, .share-btn, .comment-btn {
+    background: #f57c00;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: all 0.3s;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.rating-btn:hover, .favorite-btn:hover, .share-btn:hover, .comment-btn:hover {
+    background: #e46b00;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(245, 124, 0, 0.3);
+}
+
+.favorite-btn {
+    background: #e91e63;
+}
+
+.favorite-btn:hover {
+    background: #c2185b;
+}
+
+.share-btn {
+    background: #2196f3;
+}
+
+.share-btn:hover {
+    background: #1976d2;
+}
+
+/* --- Comments --- */
+.comment-form {
+    margin-bottom: 25px;
+}
+
+.comment-form textarea {
+    width: 100%;
+    height: 100px;
+    padding: 12px;
+    border: 2px solid #f4e6b3;
+    border-radius: 6px;
+    resize: vertical;
+    font-family: inherit;
+    font-size: 14px;
+    transition: border-color 0.3s;
+}
+
+.comment-form textarea:focus {
+    outline: none;
+    border-color: #f57c00;
+}
+
+.comment-form button {
+    margin-top: 10px;
+}
+
+.comments-list {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.comment-item {
+    background: white;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    border: 1px solid #f4e6b3;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.comment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #f2e3c5;
+}
+
+.comment-header strong {
+    color: #d46b08;
+    font-size: 16px;
+}
+
+.comment-date {
+    color: #777;
+    font-size: 12px;
+}
+
+.comment-content {
+    color: #333;
+    line-height: 1.6;
+    margin-bottom: 10px;
+}
+
+.comment-actions {
+    text-align: right;
+}
+
+.comment-actions a {
+    color: #f57c00;
+    text-decoration: none;
+    margin-left: 10px;
+    font-size: 12px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: background 0.3s;
+}
+
+.comment-actions a:hover {
+    background: #f2e3c5;
+}
+
+.edit-comment {
+    color: #2196f3 !important;
+}
+
+.delete-comment {
+    color: #f44336 !important;
 }
 
 /* --- Món ăn liên quan --- */
@@ -183,5 +370,26 @@ p a:hover {
 
     h2 {
         font-size: 22px;
+    }
+
+    h3 {
+        font-size: 16px;
+    }
+
+    .rating-section, .favorite-section, .share-section, .comments-section {
+        padding: 15px;
+    }
+
+    .star-rating label {
+        font-size: 24px;
+    }
+
+    .rating-btn, .favorite-btn, .share-btn, .comment-btn {
+        padding: 10px 20px;
+        font-size: 14px;
+    }
+
+    .comment-form textarea {
+        height: 80px;
     }
 }

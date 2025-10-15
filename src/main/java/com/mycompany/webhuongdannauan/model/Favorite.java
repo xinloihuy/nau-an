@@ -1,11 +1,9 @@
 package com.mycompany.webhuongdannauan.model;
 
-
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "favorites")
-// @UniqueConstraint({@UniqueConstraint(columnNames = {"user_id", "recipe_id"})})
 public class Favorite extends BaseEntity {
     
     // N-1 với User

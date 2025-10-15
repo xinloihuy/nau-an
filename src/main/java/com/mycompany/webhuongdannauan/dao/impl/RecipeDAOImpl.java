@@ -169,6 +169,43 @@ public class RecipeDAOImpl extends GenericDAOImpl<Recipe, Long> implements Recip
         }
     }
     
+    // PHẦN ĐƯỢC THÊM VÀO
+    @Override
+    public void updateAverageRating(Long recipeId) {
+        EntityManager em = HibernateUtil.getEntityManager();
+        try {
+            em.getTransaction().begin();
+
+            // Bước 1: Tính điểm trung bình từ bảng ratings
+            Double average = em.createQuery(
+                    "SELECT AVG(r.score) FROM Rating r WHERE r.recipe.id = :recipeId", Double.class)
+                .setParameter("recipeId", recipeId)
+                .getSingleResult();
+
+            // Nếu không có rating nào, đặt giá trị là 0.0
+            if (average == null) {
+                average = 0.0;
+            }
+
+            // Bước 2: Cập nhật điểm trung bình vào bảng recipes
+            em.createQuery(
+                    "UPDATE Recipe r SET r.averageRating = :avg WHERE r.id = :recipeId")
+                .setParameter("avg", average)
+                .setParameter("recipeId", recipeId)
+                .executeUpdate();
+
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            e.printStackTrace();
+            throw new RuntimeException("Could not update average rating for recipe " + recipeId, e);
+        } finally {
+            em.close();
+        }
+    }
+    
     @Override
     public List<Recipe> filterRecipes(String keyword, Long categoryId, Integer maxTime, Boolean hasVideo) {
         EntityManager em = HibernateUtil.getEntityManager();
