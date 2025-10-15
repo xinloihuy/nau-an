@@ -7,11 +7,14 @@
     <meta charset="UTF-8">
     <title>Hướng dẫn nấu ăn - Trang chủ</title>
     <link rel="stylesheet" href="styles/home.css">
+    <link rel="stylesheet" href="styles/sidebar.css">
+    
     
 </head>
 
 <body>
     <!-- Sidebar -->
+    
     <%@ include file="/sidebar.jsp" %>
 
     <section class="main-content">
@@ -66,7 +69,7 @@
                         </c:when>
                         <c:otherwise>
                             <div class="premium-item locked">
-                                <img src="images/locked.png" alt="Món VIP bị khóa">
+                                <img src="https://tse3.mm.bing.net/th/id/OIP.7brgm5QsB1_1evbf7eFczgHaHa?w=203&h=203&c=7&r=0&o=7&cb=12&dpr=1.6&pid=1.7&rm=3" alt="Món VIP bị khóa">
                                 <h3>[Đã Khóa]</h3>
                                 <p>Nâng cấp Premium để xem công thức này!</p>
                             </div>
@@ -78,7 +81,7 @@
         
     </section>
                 
-<!--        <button class="open-btn">🔔</button>-->
+        <!--<button class="open-btn">🔔</button>-->
 
         <script>
           const toggleButton = document.querySelector('.toggle-sidebar');

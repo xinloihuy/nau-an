@@ -1,0 +1,50 @@
+/* Sidebar mặc định hiện */
+.sidebar {
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    width: 260px;
+    flex-shrink: 0;
+}
+
+/* Khi ẩn: trượt ra ngoài màn hình */
+.sidebar.hidden {
+    transform: translateX(-100%);
+    opacity: 0;
+    pointer-events: none; /* Không cho click khi ẩn */
+}
+
+/* Nút toggle */
+.toggle-sidebar-btn {
+    position: fixed;
+    top: 16px;
+    left: 16px;
+    z-index: 1000;
+    background: #e67e22;
+    color: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 18px;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    display: none; /* Mặc định ẩn trên desktop */
+}
+
+/* Hiển thị nút trên mobile */
+@media (max-width: 768px) {
+    .toggle-sidebar-btn {
+        display: block;
+    }
+
+    .sidebar {
+        position: fixed;
+        height: 100vh;
+        top: 0;
+        left: 0;
+        z-index: 999;
+    }
+
+    .main-content {
+        padding-left: 0 !important;
+    }
+}
