@@ -190,7 +190,7 @@
                 <ul class="submenu" id="submenu">
                     <li><a href="#">👥 Quản lý người dùng</a></li>
                     <li><a href="#">🍲 Quản lý món ăn</a></li>
-                    <li><a href="#">📝 Quản lý blog</a></li>
+                    <li><a href="${pageContext.request.contextPath}/admin/blog">📝 Quản lý blog</a></li>
                     <li><a href="${pageContext.request.contextPath}/admin/cooking-tips">💡 Cooking Tip</a></li>
                      
                     <li><a href="${pageContext.request.contextPath}/admin/statistics">📈 Thống kê</a></li>
@@ -209,7 +209,7 @@
         <div class="feature-box">
             <div class="box" onclick="location.href='${pageContext.request.contextPath}/admin/users'">👥 Quản lý người dùng</div>
             <div class="box" onclick="location.href='${pageContext.request.contextPath}/admin/recipes'">🍲 Quản lý món ăn</div>
-            <div class="box">📝 Quản lý blog</div>
+            <div class="box"onclick="location.href='${pageContext.request.contextPath}/admin/blog'">📝 Quản lý blog</div>
             <div class="box" onclick="location.href='${pageContext.request.contextPath}/admin/cooking-tips'">💡 Cooking Tip</div>
             <div class="box" onclick="location.href='${pageContext.request.contextPath}/admin/chat'">💬 ChatBox hỗ trợ</div>
             <div class="box" onclick="location.href='${pageContext.request.contextPath}/admin/statistics'">📈 Thống kê</div>

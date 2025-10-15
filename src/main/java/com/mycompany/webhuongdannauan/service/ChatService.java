@@ -9,6 +9,8 @@ import com.mycompany.webhuongdannauan.dao.impl.UserDAOImpl;
 import com.mycompany.webhuongdannauan.model.ChatMessage;
 import com.mycompany.webhuongdannauan.model.ChatSession;
 import com.mycompany.webhuongdannauan.model.User;
+import com.mycompany.webhuongdannauan.utils.HibernateUtil;
+import jakarta.persistence.EntityManager;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -129,4 +131,12 @@ public class ChatService {
         }
         return false;
     }
+    public ChatSession getSessionById(Long sessionId) {
+    EntityManager em = HibernateUtil.getEntityManager();
+    try {
+        return em.find(ChatSession.class, sessionId);
+    } finally {
+        em.close();
+    }
+}
 }
