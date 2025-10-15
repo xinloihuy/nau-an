@@ -158,6 +158,7 @@
     </tbody>
 </table>
 
+<<<<<<< HEAD
 <!-- Form thêm người dùng (dưới bảng) -->
 <form class="add-form" action="${pageContext.request.contextPath}/AdminUserServlet" method="post">
     <input type="hidden" name="action" value="add">
@@ -175,6 +176,11 @@
 <div class="back">
     <a href="${pageContext.request.contextPath}/AdminLoginServlet">⬅ Quay lại Trang Admin</a>
 </div>
+=======
+    <div class="back">
+        <a href="${pageContext.request.contextPath}/admin/dashboard">⬅ Quay lại trang Admin</a>
+    </div>
+>>>>>>> bf07ce304d4ef905eabced53af5ae598033bb22e
 
 </body>
 </html>

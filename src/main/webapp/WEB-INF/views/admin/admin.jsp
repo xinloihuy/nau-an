@@ -1,8 +1,13 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page session="true" %>
 <%
-    if (session.getAttribute("admin") == null) {
-        response.sendRedirect(request.getContextPath() + "/admin-login");
+    // KIỂM TRA ĐÚNG KEY ĐƯỢC ĐẶT TRONG ADMINLOGINSERVLET
+    // VÀ ĐẢM BẢO GIÁ TRỊ CỦA NÓ LÀ TRUE
+    Boolean isAdmin = (Boolean) session.getAttribute("isAdmin"); 
+    
+    // Nếu session là null HOẶC không có key "isAdmin" HOẶC isAdmin = false
+    if (isAdmin == null || !isAdmin) { 
+        response.sendRedirect(request.getContextPath() + "/admin/login");
         return;
     }
 %>
@@ -201,7 +206,7 @@
 
         <div class="feature-box">
             <div class="box" onclick="location.href='${pageContext.request.contextPath}/admin/users'">👥 Quản lý người dùng</div>
-            <div class="box">🍲 Quản lý món ăn</div>
+            <div class="box" onclick="location.href='${pageContext.request.contextPath}/admin/recipes'">🍲 Quản lý món ăn</div>
             <div class="box">📝 Quản lý blog</div>
             <div class="box" onclick="location.href='${pageContext.request.contextPath}/admin/cooking-tips'">💡 Cooking Tip</div>
             <div class="box">➕ Đăng món mới</div>

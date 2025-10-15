@@ -31,6 +31,9 @@ public class Recipe extends BaseEntity {
     @Column(name = "view_count", nullable = false)
     private Long viewCount = 0L;
     
+    @Column(name = "cooking_time_minutes")
+    private Integer cookingTimeMinutes; 
+    
     // THÊM MỚI: Thuộc tính để lưu điểm đánh giá trung bình
     @Column(name = "average_rating")
     private Double averageRating = 0.0;
@@ -91,6 +94,14 @@ public class Recipe extends BaseEntity {
     public void setRatings(Set<Rating> ratings) { this.ratings = ratings; }
     public Set<Favorite> getFavorites() { return favorites; }
     public void setFavorites(Set<Favorite> favorites) { this.favorites = favorites; }
+    
+    public Integer getCookingTimeMinutes() {
+        return cookingTimeMinutes;
+    }
+
+    public void setCookingTimeMinutes(Integer cookingTimeMinutes) {
+        this.cookingTimeMinutes = cookingTimeMinutes;
+    }
     
     // THÊM MỚI: Getter và Setter cho averageRating
     public Double getAverageRating() { return averageRating; }

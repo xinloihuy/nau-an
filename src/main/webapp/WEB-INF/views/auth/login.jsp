@@ -37,11 +37,19 @@
         Chưa có tài khoản? <a href="${pageContext.request.contextPath}/register">Đăng ký ngay</a>
         <p>
             Hoặc bạn là quản trị viên?
+<<<<<<< HEAD
             <a href="${pageContext.request.contextPath}/admin-login" 
                style="color:#f57c00; font-weight:bold; text-decoration:none; transition:0.2s;">
                Đăng nhập Admin
             </a>
         </p>
+=======
+            <a href="${pageContext.request.contextPath}/admin/login" 
+               style="color:#f57c00; font-weight:bold; text-decoration:none; transition:0.2s;">
+               Đăng nhập Admin
+            </a>
+        </p> 
+>>>>>>> bf07ce304d4ef905eabced53af5ae598033bb22e
     </div>
 </div>
 

@@ -101,7 +101,7 @@
 <body>
     <div class="login-box">
         <h2>Đăng nhập Quản trị viên</h2>
-        <form action="${pageContext.request.contextPath}/AdminLoginServlet" method="post">
+        <form action="${pageContext.request.contextPath}/admin/login" method="post">
             <input type="text" name="username" placeholder="Tên đăng nhập" required><br>
             <input type="password" name="password" placeholder="Mật khẩu" required><br>
             <button type="submit">Đăng nhập</button>

@@ -172,5 +172,13 @@ public class UserService {
         return userDAO.findAll();
     }
     
+    public boolean isAdmin(User user) {
+    if (user == null || user.getRoles() == null) {
+        return false;
+    }
+    // Giả định Role 'ADMIN' có ID 1 hoặc bạn tìm theo tên
+    return user.getRoles().stream().anyMatch(role -> "ADMIN".equalsIgnoreCase(role.getName()));
+}
+    
     // ... các phương thức quản lý người dùng khác cho Admin
 }

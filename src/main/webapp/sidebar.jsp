@@ -37,7 +37,7 @@
                 <a href="${pageContext.request.contextPath}/user/notifications" class="menu-item">🔔 Thông báo</a>
             </c:if>
 
-            <a href="${pageContext.request.contextPath}/cooking-tips" class="menu-item">Cooking Tips</a>
+            <a href="${pageContext.request.contextPath}/cooking-tips" class="menu-item">👨‍🍳 Cooking Tips</a>
             <a href="${pageContext.request.contextPath}/premium" class="menu-item">💎 Gói Premium</a>
         </div>
         
