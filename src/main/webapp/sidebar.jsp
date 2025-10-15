@@ -36,6 +36,7 @@
             <c:if test="${sessionScope.userId != null}">
                 <a href="${pageContext.request.contextPath}/favorites" class="menu-item">❤️ Yêu thích</a>
                 <a href="${pageContext.request.contextPath}/user/notifications" class="menu-item">🔔 Thông báo</a>
+                <a href="${pageContext.request.contextPath}/chatbox" class="menu-item">🗨️ ChatBox</a>
             </c:if>
 
             <a href="${pageContext.request.contextPath}/cooking-tips" class="menu-item">👨‍🍳 Cooking Tips</a>

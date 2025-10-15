@@ -8,6 +8,7 @@
     <title>Công thức yêu thích - Nấu Ngon</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/recipe.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/favorites.css">
+    <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/static/cook_icon.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>

@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Quên mật khẩu | Cooking Guide</title>
+    <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/static/cook_icon.png">
     <style>
         body {
             font-family: "Segoe UI", sans-serif;

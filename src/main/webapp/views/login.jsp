@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <title>Đăng nhập | Cooking Guide</title>
     <link rel="stylesheet" href="styles/login.css">
+    <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/static/cook_icon.png">
 </head>
 <body>
 

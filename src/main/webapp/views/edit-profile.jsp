@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Chỉnh sửa hồ sơ</title>
+    <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/static/cook_icon.png">
     <style>
         body {
             font-family: "Segoe UI", sans-serif;

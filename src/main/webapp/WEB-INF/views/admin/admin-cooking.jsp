@@ -4,6 +4,7 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
+    <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/static/cook_icon.png">
     <title>Quản lý Cooking Tips</title>
     <style>
         body { font-family:'Segoe UI'; background:#fffdf8; margin:0; }

@@ -8,6 +8,7 @@
     <meta charset="UTF-8">
     <title>${recipe.title} - Chi tiết công thức</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/recipe.css">
+    <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/static/cook_icon.png">
 </head>
 <body>
     <div class="container">

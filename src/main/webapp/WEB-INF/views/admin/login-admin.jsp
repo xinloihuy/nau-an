@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Đăng nhập Quản trị viên</title>
+    <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/static/cook_icon.png">
     <style>
         /* Tổng thể */
         body {
