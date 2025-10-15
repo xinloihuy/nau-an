@@ -89,11 +89,14 @@ h3 {
 }
 
 .main-image {
-    width: 100%; /* Đảm bảo ảnh luôn vừa khung */
+    width: 100%;
+    height: auto; /* 👈 Quan trọng: để ảnh tự điều chỉnh chiều cao theo tỉ lệ */
     max-height: 400px;
-    object-fit: cover;
+    object-fit: contain; /* ✅ Hiển thị toàn bộ ảnh, không cắt */
+    object-position: center; /* Giữ ảnh ở giữa, tránh lệch */
     border-radius: 8px;
     border: 3px solid #f2e3c5;
+    background-color: #fdf6ec; /* 👈 Nền màu be nhẹ, che khoảng trắng nếu có */
 }
 
 /* Thêm container tỷ lệ để video không bị tràn */
