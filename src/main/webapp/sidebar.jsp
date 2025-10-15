@@ -33,7 +33,7 @@
             <a href="${pageContext.request.contextPath}/filter" class="menu-item">🧂 Bộ lọc Nâng cao</a>
             
             <c:if test="${sessionScope.userId != null}">
-                <a href="${pageContext.request.contextPath}/user/favorites" class="menu-item">❤️ Yêu thích</a>
+                <a href="${pageContext.request.contextPath}/favorites" class="menu-item">❤️ Yêu thích</a>
                 <a href="${pageContext.request.contextPath}/user/notifications" class="menu-item">🔔 Thông báo</a>
             </c:if>
 

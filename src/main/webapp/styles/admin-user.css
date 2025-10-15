@@ -1,0 +1,168 @@
+/* ==============================
+   ADMIN - USER MANAGEMENT
+   ============================== */
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #fdf6ec;
+    color: #4b2e00;
+    margin: 0;
+    padding: 0;
+}
+
+/* --- Tiêu đề --- */
+.page-title {
+    background: linear-gradient(135deg, #f57c00, #e65100);
+    color: white;
+    padding: 18px 30px;
+    margin: 0;
+    font-size: 22px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 600;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+/* --- Bảng người dùng --- */
+.user-table {
+    width: 90%;
+    margin: 35px auto;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+}
+
+.user-table th,
+.user-table td {
+    padding: 14px 16px;
+    border: 1px solid #f2e3c5;
+    text-align: left;
+    font-size: 15px;
+}
+
+.user-table th {
+    background-color: #fff3e0;
+    color: #d46b08;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.user-table tbody tr:hover {
+    background-color: #fdf9f3;
+}
+
+.user-table .roles {
+    color: #a14a00;
+    font-weight: 500;
+}
+
+/* Nút xóa */
+.delete-btn {
+    background-color: #e53935;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: background 0.2s;
+}
+.delete-btn:hover {
+    background-color: #c62828;
+    transform: scale(1.05);
+}
+
+/* --- Form thêm người dùng --- */
+.add-user-form {
+    width: 85%;
+    max-width: 600px;
+    margin: 25px auto 40px;
+    text-align: center;
+    background: #fff8e1;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.add-user-form input,
+.add-user-form select {
+    width: 100%;
+    max-width: 220px;
+    padding: 10px;
+    margin: 8px 4px;
+    border: 1px solid #f2e3c5;
+    border-radius: 6px;
+    font-size: 15px;
+    box-sizing: border-box;
+}
+
+.add-user-form button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.2s;
+    margin-top: 10px;
+}
+
+.add-user-form button:hover {
+    background-color: #388e3c;
+    transform: scale(1.03);
+}
+
+/* --- Nút quay lại --- */
+.back-link-container {
+    text-align: center;
+    margin: 35px 0 45px;
+}
+
+.back-link {
+    display: inline-block;
+    font-size: 17px;
+    background: linear-gradient(135deg, #f57c00, #e65100);
+    color: white;
+    padding: 12px 28px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.25s;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.back-link:hover {
+    background: linear-gradient(135deg, #e65100, #d35400);
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+    .user-table {
+        width: 95%;
+        font-size: 14px;
+    }
+    
+    .user-table th,
+    .user-table td {
+        padding: 10px 12px;
+    }
+    
+    .add-user-form {
+        width: 95%;
+        padding: 20px;
+    }
+    
+    .add-user-form input,
+    .add-user-form select {
+        max-width: 100%;
+        margin: 6px 0;
+    }
+}
