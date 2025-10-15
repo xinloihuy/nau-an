@@ -1,7 +1,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import="com.mycompany.webhuongdannauan.utils.YouTubeUtil" %> 
+<%@page import="com.mycompany.webhuongdannauan.utils.YouTubeUtil" %>
 <%@page import="com.mycompany.webhuongdannauan.model.Recipe" %>
-<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -13,7 +13,6 @@
     <div class="container">
         <p><a href="${pageContext.request.contextPath}/home">← Quay lại trang chủ</a></p>
 
-        <!-- Thông báo share -->
         <c:if test="${param.shared == 'true'}">
             <div class="share-notification">
                 <p>🎉 Cảm ơn bạn đã chia sẻ công thức này!</p>
@@ -27,6 +26,11 @@
         </h1>
         <p class="description">${recipe.description}</p>
         <p class="info">Tác giả: ${recipe.author.nickname} | Lượt xem: ${recipe.viewCount}</p>
+        
+        <%-- Hiển thị điểm rating trung bình (Dữ liệu này sẽ được truyền từ RecipeDetailServlet) --%>
+        <c:if test="${avgRating > 0}">
+             <p class="info">Đánh giá: ${String.format("%.1f", avgRating)} ★</p>
+        </c:if>
 
         <div class="media-section">
             <img src="${recipe.imageUrl}" alt="${recipe.title}" class="main-image">
@@ -63,26 +67,25 @@
             <pre>${recipe.steps}</pre>
         </div>
 
-        <!-- Phần tương tác mới -->
         <div class="interaction-section">
             <h2>Tương tác</h2>
             
-            <!-- Rating Section -->
             <div class="rating-section">
                 <h3>Đánh giá món ăn</h3>
                 <div class="star-rating">
-                    <form action="${pageContext.request.contextPath}/api/recipes/${recipe.id}/rate" method="POST">
-                        <input type="hidden" name="userId" value="${sessionScope.user.id}">
+                    <form action="${pageContext.request.contextPath}/rate" method="POST">
+                        <input type="hidden" name="recipeId" value="${recipe.id}">
+                        
                         <div class="stars">
-                            <input type="radio" name="score" value="1" id="star1">
+                            <input type="radio" name="ratingValue" value="1" id="star1" required>
                             <label for="star1">★</label>
-                            <input type="radio" name="score" value="2" id="star2">
+                            <input type="radio" name="ratingValue" value="2" id="star2">
                             <label for="star2">★</label>
-                            <input type="radio" name="score" value="3" id="star3">
+                            <input type="radio" name="ratingValue" value="3" id="star3">
                             <label for="star3">★</label>
-                            <input type="radio" name="score" value="4" id="star4">
+                            <input type="radio" name="ratingValue" value="4" id="star4">
                             <label for="star4">★</label>
-                            <input type="radio" name="score" value="5" id="star5">
+                            <input type="radio" name="ratingValue" value="5" id="star5">
                             <label for="star5">★</label>
                         </div>
                         <button type="submit" class="rating-btn">Đánh giá</button>
@@ -90,31 +93,38 @@
                 </div>
             </div>
             
-            <!-- Favorite Section -->
             <div class="favorite-section">
-                <form action="${pageContext.request.contextPath}/api/users/${sessionScope.user.id}/favorites" method="POST">
+                <form action="${pageContext.request.contextPath}/favorite" method="POST">
                     <input type="hidden" name="recipeId" value="${recipe.id}">
-                    <button type="submit" class="favorite-btn">❤️ Thêm vào yêu thích</button>
+                    
+                    <c:choose>
+                        <c:when test="${isFavorited}">
+                            <input type="hidden" name="action" value="remove">
+                            <button type="submit" class="favorite-btn favorited">💔 Xóa khỏi yêu thích</button>
+                        </c:when>
+                        <c:otherwise>
+                            <input type="hidden" name="action" value="add">
+                            <button type="submit" class="favorite-btn">❤️ Thêm vào yêu thích</button>
+                        </c:otherwise>
+                    </c:choose>
                 </form>
             </div>
             
-            <!-- Share Section -->
             <div class="share-section">
-                <a href="${pageContext.request.contextPath}/share/recipe/${recipe.id}" class="share-btn">📤 Chia sẻ</a>
+                <p>Để chia sẻ, hãy sao chép đường dẫn sau:</p>
+                <input type="text" value="${pageContext.request.scheme}://${pageContext.request.serverName}:${pageContext.request.serverPort}${pageContext.request.contextPath}/recipe?id=${recipe.id}" readonly style="width: 100%; padding: 5px;">
             </div>
             
-            <!-- Comments Section -->
             <div class="comments-section">
                 <h3>Bình luận</h3>
                 
-                <!-- Add Comment Form -->
-                <form action="${pageContext.request.contextPath}/api/recipes/${recipe.id}/comments" method="POST" class="comment-form">
-                    <input type="hidden" name="userId" value="${sessionScope.user.id}">
-                    <textarea name="content" placeholder="Viết bình luận của bạn..." required></textarea>
+                <form action="${pageContext.request.contextPath}/comment" method="POST" class="comment-form">
+                    <input type="hidden" name="recipeId" value="${recipe.id}">
+                    <input type="hidden" name="action" value="add">
+                    <textarea name="commentText" placeholder="Viết bình luận của bạn..." required></textarea>
                     <button type="submit" class="comment-btn">Gửi bình luận</button>
                 </form>
                 
-                <!-- Comments List -->
                 <div class="comments-list">
                     <c:forEach var="comment" items="${comments}">
                         <div class="comment-item">
@@ -123,12 +133,18 @@
                                 <span class="comment-date">${comment.createdAt}</span>
                             </div>
                             <div class="comment-content">${comment.content}</div>
+                            
                             <c:if test="${sessionScope.user.id == comment.user.id}">
                                 <div class="comment-actions">
-                                    <a href="${pageContext.request.contextPath}/api/comments/${comment.id}" 
-                                       class="edit-comment" onclick="return confirm('Sửa bình luận?')">Sửa</a>
-                                    <a href="${pageContext.request.contextPath}/api/comments/${comment.id}" 
-                                       class="delete-comment" onclick="return confirm('Xóa bình luận?')">Xóa</a>
+                                    <form action="${pageContext.request.contextPath}/comment" method="POST" style="display: inline;">
+                                        <input type="hidden" name="recipeId" value="${recipe.id}"> <input type="hidden" name="commentId" value="${comment.id}">
+                                        <input type="hidden" name="action" value="delete">
+                                        <button type="submit" class="link-button" onclick="return confirm('Bạn chắc chắn muốn xóa bình luận này?')">Xóa</button>
+                                    </form>
+                                    <%-- <form action="${pageContext.request.contextPath}/edit-comment" method="GET" style="display: inline;">
+                                        <input type="hidden" name="commentId" value="${comment.id}">
+                                        <button type="submit" class="link-button">Sửa</button>
+                                    </form> --%>
                                 </div>
                             </c:if>
                         </div>

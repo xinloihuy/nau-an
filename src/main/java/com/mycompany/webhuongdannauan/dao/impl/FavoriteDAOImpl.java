@@ -124,7 +124,7 @@ public class FavoriteDAOImpl implements FavoriteDAO {
         EntityManager em = HibernateUtil.getEntityManager();
         try {
             TypedQuery<Recipe> query = em.createQuery(
-                "SELECT f.recipe FROM Favorite f WHERE f.user.id = :userId ORDER BY f.createdAt DESC", 
+                "SELECT f.recipe FROM Favorite f JOIN FETCH f.recipe.author WHERE f.user.id = :userId ORDER BY f.createdAt DESC", 
                 Recipe.class
             );
             query.setParameter("userId", userId);
