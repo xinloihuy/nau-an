@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
-@WebServlet("/statistics")
+@WebServlet("/admin/statistics")
 public class AdminStatisticServlet extends HttpServlet {
     private final UserDAOImpl userDAO = new UserDAOImpl();
     private final RecipeDAOImpl recipeDAO = new RecipeDAOImpl();

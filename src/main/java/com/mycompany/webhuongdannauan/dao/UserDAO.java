@@ -17,4 +17,6 @@ public interface UserDAO extends GenericDAO<User, Long> {
     long countPremiumUsers();
     Map<String, Long> countUsersByMonth();
     List<User> getAllUsers();
+    void addUser(String username, String email, String password, String role);
+    void deleteUser(int id);
 }
