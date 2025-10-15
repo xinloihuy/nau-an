@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <title>Đăng nhập | Cooking Guide</title>
     <link rel="stylesheet" href="styles/login.css">
+    <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/static/cook_icon.png">
 </head>
 <body>
 
@@ -31,11 +32,28 @@
         </div>
 
         <button type="submit" class="btn-login">Đăng nhập</button>
+        <div style="margin-top:12px;">
+            <a href="${pageContext.request.contextPath}/forgot-password"
+               style="color:#ff5722;text-decoration:none;font-size:14px;font-weight:500;">
+                🔑 Quên mật khẩu?
+            </a>
+        </div>
     </form>
 
     <div class="register-link">
         Chưa có tài khoản? <a href="${pageContext.request.contextPath}/register">Đăng ký ngay</a>
     </div>
+    <div class="register-link">
+        <p>
+            Hoặc bạn là quản trị viên?
+
+            <a href="${pageContext.request.contextPath}/admin/login" 
+               style="color:#f57c00; font-weight:bold; text-decoration:none; transition:0.2s;">
+               Đăng nhập Admin
+            </a>
+        </p> 
+    </div>
+    
 </div>
 
 </body>

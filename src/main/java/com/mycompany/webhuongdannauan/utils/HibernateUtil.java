@@ -24,7 +24,7 @@ public class HibernateUtil {
             properties.put("jakarta.persistence.jdbc.user",
                     EnvConfig.get("DB_USER", "root"));
             properties.put("jakarta.persistence.jdbc.password",
-                    EnvConfig.get("DB_PASSWORD", "root"));
+                    EnvConfig.get("DB_PASSWORD", "1234"));
 
             // ⚙️ Tạo EntityManagerFactory với cấu hình được nạp
             entityManagerFactory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME, properties);

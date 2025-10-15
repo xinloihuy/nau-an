@@ -33,11 +33,10 @@
             <a href="${pageContext.request.contextPath}/filter" class="menu-item">🧂 Bộ lọc Nâng cao</a>
             
             <c:if test="${sessionScope.userId != null}">
-                <a href="${pageContext.request.contextPath}/user/favorites" class="menu-item">❤️ Yêu thích</a>
-                <a href="${pageContext.request.contextPath}/user/notifications" class="menu-item">🔔 Thông báo</a>
+                <a href="${pageContext.request.contextPath}/favorites" class="menu-item">❤️ Yêu thích</a>
+                <a href="${pageContext.request.contextPath}/chatbox" class="menu-item">🗨️ ChatBox</a>
             </c:if>
-
-            <a href="${pageContext.request.contextPath}/tips" class="menu-item">👨‍🍳 Cooking Tips</a>
+            <a href="${pageContext.request.contextPath}/cooking-tips" class="menu-item">👨‍🍳 Cooking Tips</a>
             <a href="${pageContext.request.contextPath}/premium" class="menu-item">💎 Gói Premium</a>
         </div>
         
@@ -74,7 +73,7 @@
                     👤 ${sessionScope.username != null ? sessionScope.username : 'Tài khoản'}
                 </a>
                 <br>
-                <a href="${pageContext.request.contextPath}/logout" class="login">
+                <a href="${pageContext.request.contextPath}/LogoutServlet" class="login">
                     🚪 Đăng xuất
                 </a>
             </div>
@@ -85,7 +84,7 @@
     </c:choose>
 </aside>
         
-<button class="open-btn">🔔</button>
+
 
   <script>
     const toggleButton = document.querySelector('.toggle-sidebar');
@@ -133,4 +132,4 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
-</script>
+</script>s

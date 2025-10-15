@@ -5,22 +5,23 @@
 <head>
     <meta charset="UTF-8">
     <title>Đăng ký | Cooking Guide</title>
+    <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/static/cook_icon.png">
     <style>
         :root {
             --primary-color: #ff8c00;
             --secondary-color: #ff5722;
-            --dark-color: #333333;
-            --light-color: #ffffff;
-            --gray-color: #666666;
+            --dark-color: #333;
+            --light-color: #fff;
+            --gray-color: #666;
             --light-gray: #f5f5f5;
             --border-color: #e0e0e0;
             --success-color: #4caf50;
+            --danger-color: #e53935;
         }
 
         body {
             font-family: "Segoe UI", sans-serif;
             margin: 0;
-            padding: 0;
             background: linear-gradient(135deg, var(--light-gray), var(--light-color));
             display: flex;
             justify-content: center;
@@ -29,7 +30,7 @@
         }
 
         .register-container {
-            background-color: var(--light-color);
+            background: var(--light-color);
             padding: 40px 50px;
             border-radius: 12px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
@@ -53,40 +54,55 @@
             text-align: left;
         }
 
-        .input-group label {
+        label {
             display: block;
             font-weight: bold;
             color: var(--dark-color);
             margin-bottom: 5px;
         }
 
-        .input-group input {
+        input {
             width: 100%;
             padding: 10px 12px;
             border: 1px solid var(--border-color);
             border-radius: 6px;
             font-size: 14px;
-            background-color: var(--light-gray);
+            background: var(--light-gray);
             transition: 0.2s;
         }
 
-        .input-group input:focus {
+        input:focus {
             outline: none;
             border-color: var(--primary-color);
             box-shadow: 0 0 3px var(--secondary-color);
-            background-color: var(--light-color);
+            background: var(--light-color);
         }
 
-        .btn-register {
+        button {
             width: 100%;
-            background-color: var(--primary-color);
-            color: var(--light-color);
-            border: none;
             padding: 12px;
+            border: none;
             border-radius: 6px;
             font-size: 15px;
             cursor: pointer;
-            transition: background 0.3s;
+            transition: 0.3s;
+        }
+
+        .btn-send {
+            background-color: var(--gray-color);
+            color: white;
+            font-size: 14px;
+            margin-top: 8px;
+        }
+
+        .btn-send:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .btn-register {
+            background-color: var(--primary-color);
+            color: var(--light-color);
+            margin-top: 10px;
         }
 
         .btn-register:hover {
@@ -94,9 +110,17 @@
         }
 
         .message {
-            margin-top: 15px;
+            margin: 10px 0;
             color: var(--secondary-color);
             font-size: 14px;
+        }
+
+        .success {
+            color: var(--success-color);
+        }
+
+        .error {
+            color: var(--danger-color);
         }
 
         .login-link {
@@ -115,6 +139,10 @@
             text-decoration: underline;
             color: var(--secondary-color);
         }
+
+        #otpSection {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -123,18 +151,16 @@
     <img src="${pageContext.request.contextPath}/static/cook_icon.png" alt="Cooking Logo">
     <h2>Tạo tài khoản Cooking Guide</h2>
 
-    <!-- Thông báo lỗi -->
     <c:if test="${not empty requestScope.error}">
-        <div class="message">${requestScope.error}</div>
+        <div class="message error">${requestScope.error}</div>
     </c:if>
 
-    <!-- Thông báo thành công -->
     <c:if test="${not empty requestScope.success}">
-        <div class="message" style="color: var(--success-color);">${requestScope.success}</div>
+        <div class="message success">${requestScope.success}</div>
     </c:if>
 
     <!-- Form đăng ký -->
-    <form action="${pageContext.request.contextPath}/register" method="post">
+    <form id="registerForm" action="${pageContext.request.contextPath}/register" method="post">
         <div class="input-group">
             <label for="username">Tên đăng nhập *</label>
             <input type="text" id="username" name="username" required placeholder="Nhập tên đăng nhập">
@@ -148,6 +174,15 @@
         <div class="input-group">
             <label for="email">Email *</label>
             <input type="email" id="email" name="email" required placeholder="Nhập email hợp lệ">
+            <button type="button" class="btn-send" onclick="sendOtp()">Gửi mã OTP</button>
+            <div id="emailMsg" class="message"></div>
+        </div>
+
+        <div id="otpSection" class="input-group">
+            <label for="otp">Mã OTP</label>
+            <input type="text" id="otp" maxlength="6" placeholder="Nhập mã gồm 6 chữ số">
+            <button type="button" class="btn-send" onclick="verifyOtp()">Xác thực mã OTP</button>
+            <div id="otpMsg" class="message"></div>
         </div>
 
         <div class="input-group">
@@ -159,8 +194,7 @@
             <label for="age">Tuổi</label>
             <input type="number" id="age" name="age" min="1" max="120" placeholder="Nhập tuổi của bạn">
         </div>
-
-        <button type="submit" class="btn-register">Đăng ký</button>
+        <button type="submit" id="registerBtn" class="btn-register" disabled>Đăng ký</button>
     </form>
 
     <div class="login-link">
@@ -168,5 +202,77 @@
     </div>
 </div>
 
+<script>
+    let verifiedEmail = false;
+
+    function sendOtp() {
+        const email = document.getElementById("email").value.trim();
+        const emailMsg = document.getElementById("emailMsg");
+
+        if (!email) {
+            emailMsg.textContent = "Vui lòng nhập email hợp lệ!";
+            emailMsg.className = "message error";
+            return;
+        }
+
+        emailMsg.textContent = "⏳ Đang gửi mã OTP...";
+        emailMsg.className = "message";
+
+        fetch("${pageContext.request.contextPath}/send-otp", {
+            method: "POST",
+            headers: {"Content-Type": "application/x-www-form-urlencoded"},
+            body: "email=" + encodeURIComponent(email)
+        })
+            .then(r => r.text())
+            .then(text => {
+                // Kiểm tra nội dung phản hồi
+                if (text.startsWith("SUCCESS")) {
+                    emailMsg.textContent = text;
+                    emailMsg.className = "message success";
+                    document.getElementById("otpSection").style.display = "block";
+                } else {
+                    emailMsg.textContent = text;
+                    emailMsg.className = "message error";
+                }
+            })
+            .catch(() => {
+                emailMsg.textContent = "❌ Không thể gửi OTP, thử lại.";
+                emailMsg.className = "message error";
+            });
+    }
+
+    function verifyOtp() {
+        const otp = document.getElementById("otp").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const otpMsg = document.getElementById("otpMsg");
+        if (!otp) {
+            otpMsg.textContent = "Vui lòng nhập mã OTP!";
+            otpMsg.className = "message error";
+            return;
+        }
+
+        fetch("${pageContext.request.contextPath}/verify-otp", {
+            method: "POST",
+            headers: {"Content-Type": "application/x-www-form-urlencoded"},
+            body: "email=" + encodeURIComponent(email) + "&otp=" + encodeURIComponent(otp)
+        })
+            .then(r => r.text())
+            .then(resp => {
+                if (resp.includes("SUCCESS:") || resp.toLowerCase().includes("thành công")) {
+                    otpMsg.textContent = "✅ Xác thực thành công!";
+                    otpMsg.className = "message success";
+                    verifiedEmail = true;
+                    document.getElementById("registerBtn").disabled = false;
+                } else {
+                    otpMsg.textContent = "❌ Mã OTP không hợp lệ hoặc đã hết hạn!";
+                    otpMsg.className = "message error";
+                }
+            })
+            .catch(() => {
+                otpMsg.textContent = "❌ Không thể xác thực OTP, thử lại.";
+                otpMsg.className = "message error";
+            });
+    }
+</script>
 </body>
 </html>

@@ -12,11 +12,9 @@ import java.util.List;
 public class RecipeService {
 
     private final RecipeDAO recipeDAO;
-    private final UserService userService; // Cần thiết để kiểm tra quyền Premium
+    private final UserService userService;
     private final GenericDAOImpl<ViewHistory, Long> viewHistoryDAO;
 
-    // Giới hạn mặc định cho các món nổi bật
-    private static final int FEATURED_LIMIT = 8;
     private static final int RELATED_LIMIT = 4;
 
     public RecipeService() {
@@ -25,62 +23,64 @@ public class RecipeService {
         this.viewHistoryDAO = new GenericDAOImpl<ViewHistory, Long>() {};
     }
 
-    // --- 1. Chức năng Hiển thị (Trang chủ) ---
+    // ----------------------------------------------------
+    // --- 1. CHỨC NĂNG TRANG CHỦ & PHÂN TÁCH VIP/THƯỜNG ---
+    // ----------------------------------------------------
 
     /**
-     * Lấy danh sách các món ăn nổi bật (dựa trên lượt xem cao nhất).
+     * Lấy danh sách món ăn thịnh hành (CHỈ MÓN THƯỜNG: isVip=false).
      */
     public List<Recipe> getFeaturedRecipes(int limit) {
-        return recipeDAO.findFeaturedRecipes(limit);
+        return recipeDAO.findFeaturedNonVipRecipes(limit);
     }
     
     /**
-     * Lấy danh sách món VIP. Nếu người dùng là Premium, hiển thị món thật.
+     * Lấy danh sách MÓN VIP (isVip=true).
      */
-    public List<Recipe> getVipRecipes(boolean isPremium) {
-        if (isPremium) {
-            return recipeDAO.findVipRecipes();
-        } else {
-            // Nếu không phải Premium, chỉ hiển thị một vài món VIP để khuyến khích mua gói, 
-            // nhưng không tiết lộ thông tin chi tiết (hoặc hiển thị placeholder).
-            // Logic ở đây sẽ chỉ lấy một số món isVip=true.
-            return recipeDAO.findVipRecipes(); 
-        }
+    public List<Recipe> getVipRecipes() {
+        return recipeDAO.findVipRecipes();
     }
 
-    // --- 2. Chức năng Tìm kiếm & Phân loại ---
+    // ----------------------------------------------------
+    // --- 2. CHỨC NĂNG TÌM KIẾM & PHÂN LOẠI ---
+    // ----------------------------------------------------
 
     /**
-     * Tìm kiếm món ăn theo từ khóa trong tiêu đề và mô tả.
+     * Tìm kiếm món ăn theo từ khóa (CHỈ MÓN THƯỜNG).
      */
-    public List<Recipe> searchRecipes(String keyword) {
+    public List<Recipe> searchNonVipRecipes(String keyword) {
         if (keyword == null || keyword.trim().isEmpty()) {
+            // Nếu không có từ khóa, trả về danh sách trống hoặc món thịnh hành
             return Collections.emptyList();
         }
-        return recipeDAO.searchByKeyword(keyword);
+        // Gọi DAO tìm kiếm được sửa đổi để chỉ tìm món isVip=false
+        return recipeDAO.searchNonVipRecipes(keyword);
     }
 
     /**
      * Lấy danh sách món ăn theo chủ đề (Category).
+     * Hàm này được sử dụng cho CategoryServlet.
      */
     public List<Recipe> getRecipesByCategory(Long categoryId) {
+        // Giả định DAO này tự động loại trừ món VIP (hoặc cần kiểm tra logic DAO)
         return recipeDAO.findByCategory(categoryId);
     }
 
-    // --- 3. Chức năng Xem chi tiết món ăn ---
+    // ----------------------------------------------------
+    // --- 3. CHỨC NĂNG XEM CHI TIẾT & LỊCH SỬ ---
+    // ----------------------------------------------------
 
     /**
      * Lấy chi tiết món ăn, cập nhật lượt xem và lịch sử xem.
      */
-     public Recipe getRecipeDetails(Long recipeId, Long userId) {
-        // THAY ĐỔI: Sử dụng phương thức DAO mới để đảm bảo Categories được tải
-        Recipe recipe = recipeDAO.findByIdWithCategories(recipeId); 
+    public Recipe getRecipeDetails(Long recipeId, Long userId) {
+        // Dùng findByIdWithCategories để tải EAGERLY Author và Categories
+        Recipe recipe = recipeDAO.findByIdWithCategories(recipeId);
         
         if (recipe != null) {
-            // 3a. Cập nhật lượt xem (vẫn cần cập nhật thủ công vì dùng findByIdWithCategories)
-            recipeDAO.updateViewCount(recipeId); 
+            recipeDAO.updateViewCount(recipeId); // Cập nhật lượt xem
             
-            // 3b. Cập nhật lịch sử xem
+            // Cập nhật lịch sử xem (Chỉ cho User)
             if (userId != null) {
                 User user = userService.findUserById(userId);
                 if (user != null) {
@@ -98,16 +98,49 @@ public class RecipeService {
         ViewHistory history = new ViewHistory();
         history.setUser(user);
         history.setRecipe(recipe);
-        viewHistoryDAO.save(history); // Sử dụng Generic DAO cho thao tác CRUD
+        viewHistoryDAO.save(history); 
     }
-
-    // --- 4. Chức năng Premium & Gợi ý ---
-
-    /**
-     * Kiểm tra quyền Premium và gợi ý món ăn liên quan.
-     */
+    
+    // --- Gợi ý Món ăn Liên quan ---
     public List<Recipe> getRelatedRecipes(Recipe currentRecipe) {
         return recipeDAO.findRelatedRecipes(currentRecipe, RELATED_LIMIT);
+    }
+
+    // ----------------------------------------------------
+    // --- 4. CHỨC NĂNG QUẢN LÝ (Admin/Premium User) ---
+    // ----------------------------------------------------
+
+    /**
+     * Lấy tất cả món ăn cùng với Author (dành cho trang Admin).
+     */
+    public List<Recipe> getAllRecipes() {
+        return recipeDAO.findAllWithAuthor(); 
+    }
+    
+    /**
+     * Lọc nâng cao (dùng cho FilterServlet).
+     */
+    public List<Recipe> getFilteredRecipes(String keyword, Long categoryId, Integer maxTime, Boolean hasVideo, Boolean isVip) {
+        return recipeDAO.filterRecipes(keyword, categoryId, maxTime, hasVideo, isVip);
+    }
+
+    /**
+     * Đăng tải/Cập nhật món ăn (Premium/Admin).
+     */
+    public void saveOrUpdateRecipe(Recipe recipe) {
+        recipeDAO.save(recipe);
+    }
+    
+    /**
+     * Xóa món ăn theo ID (Admin).
+     */
+    public boolean deleteRecipe(Long recipeId) {
+        Recipe recipe = recipeDAO.findById(recipeId);
+        if (recipe != null) {
+            recipeDAO.delete(recipe);
+            return true;
+        }
+        return false;
     }
     
     /**
@@ -116,7 +149,6 @@ public class RecipeService {
     public boolean uploadNewRecipe(Recipe recipe, Long authorId) {
         User author = userService.findUserById(authorId);
         
-        // Kiểm tra xem tác giả có phải là Premium không
         if (author == null || !userService.isUserPremium(author)) {
             return false;
         }
@@ -124,21 +156,5 @@ public class RecipeService {
         recipe.setAuthor(author);
         recipeDAO.save(recipe);
         return true;
-    }
-
-    // --- 5. Thao tác CRUD cơ bản cho Admin/Tác giả (Dùng GenericDAOImpl/RecipeDAOImpl) ---
-    
-    // Admin/Tác giả chỉnh sửa
-    public void updateRecipe(Recipe recipe) {
-        recipeDAO.save(recipe); // save() trong GenericDAOImpl xử lý cả update
-    }
-
-    // Admin xóa
-    public void deleteRecipe(Long recipeId) {
-        recipeDAO.deleteById(recipeId);
-    }
-    
-    public List<Recipe> getFilteredRecipes(String keyword, Long categoryId, Integer maxTime, Boolean hasVideo, Boolean isVip) {
-        return recipeDAO.filterRecipes(keyword, categoryId, maxTime, hasVideo, isVip); // <--- THÊM isVip
     }
 }

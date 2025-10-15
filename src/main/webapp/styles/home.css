@@ -89,6 +89,20 @@ body {
   text-decoration: none; /* Remove underline from login link */
 }
 
+.user-area .login {
+    text-decoration: none;      /* Bỏ gạch chân */
+    border: none;               /* Bỏ viền nếu có */
+    display: block;             /* Để xuống dòng đẹp */
+    padding: 1px 0;             /* Khoảng cách dọc */
+    color: inherit;             /* Giữ màu chữ như cha */
+    transition: color 0.2s;     /* Hiệu ứng hover mượt */
+}
+
+.user-area .login:hover {
+    color: #e67e22;             /* Đổi màu khi hover (tùy chọn) */
+    text-decoration: none;      /* Đảm bảo không có gạch chân khi hover */
+}
+
 /* Nội dung chính */
 .main-content {
   flex: 1;
@@ -291,4 +305,39 @@ footer {
 
 .category-section .category-content.show {
     max-height: 1000px; /* Hoặc dùng JS để set chính xác */
+}
+
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.header-icons {
+    position: relative;
+}
+.icon-btn {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #555;
+    cursor: pointer;
+    position: relative;
+    text-decoration: none;
+    margin-right: 10px;
+}
+.badge {
+    position: absolute;
+    top: -5px;
+    right: -10px;
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
 }

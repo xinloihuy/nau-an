@@ -5,6 +5,7 @@
   <meta charset="UTF-8">
   <title>Blog Ẩm Thực</title>
   <link rel="stylesheet" href="styles/home.css">
+  <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/static/cook_icon.png">
 </head>
 
 <body>

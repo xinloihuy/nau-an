@@ -8,6 +8,7 @@
     <title>Công thức yêu thích - Nấu Ngon</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/recipe.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/favorites.css">
+    <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/static/cook_icon.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
@@ -96,7 +97,7 @@
                                             <i class="fas fa-star"></i>
                                             <i class="fas fa-star"></i>
                                         </div>
-                                        <span>4.5 (123 đánh giá)</span>
+                                        <span>4 (5 đánh giá)</span>
                                     </div>
                                     
                                     <div class="recipe-card-actions">
@@ -105,13 +106,19 @@
                                             <i class="fas fa-eye"></i>
                                             Xem chi tiết
                                         </a>
-                                        <form action="${pageContext.request.contextPath}/api/users/${sessionScope.userId}/favorites" 
-                                              method="POST" style="flex: 1; margin: 0;">
+                                        <form action="${pageContext.request.contextPath}/favorite" method="POST" class="unfavorite-form">
+                                            <%-- Gửi ID của công thức cần bỏ yêu thích --%>
                                             <input type="hidden" name="recipeId" value="${recipe.id}">
-                                            <button type="submit" class="recipe-card-btn btn-remove"
-                                                    onclick="return confirm('Bỏ yêu thích món này?')">
-                                                <i class="fas fa-heart-broken"></i>
-                                                Bỏ yêu thích
+
+                                            <%-- Gửi hành động là "remove" để FavoriteServlet biết phải làm gì --%>
+                                            <input type="hidden" name="action" value="remove">
+
+                                            <%-- Thêm một input ẩn để báo cho Servlet biết cần quay lại trang favorites --%>
+                                            <input type="hidden" name="redirect_to" value="favorites">
+
+                                            <%-- Nút submit được style để trông giống một link/button bình thường --%>
+                                            <button type="submit" class="unfavorite-btn">
+                                                ❤︎ Bỏ yêu thích
                                             </button>
                                         </form>
                                     </div>

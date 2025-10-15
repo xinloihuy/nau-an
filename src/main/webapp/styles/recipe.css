@@ -1,8 +1,8 @@
 /* Thiết lập cơ bản cho trang chi tiết Recipe */
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #fcfcf4; /* Nền trắng kem, nhẹ hơn sidebar */
-    color: #4b2e00; /* Màu chữ chính, tone nâu ấm */
+    background-color: #fcfcf4;
+    color: #4b2e00;
     margin: 0;
     padding: 0;
     line-height: 1.6;
@@ -13,8 +13,8 @@ body {
     max-width: 1100px;
     margin: 30px auto;
     padding: 20px;
-    background: #fffef5; /* Nền container tương tự sidebar */
-    border: 1px solid #f4e6b3; /* Viền nâu vàng */
+    background: #fffef5;
+    border: 1px solid #f4e6b3;
     border-radius: 12px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
 }
@@ -22,10 +22,10 @@ body {
 /* --- Tiêu đề và Thông tin --- */
 h1 {
     font-size: 32px;
-    color: #d46b08; /* Màu cam đất đậm cho tiêu đề chính */
+    color: #d46b08;
     margin-bottom: 10px;
     padding-bottom: 5px;
-    border-bottom: 2px solid #f2e3c5; /* Đường kẻ dưới nhẹ */
+    border-bottom: 2px solid #f2e3c5;
 }
 
 h2 {
@@ -33,7 +33,7 @@ h2 {
     color: #4b2e00;
     margin-top: 30px;
     margin-bottom: 15px;
-    border-left: 5px solid #f57c00; /* Điểm nhấn màu cam */
+    border-left: 5px solid #f57c00;
     padding-left: 10px;
 }
 
@@ -89,19 +89,19 @@ h3 {
 }
 
 .main-image {
-    width: 100%; /* Đảm bảo ảnh luôn vừa khung */
+    width: 100%;
     max-height: 400px;
-    object-fit: cover;
+    object-fit: contain; /* ✅ Hiển thị toàn bộ ảnh, không cắt */
+    object-position: center; /* Giữ ảnh ở giữa, tránh lệch */
     border-radius: 8px;
     border: 3px solid #f2e3c5;
+    background-color: #fdf6ec; /* 👈 Nền màu be nhẹ, che khoảng trắng nếu có */
 }
 
-/* Thêm container tỷ lệ để video không bị tràn */
 .video-embed {
     position: relative;
     width: 100%;
-    /* Tạo tỷ lệ 16:9 (chiều cao = 56.25% của chiều rộng) */
-    padding-bottom: 56.25%; 
+    padding-bottom: 56.25%;
     height: 0;
     overflow: hidden;
     border-radius: 8px;
@@ -111,7 +111,7 @@ h3 {
     position: absolute;
     top: 0;
     left: 0;
-    width: 100%; /* Đảm bảo IFRAME lấp đầy container */
+    width: 100%;
     height: 100%;
     border: none;
 }
@@ -119,9 +119,9 @@ h3 {
 /* --- Nội dung Công thức (Nguyên liệu & Bước làm) --- */
 .ingredients-section pre,
 .steps-section pre {
-    white-space: pre-wrap; /* Đảm bảo xuống dòng tự động */
+    white-space: pre-wrap;
     padding: 15px;
-    background: #fff7e6; /* Màu kem đậm hơn một chút để phân biệt nội dung */
+    background: #fff7e6;
     border: 1px solid #f4e6b3;
     border-radius: 8px;
     font-size: 16px;
@@ -144,9 +144,14 @@ h3 {
     border: 1px solid #f4e6b3;
 }
 
-/* --- Star Rating --- */
+/* ======================================================= */
+/* --- Star Rating (ĐÃ SỬA LỖI HIỂN THỊ NGƯỢC) ---         */
+/* ======================================================= */
 .star-rating .stars {
     display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+/*    justify-content: flex-start;*/
     gap: 5px;
     margin-bottom: 15px;
 }
@@ -164,13 +169,15 @@ h3 {
 }
 
 .star-rating label:hover,
-.star-rating input[type="radio"]:checked ~ label {
+.star-rating label:hover ~ label {
     color: #f57c00;
 }
 
 .star-rating input[type="radio"]:checked ~ label {
+    color: #f57c00;
     text-shadow: 0 0 5px rgba(245, 124, 0, 0.5);
 }
+
 
 /* --- Buttons --- */
 .rating-btn, .favorite-btn, .share-btn, .comment-btn {

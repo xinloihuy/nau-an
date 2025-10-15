@@ -28,7 +28,23 @@ public class UserService {
     }
 
     // --- Phương thức tìm kiếm cơ bản ---
+    public User findByEmailAndNotId(String email, Long excludeId) {
+        if (email == null || excludeId == null || excludeId <= 0) {
+            return null;
+        }
+        return userDAO.findByEmailAndNotId(email, excludeId);
+    }
 
+    public User findByEmail(String email) {
+        if (email == null) {
+            return null;
+        }
+        return userDAO.findByEmail(email);
+    }
+
+    public void saveUser(User user) {
+        userDAO.save(user);
+    }
     public User findUserById(Long userId) {
         return userDAO.findById(userId);
     }
@@ -171,6 +187,14 @@ public class UserService {
     public List<User> findAllUsers() {
         return userDAO.findAll();
     }
+    
+    public boolean isAdmin(User user) {
+    if (user == null || user.getRoles() == null) {
+        return false;
+    }
+    // Giả định Role 'ADMIN' có ID 1 hoặc bạn tìm theo tên
+    return user.getRoles().stream().anyMatch(role -> "ADMIN".equalsIgnoreCase(role.getName()));
+}
     
     // ... các phương thức quản lý người dùng khác cho Admin
 }

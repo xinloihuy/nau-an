@@ -25,7 +25,12 @@
             </c:when>
 
             <c:otherwise>
-                <form action="${pageContext.request.contextPath}/logout" method="post" style="display:inline;">
+                <a href="${pageContext.request.contextPath}/home"
+                   style="text-decoration:none; color:white; background-color:teal; padding:8px 15px; border-radius:5px; margin-right:10px;">
+                    🧑‍🍳 Tài khoản
+                </a>
+
+                <form action="${pageContext.request.contextPath}/LogoutServlet" method="post" style="display:inline;">
                     <button type="submit"
                             style="background-color:tomato; color:white; border:none; padding:8px 15px; border-radius:5px; cursor:pointer;">
                         Đăng xuất (${sessionScope.user.username})
