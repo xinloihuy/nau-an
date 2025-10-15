@@ -37,6 +37,7 @@ public class AdminLoginServlet extends HttpServlet {
             session.setAttribute("username", user.getUsername());
             session.setAttribute("isAdmin", true); // Đánh dấu quyền admin
             session.setAttribute("user", user);
+            session.setAttribute("username", user.getNickname() != null ? user.getNickname() : user.getUsername()); 
             
             // Chuyển hướng (Redirect) để tránh gửi lại form
             response.sendRedirect(request.getContextPath() + DASHBOARD_URL);
@@ -44,6 +45,7 @@ public class AdminLoginServlet extends HttpServlet {
         } else {
             // 3. Thất bại: Sai thông tin hoặc không có quyền Admin
             request.setAttribute("error", "Sai tên đăng nhập/mật khẩu hoặc bạn không có quyền Admin!");
+            
             request.getRequestDispatcher(LOGIN_VIEW).forward(request, response);
         }
     }

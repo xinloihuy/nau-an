@@ -211,7 +211,7 @@
             <div class="box" onclick="location.href='${pageContext.request.contextPath}/admin/recipes'">🍲 Quản lý món ăn</div>
             <div class="box">📝 Quản lý blog</div>
             <div class="box" onclick="location.href='${pageContext.request.contextPath}/admin/cooking-tips'">💡 Cooking Tip</div>
-            <div class="box">💬 ChatBox hỗ trợ</div>
+            <div class="box" onclick="location.href='${pageContext.request.contextPath}/admin/chat'">💬 ChatBox hỗ trợ</div>
             <div class="box" onclick="location.href='${pageContext.request.contextPath}/admin/statistics'">📈 Thống kê</div>
         </div>
     </section>
