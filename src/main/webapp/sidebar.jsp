@@ -74,7 +74,7 @@
                     👤 ${sessionScope.username != null ? sessionScope.username : 'Tài khoản'}
                 </a>
                 <br>
-                <a href="${pageContext.request.contextPath}/logout" class="login">
+                <a href="${pageContext.request.contextPath}/LogoutServlet" class="login">
                     🚪 Đăng xuất
                 </a>
             </div>
