@@ -7,6 +7,7 @@ import jakarta.persistence.EntityManager;
 import java.util.Collections;
 import java.util.List;
 
+
 public class BlogPostDAOImpl extends GenericDAOImpl<BlogPost, Long> implements BlogPostDAO {
 
     private final EntityManager em;

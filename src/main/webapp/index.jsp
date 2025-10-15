@@ -1,6 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
-
+<%@ taglib uri="jakarta.tags.core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -8,6 +8,7 @@
     <title>Hướng dẫn nấu ăn - Trang chủ</title>
     <link rel="stylesheet" href="styles/home.css">
     <link rel="stylesheet" href="styles/sidebar.css">
+    <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/static/cook_icon.png">
     
     
 </head>
@@ -24,6 +25,17 @@
                 <input type="text" name="keyword" placeholder="Tìm tên món hay nguyên liệu..." value="${searchQuery != null ? searchQuery : ''}">
                 <button type="submit">Tìm Kiếm</button>
             </form>
+            
+            <div class="header-icons">
+                <a href="<c:url value='/notifications'/>" class="icon-btn">
+                    <span>🔔</span> <%-- Thay thế icon Font Awesome bằng Emoji --%>
+
+                    <%-- Biến 'unreadCount' được cung cấp bởi NotificationFilter --%>
+                    <c:if test="${not empty unreadCount && unreadCount > 0}">
+                        <span class="badge">${unreadCount}</span>
+                    </c:if>
+                </a>
+            </div>
         </header>
 
         <div class="section">
@@ -81,18 +93,7 @@
         
     </section>
                 
-        <!--<button class="open-btn">🔔</button>-->
 
-        <script>
-          const toggleButton = document.querySelector('.toggle-sidebar');
-          const sidebar = document.querySelector('.sidebar');
-          const mainContent = document.querySelector('.main-content');
-
-          toggleButton.addEventListener('click', () => {
-            sidebar.classList.toggle('hidden');
-            mainContent.classList.toggle('shifted');
-          });
-        </script>
     </body>
     
 </html>

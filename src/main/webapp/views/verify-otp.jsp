@@ -5,6 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Xác thực OTP | Cooking App</title>
+    <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/static/cook_icon.png">
     <style>
         body {
             font-family: 'Segoe UI', sans-serif;

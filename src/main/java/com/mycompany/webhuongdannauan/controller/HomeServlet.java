@@ -59,10 +59,10 @@ public class HomeServlet extends HttpServlet {
 
         // 4. Đặt dữ liệu vào Request Scope (ĐÃ SỬA LỖI)
         // Dữ liệu này chỉ cần tồn tại cho lần hiển thị trang này
-        req.setAttribute("featuredRecipes", recipesToShow);
-        req.setAttribute("premiumRecipes", premiumRecipes);
+        session.setAttribute("featuredRecipes", recipesToShow);
+        session.setAttribute("premiumRecipes", premiumRecipes);
         req.setAttribute("isPremiumUser", isPremium);
-        req.setAttribute("categoriesWithCount", categoryService.getAllCategoriesWithCount());
+        session.setAttribute("categoriesWithCount", categoryService.getAllCategoriesWithCount());
 
         // 5. Chuyển tiếp tới trang chủ JSP
         req.getRequestDispatcher(HOME_VIEW).forward(req, resp);

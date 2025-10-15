@@ -9,6 +9,7 @@
     <meta charset="UTF-8">
     <title>Quản lý Món ăn - Admin</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/recipe-admin.css">
+    <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/static/cook_icon.png">
     <style>
         /* CSS cụ thể cho bảng */
         table {
