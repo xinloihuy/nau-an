@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
     <title>${mode == 'EDIT' ? 'Sửa' : 'Thêm'} Món ăn - Admin</title> 
     <!--<link rel="stylesheet" href="${pageContext.request.contextPath}/styles/admin.css">-->
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/recipe-admin.css"> <!-- 👈 THÊM -->
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/recipe-admin.css">
 </head>
 <body>
     <header>HỆ THỐNG QUẢN TRỊ - MÓN ĂN</header>

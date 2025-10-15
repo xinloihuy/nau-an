@@ -36,6 +36,7 @@ public class AdminLoginServlet extends HttpServlet {
             session.setAttribute("userId", user.getId()); 
             session.setAttribute("username", user.getUsername());
             session.setAttribute("isAdmin", true); // Đánh dấu quyền admin
+            session.setAttribute("user", user);
             
             // Chuyển hướng (Redirect) để tránh gửi lại form
             response.sendRedirect(request.getContextPath() + DASHBOARD_URL);

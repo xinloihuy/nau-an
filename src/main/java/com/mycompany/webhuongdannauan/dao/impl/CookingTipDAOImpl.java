@@ -77,4 +77,15 @@ public class CookingTipDAOImpl implements CookingTipDAO {
             em.close();
         }
     }
+    
+    @Override
+    public Long countAll() {
+        EntityManager em = HibernateUtil.getEntityManager();
+        try {
+            return em.createQuery("SELECT COUNT(t) FROM CookingTip t", Long.class)
+                    .getSingleResult();
+        } finally {
+            em.close();
+        }
+    }
 }

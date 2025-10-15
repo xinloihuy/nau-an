@@ -56,6 +56,7 @@
     <header>HỆ THỐNG QUẢN TRỊ - MÓN ĂN</header>
     
     <section>
+        <a href="${pageContext.request.contextPath}/admin/dashboard" class="back-link">Quay lại Dashboard</a>
         <h2>Quản lý Món ăn</h2>
         
         <c:if test="${not empty message}">

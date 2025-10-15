@@ -9,4 +9,5 @@ public interface CookingTipDAO {
     void saveTip(CookingTip tip);
     void updateTip(CookingTip tip);
     void deleteTip(Long id);
+    Long countAll();
 }
