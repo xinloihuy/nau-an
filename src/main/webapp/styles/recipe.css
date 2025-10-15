@@ -1,0 +1,395 @@
+/* Thiết lập cơ bản cho trang chi tiết Recipe */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #fcfcf4; /* Nền trắng kem, nhẹ hơn sidebar */
+    color: #4b2e00; /* Màu chữ chính, tone nâu ấm */
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+}
+
+.container {
+    width: 90%;
+    max-width: 1100px;
+    margin: 30px auto;
+    padding: 20px;
+    background: #fffef5; /* Nền container tương tự sidebar */
+    border: 1px solid #f4e6b3; /* Viền nâu vàng */
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+/* --- Tiêu đề và Thông tin --- */
+h1 {
+    font-size: 32px;
+    color: #d46b08; /* Màu cam đất đậm cho tiêu đề chính */
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    border-bottom: 2px solid #f2e3c5; /* Đường kẻ dưới nhẹ */
+}
+
+h2 {
+    font-size: 24px;
+    color: #4b2e00;
+    margin-top: 30px;
+    margin-bottom: 15px;
+    border-left: 5px solid #f57c00; /* Điểm nhấn màu cam */
+    padding-left: 10px;
+}
+
+h3 {
+    font-size: 18px;
+    color: #4b2e00;
+    margin-bottom: 15px;
+    border-left: 3px solid #f57c00;
+    padding-left: 8px;
+}
+
+.description {
+    font-size: 16px;
+    color: #5a2d00;
+    margin-bottom: 20px;
+}
+
+.info {
+    font-size: 14px;
+    color: #777;
+    margin-bottom: 25px;
+    padding-bottom: 10px;
+    border-bottom: 1px dashed #f2e3c5;
+}
+
+.badge-vip {
+    background: #d46b08;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    margin-left: 10px;
+}
+
+/* --- Thông báo chia sẻ --- */
+.share-notification {
+    background: #d4edda;
+    color: #155724;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    text-align: center;
+    border: 1px solid #c3e6cb;
+}
+
+/* --- Ảnh và Video --- */
+.media-section {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.main-image {
+    width: 100%; /* Đảm bảo ảnh luôn vừa khung */
+    max-height: 400px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 3px solid #f2e3c5;
+}
+
+/* Thêm container tỷ lệ để video không bị tràn */
+.video-embed {
+    position: relative;
+    width: 100%;
+    /* Tạo tỷ lệ 16:9 (chiều cao = 56.25% của chiều rộng) */
+    padding-bottom: 56.25%; 
+    height: 0;
+    overflow: hidden;
+    border-radius: 8px;
+}
+
+.video-embed iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%; /* Đảm bảo IFRAME lấp đầy container */
+    height: 100%;
+    border: none;
+}
+
+/* --- Nội dung Công thức (Nguyên liệu & Bước làm) --- */
+.ingredients-section pre,
+.steps-section pre {
+    white-space: pre-wrap; /* Đảm bảo xuống dòng tự động */
+    padding: 15px;
+    background: #fff7e6; /* Màu kem đậm hơn một chút để phân biệt nội dung */
+    border: 1px solid #f4e6b3;
+    border-radius: 8px;
+    font-size: 16px;
+    color: #333;
+    line-height: 1.8;
+}
+
+/* --- Phần tương tác mới --- */
+.interaction-section {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 2px solid #f4e6b3;
+}
+
+.rating-section, .favorite-section, .share-section, .comments-section {
+    margin-bottom: 30px;
+    padding: 20px;
+    background: #fff7e6;
+    border-radius: 8px;
+    border: 1px solid #f4e6b3;
+}
+
+/* --- Star Rating --- */
+.star-rating .stars {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 15px;
+}
+
+.star-rating input[type="radio"] {
+    display: none;
+}
+
+.star-rating label {
+    font-size: 28px;
+    color: #ddd;
+    cursor: pointer;
+    transition: color 0.2s;
+    user-select: none;
+}
+
+.star-rating label:hover,
+.star-rating input[type="radio"]:checked ~ label {
+    color: #f57c00;
+}
+
+.star-rating input[type="radio"]:checked ~ label {
+    text-shadow: 0 0 5px rgba(245, 124, 0, 0.5);
+}
+
+/* --- Buttons --- */
+.rating-btn, .favorite-btn, .share-btn, .comment-btn {
+    background: #f57c00;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: all 0.3s;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.rating-btn:hover, .favorite-btn:hover, .share-btn:hover, .comment-btn:hover {
+    background: #e46b00;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(245, 124, 0, 0.3);
+}
+
+.favorite-btn {
+    background: #e91e63;
+}
+
+.favorite-btn:hover {
+    background: #c2185b;
+}
+
+.share-btn {
+    background: #2196f3;
+}
+
+.share-btn:hover {
+    background: #1976d2;
+}
+
+/* --- Comments --- */
+.comment-form {
+    margin-bottom: 25px;
+}
+
+.comment-form textarea {
+    width: 100%;
+    height: 100px;
+    padding: 12px;
+    border: 2px solid #f4e6b3;
+    border-radius: 6px;
+    resize: vertical;
+    font-family: inherit;
+    font-size: 14px;
+    transition: border-color 0.3s;
+}
+
+.comment-form textarea:focus {
+    outline: none;
+    border-color: #f57c00;
+}
+
+.comment-form button {
+    margin-top: 10px;
+}
+
+.comments-list {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.comment-item {
+    background: white;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    border: 1px solid #f4e6b3;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.comment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #f2e3c5;
+}
+
+.comment-header strong {
+    color: #d46b08;
+    font-size: 16px;
+}
+
+.comment-date {
+    color: #777;
+    font-size: 12px;
+}
+
+.comment-content {
+    color: #333;
+    line-height: 1.6;
+    margin-bottom: 10px;
+}
+
+.comment-actions {
+    text-align: right;
+}
+
+.comment-actions a {
+    color: #f57c00;
+    text-decoration: none;
+    margin-left: 10px;
+    font-size: 12px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: background 0.3s;
+}
+
+.comment-actions a:hover {
+    background: #f2e3c5;
+}
+
+.edit-comment {
+    color: #2196f3 !important;
+}
+
+.delete-comment {
+    color: #f44336 !important;
+}
+
+/* --- Món ăn liên quan --- */
+.related-section {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid #f4e6b3;
+}
+
+.food-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.food-item {
+    display: block;
+    text-decoration: none;
+    color: #4b2e00;
+    text-align: center;
+    border: 1px solid #f4e6b3;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: box-shadow 0.3s, transform 0.3s;
+}
+
+.food-item:hover {
+    box-shadow: 0 4px 10px rgba(245, 124, 0, 0.2);
+    transform: translateY(-2px);
+}
+
+.food-item img {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+}
+
+.food-item span {
+    display: block;
+    padding: 10px 5px;
+    font-size: 14px;
+    font-weight: bold;
+    background: #fcfcf4;
+}
+
+/* --- Liên kết quay lại --- */
+p a {
+    color: #f57c00;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+p a:hover {
+    color: #e46b00;
+    text-decoration: underline;
+}
+
+/* --- Responsive design --- */
+@media (max-width: 768px) {
+    .container {
+        width: 95%;
+        padding: 15px;
+    }
+
+    h1 {
+        font-size: 28px;
+    }
+
+    h2 {
+        font-size: 22px;
+    }
+
+    h3 {
+        font-size: 16px;
+    }
+
+    .rating-section, .favorite-section, .share-section, .comments-section {
+        padding: 15px;
+    }
+
+    .star-rating label {
+        font-size: 24px;
+    }
+
+    .rating-btn, .favorite-btn, .share-btn, .comment-btn {
+        padding: 10px 20px;
+        font-size: 14px;
+    }
+
+    .comment-form textarea {
+        height: 80px;
+    }
+}

@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.webhuongdannauan.model;
 
 import jakarta.persistence.*;
@@ -18,8 +14,8 @@ public class Comment extends BaseEntity {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    // N-1 với Recipe (Composition - Bình luận thuộc về món ăn)
-    @ManyToOne(fetch = FetchType.EAGER)
+    // N-1 với Recipe (Bình luận thuộc về món ăn)
+    @ManyToOne(fetch = FetchType.LAZY) // Nên đổi thành LAZY để tối ưu hiệu năng
     @JoinColumn(name = "recipe_id", nullable = false)
     private Recipe recipe;
 

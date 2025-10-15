@@ -25,8 +25,9 @@ public class TransactionServlet extends HttpServlet {
             throws ServletException, IOException {
         
         HttpSession session = request.getSession(false);
-//        Long userId = (Long) session.getAttribute("userId"); // Giả định userId được lưu trong Session
-        Long userId = 1L;
+        User user = (User) session.getAttribute("user"); // Giả định userId được lưu trong Session
+        
+        Long userId = user.getId();
 
         if (userId == null) {
             response.sendRedirect(request.getContextPath() + "/login");
