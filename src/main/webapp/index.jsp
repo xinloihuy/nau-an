@@ -8,6 +8,7 @@
     <title>Hướng dẫn nấu ăn - Trang chủ</title>
     <link rel="stylesheet" href="styles/home.css">
     <link rel="stylesheet" href="styles/sidebar.css">
+    <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/static/cook_icon.png">
     
     
 </head>
@@ -18,7 +19,7 @@
     <%@ include file="/sidebar.jsp" %>
 
     <section class="main-content">
-        <button class="toggle-sidebar">☰</button>
+<!--        <button class="toggle-sidebar">☰</button>-->
         <header>
             <form action="home" method="GET" class="search-bar">
                 <input type="text" name="keyword" placeholder="Tìm tên món hay nguyên liệu..." value="${searchQuery != null ? searchQuery : ''}">

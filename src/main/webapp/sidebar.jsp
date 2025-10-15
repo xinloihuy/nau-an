@@ -10,9 +10,10 @@
     <link rel="stylesheet" href="styles/sidebar.css">
 <link rel="stylesheet" href="styles/home.css">
 </head>
-
+<button class="toggle-sidebar">☰</button>
 <aside class="sidebar">
     <div>
+        
         <div class="logo-area">
             <div class="logo">
                 <a href="${pageContext.request.contextPath}/home" style="text-decoration: none; color: inherit;">
@@ -36,6 +37,7 @@
                 <a href="${pageContext.request.contextPath}/favorites" class="menu-item">❤️ Yêu thích</a>
                 <a href="${pageContext.request.contextPath}/chatbox" class="menu-item">🗨️ ChatBox</a>
             </c:if>
+
             <a href="${pageContext.request.contextPath}/cooking-tips" class="menu-item">👨‍🍳 Cooking Tips</a>
             <a href="${pageContext.request.contextPath}/premium" class="menu-item">💎 Gói Premium</a>
         </div>
@@ -69,7 +71,7 @@
     <c:choose>
         <c:when test="${sessionScope.userId != null}">
             <div class="user-area">
-                <a href="${pageContext.request.contextPath}/user/profile" class="login">
+                <a href="${pageContext.request.contextPath}/profile" class="login">
                     👤 ${sessionScope.username != null ? sessionScope.username : 'Tài khoản'}
                 </a>
                 <br>
