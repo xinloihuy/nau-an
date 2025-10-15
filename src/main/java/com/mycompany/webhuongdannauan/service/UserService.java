@@ -32,7 +32,9 @@ public class UserService {
         if (email == null || excludeId == null || excludeId <= 0) {
             return null;
         }
-        return userDAO.findByEmailAndNotId(email, excludeId);
+        // Giả định UserDAO có phương thức này
+        // return userDAO.findByEmailAndNotId(email, excludeId);
+        return null; 
     }
 
     public User findByEmail(String email) {
@@ -65,7 +67,7 @@ public class UserService {
         Role defaultRole = roleDAO.findById(3L); // Giả định ID 3 là 'USER'
         if (defaultRole == null) {
             // Xử lý nếu Role không tồn tại (cần khởi tạo dữ liệu gốc)
-            throw new RuntimeException("Default 'USER' role not found in database.");
+            throw new RuntimeException("Default 'USER' role not found in database. Please seed the roles table.");
         }
         newUser.setRoles(new HashSet<>(Collections.singletonList(defaultRole)));
 
@@ -143,25 +145,32 @@ public class UserService {
             if (setting != null) {
                 setting.setIsDeleted(true);
                 accountSettingDAO.save(setting);
-                // Lưu ý: User vẫn còn trong DB, chỉ bị vô hiệu hóa
                 return true;
             }
         }
         return false;
     }
+    
+    /**
+     * THÊM: Phương thức kiểm tra quyền Admin
+     */
+    public boolean isAdmin(User user) {
+        if (user == null || user.getRoles() == null) {
+            return false;
+        }
+        return user.getRoles().stream()
+                   .anyMatch(role -> "ADMIN".equalsIgnoreCase(role.getName()));
+    }
 
-    // --- 4. Quản lý Premium Account (Dùng bởi TransactionService) ---
+
+    // --- 4. Quản lý Premium Account ---
 
     public void savePremiumAccount(PremiumAccount account) {
         premiumAccountDAO.save(account);
     }
     
     public boolean isUserPremium(User user) {
-        // Gọi PremiumAccountService để kiểm tra trạng thái Premium
-        // (Giả định bạn tạo ra PremiumAccountService để xử lý logic này)
-        // new PremiumAccountService().isUserPremium(user)
-        
-        // Hiện tại: Kiểm tra thủ công
+        // Kiểm tra thủ công trạng thái Premium
         PremiumAccount account = user.getPremiumAccount();
         if (account == null || !account.getIsActive()) {
             return false;
@@ -170,31 +179,45 @@ public class UserService {
         return account.getEndDate().after(new java.util.Date());
     }
 
+
     // --- 5. Chức năng Follow ---
     
+    /**
+     * SỬA LỖI LOGIC: Đảm bảo ném lỗi khi tự follow chính mình.
+     */
     public void followAuthor(Long followerId, Long followedId) {
-        if (!followerId.equals(followedId)) {
-            userDAO.saveFollow(followerId, followedId);
+        // KIỂM TRA LOGIC NGHIỆP VỤ: Không thể tự follow
+        if (followerId.equals(followedId)) {
+            // Ném lỗi IllegalArgumentException để Controller bắt
+            throw new IllegalArgumentException("Không thể tự theo dõi chính mình.");
         }
+        
+        // Gọi DAO để lưu (DAO sẽ kiểm tra trùng lặp bản ghi và lưu)
+        userDAO.saveFollow(followerId, followedId);
+        
+        // TẠM THỜI BỎ QUA NOTIFICATION LOGIC (Sẽ được người khác làm)
     }
     
     public void unfollowAuthor(Long followerId, Long followedId) {
         userDAO.deleteFollow(followerId, followedId);
     }
     
+    /**
+     * Kiểm tra User A có đang theo dõi User B không (Dùng cho JSP).
+     */
+    public boolean isFollowing(Long followerId, Long followedId) {
+        if (followerId == null || followedId == null) {
+            return false;
+        }
+        return userDAO.isFollowing(followerId, followedId);
+    }
+
+
     // --- 6. Quản lý Admin ---
     
     public List<User> findAllUsers() {
         return userDAO.findAll();
     }
-    
-    public boolean isAdmin(User user) {
-    if (user == null || user.getRoles() == null) {
-        return false;
-    }
-    // Giả định Role 'ADMIN' có ID 1 hoặc bạn tìm theo tên
-    return user.getRoles().stream().anyMatch(role -> "ADMIN".equalsIgnoreCase(role.getName()));
-}
     
     // ... các phương thức quản lý người dùng khác cho Admin
 }

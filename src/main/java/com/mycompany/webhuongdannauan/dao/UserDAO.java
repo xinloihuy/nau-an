@@ -13,6 +13,9 @@ public interface UserDAO extends GenericDAO<User, Long> {
     // Thao tác Follow
     void saveFollow(Long followerId, Long followedId);
     void deleteFollow(Long followerId, Long followedId);
+    
+    boolean isFollowing(Long followerId, Long followedId); 
+    
     long countAllUsers();
     long countPremiumUsers();
     Map<String, Long> countUsersByMonth();
