@@ -16,7 +16,18 @@ import java.util.Map;
 import java.util.Set;
 
 public class UserDAOImpl extends GenericDAOImpl<User, Long> implements UserDAO {
-
+    @Override
+    public User findByEmailAndNotId(String email, Long excludeId) {
+        try (EntityManager em = HibernateUtil.getEntityManager()) {
+            TypedQuery<User> query = em.createQuery(
+                    "SELECT u FROM User u WHERE u.email = :email AND u.id <> :excludeId", User.class);
+            query.setParameter("email", email);
+            query.setParameter("excludeId", excludeId);
+            return query.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
     @Override
     public User findByUsername(String username) {
         EntityManager em = HibernateUtil.getEntityManager();
