@@ -17,7 +17,7 @@
         <h2>💬 Các Phiên Chat Đang Mở</h2>
         <p>Tổng số phiên đang chờ: <span class="badge bg-danger">${openSessions.size()}</span></p>
 
-        <c:if test="${not empty openSessions}">
+        <%--<c:if test="${not empty openSessions}">--%>
             <table class="table table-striped table-hover">
                 <thead class="table-dark">
                     <tr>
@@ -36,7 +36,7 @@
                             <td><span class="badge bg-success">${session.status}</span></td>
                             <td><fmt:formatDate value="${session.lastMessageAt}" pattern="dd/MM HH:mm"/></td>
                             <td>
-                                <a href="${pageContext.request.contextPath}/admin/chat?sessionId=${session.id}" class="btn btn-sm btn-primary">
+                                <a href="${pageContext.request.contextPath}/chatbox?sessionId=${session.id}" class="btn btn-sm btn-primary">
                                     Trả lời
                                 </a>
                             </td>
@@ -44,10 +44,10 @@
                     </c:forEach>
                 </tbody>
             </table>
-        </c:if>
-        <c:if test="${empty openSessions}">
-            <div class="alert alert-info">Hiện không có phiên chat nào đang chờ hỗ trợ.</div>
-        </c:if>
+        <%--</c:if>--%>
+        <%--<c:if test="${empty openSessions}">--%>
+            <!--<div class="alert alert-info">Hiện không có phiên chat nào đang chờ hỗ trợ.</div>-->
+        <%--</c:if>--%>
     </section>
 </body>
 </html>
