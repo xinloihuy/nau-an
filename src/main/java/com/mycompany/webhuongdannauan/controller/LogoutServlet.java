@@ -1,28 +1,21 @@
 package com.mycompany.webhuongdannauan.controller;
 
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-
 import java.io.IOException;
+import jakarta.servlet.*;
+import jakarta.servlet.http.*;
 
-@WebServlet("/logout")
 public class LogoutServlet extends HttpServlet {
+
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = req.getSession(false);
+
+        HttpSession session = request.getSession(false);
         if (session != null) {
-            session.invalidate();
+            session.invalidate();  // Hủy session admin
         }
-        resp.sendRedirect(req.getContextPath() + "/login");
-    }
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException {
-        doPost(req, resp);
+
+        // Chuyển về trang đăng nhập người dùng chính
+        response.sendRedirect(request.getContextPath() + "/login");
     }
 }

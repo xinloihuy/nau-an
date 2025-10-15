@@ -14,6 +14,7 @@
       <a href="category.jsp" class="menu-item">🍛 Danh mục</a>
       <a href="filter.jsp" class="menu-item">🧂 Bộ lọc</a>
       <a href="favorites.jsp" class="menu-item">❤️ Yêu thích</a>
+      <a href="${pageContext.request.contextPath}/cooking-tips" class="menu-item">Cooking Tips</a>
       <a href="premium" class="menu-item">💎 Gói Premium</a>
     </div>
   </div>

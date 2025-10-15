@@ -18,6 +18,48 @@
         <servlet-name>PremiumPage</servlet-name>
         <url-pattern>/premium</url-pattern>
     </servlet-mapping>
+    
+    
+    <servlet>
+        <servlet-name>AdminLoginPageServlet</servlet-name>
+        <servlet-class>com.mycompany.webhuongdannauan.controller.AdminLoginPageServlet</servlet-class>
+    </servlet>
 
+    <servlet-mapping>
+        <servlet-name>AdminLoginPageServlet</servlet-name>
+        <url-pattern>/admin-login</url-pattern>
+    </servlet-mapping>
+    
+    
+    <servlet>
+        <servlet-name>AdminLoginServlet</servlet-name>
+        <servlet-class>com.mycompany.webhuongdannauan.controller.AdminLoginServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>AdminLoginServlet</servlet-name>
+        <url-pattern>/AdminLoginServlet</url-pattern>
+    </servlet-mapping>
+
+
+    <servlet>
+        <servlet-name>LogoutServlet</servlet-name>  
+        <servlet-class>com.mycompany.webhuongdannauan.controller.LogoutServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>LogoutServlet</servlet-name>
+        <url-pattern>/LogoutServlet</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>AdminUserServlet</servlet-name>
+        <servlet-class>com.mycompany.webhuongdannauan.controller.AdminUserServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>AdminUserServlet</servlet-name>
+        <url-pattern>/admin/users</url-pattern>
+    </servlet-mapping>
 
 </web-app>

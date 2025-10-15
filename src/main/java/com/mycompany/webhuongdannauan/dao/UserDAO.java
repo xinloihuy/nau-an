@@ -1,6 +1,7 @@
 package com.mycompany.webhuongdannauan.dao;
 
 import com.mycompany.webhuongdannauan.model.User;
+import java.util.List;
 import java.util.Map;
 
 public interface UserDAO extends GenericDAO<User, Long> {
@@ -15,4 +16,5 @@ public interface UserDAO extends GenericDAO<User, Long> {
     long countAllUsers();
     long countPremiumUsers();
     Map<String, Long> countUsersByMonth();
+    List<User> getAllUsers();
 }

@@ -44,7 +44,16 @@ public class UserDAOImpl extends GenericDAOImpl<User, Long> implements UserDAO {
             em.close();
         }
     }
-
+    @Override
+    public List<User> getAllUsers() {
+        EntityManager em = HibernateUtil.getEntityManager();
+        try {
+            return em.createQuery("SELECT u FROM User u", User.class)
+                     .getResultList();
+        } finally {
+            em.close();
+        }
+    }
     @Override
     public void saveFollow(Long followerId, Long followedId) {
         EntityManager em = HibernateUtil.getEntityManager();
