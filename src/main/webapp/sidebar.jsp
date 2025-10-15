@@ -70,7 +70,7 @@
     <c:choose>
         <c:when test="${sessionScope.userId != null}">
             <div class="user-area">
-                <a href="${pageContext.request.contextPath}/user/profile" class="login">
+                <a href="${pageContext.request.contextPath}/profile" class="login">
                     👤 ${sessionScope.username != null ? sessionScope.username : 'Tài khoản'}
                 </a>
                 <br>

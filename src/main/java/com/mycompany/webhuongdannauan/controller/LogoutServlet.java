@@ -18,4 +18,17 @@ public class LogoutServlet extends HttpServlet {
         // Chuyển về trang đăng nhập người dùng chính
         response.sendRedirect(request.getContextPath() + "/login");
     }
+    
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate();  // Hủy session admin
+        }
+
+        // Chuyển về trang đăng nhập người dùng chính
+        response.sendRedirect(request.getContextPath() + "/login");
+    }
 }

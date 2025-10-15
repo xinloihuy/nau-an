@@ -233,6 +233,5 @@
         <button type="button" class="btn btn-danger" onclick="confirmDelete()">🗑️ Xóa tài khoản</button>
     </form>
 </div>
-<c:import url="/includes/footer.jsp"/>
 </body>
 </html>

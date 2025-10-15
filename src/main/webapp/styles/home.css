@@ -89,6 +89,20 @@ body {
   text-decoration: none; /* Remove underline from login link */
 }
 
+.user-area .login {
+    text-decoration: none;      /* Bỏ gạch chân */
+    border: none;               /* Bỏ viền nếu có */
+    display: block;             /* Để xuống dòng đẹp */
+    padding: 1px 0;             /* Khoảng cách dọc */
+    color: inherit;             /* Giữ màu chữ như cha */
+    transition: color 0.2s;     /* Hiệu ứng hover mượt */
+}
+
+.user-area .login:hover {
+    color: #e67e22;             /* Đổi màu khi hover (tùy chọn) */
+    text-decoration: none;      /* Đảm bảo không có gạch chân khi hover */
+}
+
 /* Nội dung chính */
 .main-content {
   flex: 1;

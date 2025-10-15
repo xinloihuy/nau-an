@@ -30,7 +30,7 @@
                     🧑‍🍳 Tài khoản
                 </a>
 
-                <form action="${pageContext.request.contextPath}/logout" method="post" style="display:inline;">
+                <form action="${pageContext.request.contextPath}/LogoutServlet" method="post" style="display:inline;">
                     <button type="submit"
                             style="background-color:tomato; color:white; border:none; padding:8px 15px; border-radius:5px; cursor:pointer;">
                         Đăng xuất (${sessionScope.user.username})

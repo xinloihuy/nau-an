@@ -35,7 +35,7 @@ public class LoginServlet extends HttpServlet {
             HttpSession session = req.getSession();
             session.setAttribute("user", user);
             session.setAttribute("userId", user.getId());
-            resp.sendRedirect(req.getContextPath() + "/");
+            resp.sendRedirect(req.getContextPath() + "/home");
         } else {
             req.setAttribute("error", "Tên đăng nhập hoặc mật khẩu không đúng!");
             req.getRequestDispatcher("/views/login.jsp").forward(req, resp);
