@@ -4,6 +4,10 @@ import com.mycompany.webhuongdannauan.dao.FavoriteDAO;
 import com.mycompany.webhuongdannauan.dao.impl.FavoriteDAOImpl;
 import com.mycompany.webhuongdannauan.model.Recipe;
 import com.mycompany.webhuongdannauan.model.User; // SỬA 1: Import thêm model User
+import com.mycompany.webhuongdannauan.dao.RatingDAO;
+import com.mycompany.webhuongdannauan.dao.impl.RatingDAOImpl;
+import com.mycompany.webhuongdannauan.dto.FavoriteRecipeInfo;
+import java.util.ArrayList;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
@@ -17,11 +21,13 @@ import java.util.List;
 public class FavoriteServlet extends HttpServlet {
     
     private FavoriteDAO favoriteDAO;
+    private RatingDAO ratingDAO;
     // private Gson gson; // Không cần nữa
     
     @Override
     public void init() throws ServletException {
         favoriteDAO = new FavoriteDAOImpl();
+        ratingDAO = new RatingDAOImpl();
         // gson = new GsonBuilder()
         //         .setDateFormat("yyyy-MM-dd'T'HH:mm:ss")
         //         .create();
@@ -101,8 +107,20 @@ public class FavoriteServlet extends HttpServlet {
                 favoriteDAO.toggle(userId, recipeId); // Hoặc dùng toggle nếu nó xử lý đúng logic xóa
             }
             
-            // Chuyển hướng người dùng về lại trang chi tiết công thức
-            resp.sendRedirect(req.getContextPath() + "/recipe?id=" + recipeId);
+            // Lấy thông tin trang cần redirect đến
+            String redirectTo = req.getParameter("redirect_to");
+            String redirectURL;
+
+            if ("favorites".equals(redirectTo)) {
+                // Nếu yêu cầu đến từ trang favorites, quay lại trang favorites
+                redirectURL = req.getContextPath() + "/favorites";
+            } else {
+                // Mặc định, quay lại trang chi tiết công thức
+                redirectURL = req.getContextPath() + "/recipe?id=" + recipeId;
+            }
+
+            // Thực hiện chuyển hướng
+            resp.sendRedirect(redirectURL);
 
         } catch (NumberFormatException e) {
             e.printStackTrace();

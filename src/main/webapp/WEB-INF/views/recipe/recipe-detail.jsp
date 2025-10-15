@@ -77,16 +77,16 @@
                         <input type="hidden" name="recipeId" value="${recipe.id}">
                         
                         <div class="stars">
-                            <input type="radio" name="ratingValue" value="1" id="star1" required>
-                            <label for="star1">★</label>
-                            <input type="radio" name="ratingValue" value="2" id="star2">
-                            <label for="star2">★</label>
-                            <input type="radio" name="ratingValue" value="3" id="star3">
-                            <label for="star3">★</label>
+                            <input type="radio" name="ratingValue" value="5" id="star5" required>
+                            <label for="star5">★</label>
                             <input type="radio" name="ratingValue" value="4" id="star4">
                             <label for="star4">★</label>
-                            <input type="radio" name="ratingValue" value="5" id="star5">
-                            <label for="star5">★</label>
+                            <input type="radio" name="ratingValue" value="3" id="star3">
+                            <label for="star3">★</label>
+                            <input type="radio" name="ratingValue" value="2" id="star2">
+                            <label for="star2">★</label>
+                            <input type="radio" name="ratingValue" value="1" id="star1">
+                            <label for="star1">★</label>
                         </div>
                         <button type="submit" class="rating-btn">Đánh giá</button>
                     </form>
