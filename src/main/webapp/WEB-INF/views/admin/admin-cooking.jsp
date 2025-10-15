@@ -64,7 +64,7 @@
 </table>
 
 <div class="back">
-    <a href="${pageContext.request.contextPath}/AdminLoginServlet" style="color:#f57c00;font-weight:bold;">⬅ Quay lại Trang Admin</a>
+    <a href="${pageContext.request.contextPath}/admin/dashboard" style="color:#f57c00;font-weight:bold;">⬅ Quay lại Trang Admin</a>
 </div>
 
 </body>

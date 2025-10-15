@@ -110,7 +110,7 @@
     </table>
 
     <div class="back">
-        <a href="${pageContext.request.contextPath}/AdminLoginServlet">⬅ Quay lại trang Admin</a>
+        <a href="${pageContext.request.contextPath}/admin/dashboard">⬅ Quay lại trang Admin</a>
     </div>
 
 </body>

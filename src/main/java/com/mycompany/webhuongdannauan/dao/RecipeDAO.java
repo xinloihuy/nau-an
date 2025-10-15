@@ -16,5 +16,5 @@ public interface RecipeDAO extends GenericDAO<Recipe, Long> {
     long countAllRecipes();
     void updateAverageRating(Long recipeId);
     List<Recipe> filterRecipes(String keyword, Long categoryId, Integer maxTime, Boolean hasVideo, Boolean isVip); // <--- THÊM isVip
-
+    List<Recipe> findAllWithAuthor(); 
 }
