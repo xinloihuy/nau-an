@@ -74,15 +74,15 @@
 <<<<<<< HEAD
 =======
 
-    <servlet>
+<!--    <servlet>
         <servlet-name>BlogServlet</servlet-name>
         <servlet-class>com.mycompany.webhuongdannauan.controller.BlogServlet</servlet-class>
-    </servlet>
+    </servlet>-->
 
-    <servlet-mapping>
+<!--    <servlet-mapping>
         <servlet-name>BlogServlet</servlet-name>
         <url-pattern>/blog</url-pattern>
-    </servlet-mapping>
+    </servlet-mapping>-->
 
 >>>>>>> f341c34c1fe90cdd19b11ce5d0672527e2c6e7bb
 
