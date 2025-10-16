@@ -8,6 +8,7 @@
     <title>${mode == 'EDIT' ? 'Sửa' : 'Thêm'} Món ăn - Admin</title> 
     <!--<link rel="stylesheet" href="${pageContext.request.contextPath}/styles/admin.css">-->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/recipe-admin.css">
+    <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/static/cook_icon.png">
 </head>
 <body>
     <header>HỆ THỐNG QUẢN TRỊ - MÓN ĂN</header>

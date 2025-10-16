@@ -6,6 +6,10 @@ import com.mycompany.webhuongdannauan.utils.HibernateUtil;
 import jakarta.persistence.EntityManager;
 import java.util.Collections;
 import java.util.List;
+<<<<<<< HEAD
+=======
+
+>>>>>>> f341c34c1fe90cdd19b11ce5d0672527e2c6e7bb
 
 public class BlogPostDAOImpl extends GenericDAOImpl<BlogPost, Long> implements BlogPostDAO {
 

@@ -7,6 +7,7 @@
     <meta charset="UTF-8">
     <title>👥 Quản lý người dùng</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/admin-user.css">
+    <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/static/cook_icon.png">
 </head>
 <body>
     <h2 class="page-title">👥 Quản lý người dùng</h2>
